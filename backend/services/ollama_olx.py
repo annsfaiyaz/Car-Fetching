@@ -1,13 +1,11 @@
-"""Call Ollama to turn natural language into an OLX Pakistan cars search URL."""
+"""Call NVIDIA NIM to turn natural language into an OLX Pakistan cars search URL."""
 
 from __future__ import annotations
 
-import os
 import re
 from pathlib import Path
 
-import httpx
-
+from services import nim_client
 from services.listings_repo import norm_search_url
 
 _DOCS_DIR = Path(__file__).resolve().parents[2] / "docs"
@@ -75,10 +73,7 @@ async def suggest_olx_search_url(
     """
     Returns (normalized_url, raw_assistant_text, model_used).
     """
-    base = os.environ.get("OLLAMA_BASE_URL", "http://127.0.0.1:11434").rstrip("/")
-    model = (model_override or os.environ.get("OLLAMA_MODEL", "llama3.2")).strip()
-    if not model:
-        raise ValueError("OLLAMA_MODEL is empty")
+    model = nim_client.get_model(model_override)
 
     system = build_olx_expert_system_prompt()
     extra = (ai_prompt or "").strip()
@@ -90,25 +85,13 @@ async def suggest_olx_search_url(
         + user_query.strip()
     )
 
-    timeout = float(os.environ.get("OLLAMA_TIMEOUT_SEC", "120"))
-    async with httpx.AsyncClient(timeout=timeout) as client:
-        r = await client.post(
-            f"{base}/api/chat",
-            json={
-                "model": model,
-                "messages": [
-                    {"role": "system", "content": system},
-                    {"role": "user", "content": user_msg},
-                ],
-                "stream": False,
-            },
-        )
-        r.raise_for_status()
-        data = r.json()
-
-    content = (data.get("message") or {}).get("content") or ""
-    if not content.strip():
-        raise ValueError("Ollama returned an empty reply")
+    content = await nim_client.chat(
+        messages=[
+            {"role": "system", "content": system},
+            {"role": "user", "content": user_msg},
+        ],
+        model=model,
+    )
 
     raw_url = extract_olx_search_url(content)
     if not raw_url:

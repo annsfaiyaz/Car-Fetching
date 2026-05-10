@@ -1,11 +1,10 @@
-"""RAG-style chat: Ollama assistant grounded on SQLite listing snapshot."""
+"""RAG-style chat: NVIDIA NIM assistant grounded on SQLite listing snapshot."""
 
 from __future__ import annotations
 
-import os
 from typing import Any
 
-import httpx
+from services import nim_client
 
 CHAT_SYSTEM_PREFIX = """You are an assistant for the automotive industry, focused on Pakistan's used-car market (especially PakWheels-style listings).
 
@@ -93,34 +92,11 @@ async def chat_with_listings_context(
     ``messages``: user/assistant turns only (no system); last message must be user.
     Returns (assistant_reply, model_used).
     """
-    base = os.environ.get("OLLAMA_BASE_URL", "http://127.0.0.1:11434").rstrip("/")
-    model = (
-        model_override
-        or os.environ.get("OLLAMA_CHAT_MODEL")
-        or os.environ.get("OLLAMA_MODEL", "llama3.2")
-    ).strip()
-    if not model:
-        raise ValueError("OLLAMA_CHAT_MODEL / OLLAMA_MODEL is empty")
+    model = nim_client.get_model(model_override)
 
     system_content = CHAT_SYSTEM_PREFIX + listings_snapshot
+    all_messages: list[dict[str, str]] = [{"role": "system", "content": system_content}]
+    all_messages.extend(messages)
 
-    ollama_messages: list[dict[str, str]] = [{"role": "system", "content": system_content}]
-    ollama_messages.extend(messages)
-
-    timeout = float(os.environ.get("OLLAMA_CHAT_TIMEOUT_SEC") or os.environ.get("OLLAMA_TIMEOUT_SEC", "120"))
-    async with httpx.AsyncClient(timeout=timeout) as client:
-        r = await client.post(
-            f"{base}/api/chat",
-            json={
-                "model": model,
-                "messages": ollama_messages,
-                "stream": False,
-            },
-        )
-        r.raise_for_status()
-        data = r.json()
-
-    content = (data.get("message") or {}).get("content") or ""
-    if not content.strip():
-        raise ValueError("Ollama returned an empty reply")
-    return content.strip(), model
+    content = await nim_client.chat(messages=all_messages, model=model)
+    return content, model
