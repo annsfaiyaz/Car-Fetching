@@ -44,15 +44,32 @@ async def connect_db() -> None:
     async with _engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
-    try:
-        async with _engine.begin() as conn:
-            await conn.execute(
-                text("ALTER TABLE pakwheels_listings ADD COLUMN search_origin VARCHAR(16)")
-            )
-    except Exception as e:
-        err = str(e).lower()
-        if "duplicate column" not in err and "already exists" not in err:
+    async def _try_alter(sql: str) -> None:
+        try:
+            async with _engine.begin() as conn:
+                await conn.execute(text(sql))
+        except Exception as e:
+            err = str(e).lower()
+            if "duplicate column" in err or "already exists" in err:
+                return
             raise
+
+    legacy_alters = [
+        "ALTER TABLE pakwheels_listings ADD COLUMN search_origin VARCHAR(16)",
+        "ALTER TABLE pakwheels_listings ADD COLUMN image_url VARCHAR(2048)",
+        "ALTER TABLE pakwheels_listings ADD COLUMN spam_score FLOAT",
+        "ALTER TABLE pakwheels_listings ADD COLUMN is_spam BOOLEAN DEFAULT 0",
+        "ALTER TABLE pakwheels_listings ADD COLUMN spam_reason TEXT",
+        "ALTER TABLE pakwheels_listings ADD COLUMN ai_session_id INTEGER",
+        "ALTER TABLE pakwheels_listings ADD COLUMN enrichment_status VARCHAR(32) DEFAULT 'none'",
+        "ALTER TABLE pakwheels_listings ADD COLUMN ai_market_price_note TEXT",
+        "ALTER TABLE pakwheels_listings ADD COLUMN ai_fuel_avg_note TEXT",
+        "ALTER TABLE pakwheels_listings ADD COLUMN user_hidden BOOLEAN DEFAULT 0",
+        "ALTER TABLE pakwheels_listings ADD COLUMN detail_html_snippet TEXT",
+        "ALTER TABLE pakwheels_listings ADD COLUMN detail_fetched_at TIMESTAMP",
+    ]
+    for sql in legacy_alters:
+        await _try_alter(sql)
 
 
 async def close_db() -> None:

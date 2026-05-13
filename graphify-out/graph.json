@@ -1,0 +1,5425 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "pakwheels.py",
+      "file_type": "code",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L1",
+      "id": "scraper_pakwheels_py",
+      "community": 3,
+      "norm_label": "pakwheels.py"
+    },
+    {
+      "label": "_utc_now()",
+      "file_type": "code",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L34",
+      "id": "scraper_pakwheels_utc_now",
+      "community": 3,
+      "norm_label": "_utc_now()"
+    },
+    {
+      "label": "parse_relative_posted_time()",
+      "file_type": "code",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L38",
+      "id": "scraper_pakwheels_parse_relative_posted_time",
+      "community": 3,
+      "norm_label": "parse_relative_posted_time()"
+    },
+    {
+      "label": "_iso()",
+      "file_type": "code",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L89",
+      "id": "scraper_pakwheels_iso",
+      "community": 3,
+      "norm_label": "_iso()"
+    },
+    {
+      "label": "_normalize_url()",
+      "file_type": "code",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L95",
+      "id": "scraper_pakwheels_normalize_url",
+      "community": 3,
+      "norm_label": "_normalize_url()"
+    },
+    {
+      "label": "_parse_price_pkr()",
+      "file_type": "code",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L104",
+      "id": "scraper_pakwheels_parse_price_pkr",
+      "community": 3,
+      "norm_label": "_parse_price_pkr()"
+    },
+    {
+      "label": "_extract_updated_snippet()",
+      "file_type": "code",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L125",
+      "id": "scraper_pakwheels_extract_updated_snippet",
+      "community": 3,
+      "norm_label": "_extract_updated_snippet()"
+    },
+    {
+      "label": "_digits_int()",
+      "file_type": "code",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L143",
+      "id": "scraper_pakwheels_digits_int",
+      "community": 3,
+      "norm_label": "_digits_int()"
+    },
+    {
+      "label": "_extract_card_fields()",
+      "file_type": "code",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L150",
+      "id": "scraper_pakwheels_extract_card_fields",
+      "community": 3,
+      "norm_label": "_extract_card_fields()"
+    },
+    {
+      "label": "_parse_detail_page()",
+      "file_type": "code",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L207",
+      "id": "scraper_pakwheels_parse_detail_page",
+      "community": 3,
+      "norm_label": "_parse_detail_page()"
+    },
+    {
+      "label": "_with_page_param()",
+      "file_type": "code",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L245",
+      "id": "scraper_pakwheels_with_page_param",
+      "community": 3,
+      "norm_label": "_with_page_param()"
+    },
+    {
+      "label": "_ensure_default_sort()",
+      "file_type": "code",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L256",
+      "id": "scraper_pakwheels_ensure_default_sort",
+      "community": 3,
+      "norm_label": "_ensure_default_sort()"
+    },
+    {
+      "label": "_resolve_max_age_hours()",
+      "file_type": "code",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L274",
+      "id": "scraper_pakwheels_resolve_max_age_hours",
+      "community": 3,
+      "norm_label": "_resolve_max_age_hours()"
+    },
+    {
+      "label": "_resolve_max_pages()",
+      "file_type": "code",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L285",
+      "id": "scraper_pakwheels_resolve_max_pages",
+      "community": 3,
+      "norm_label": "_resolve_max_pages()"
+    },
+    {
+      "label": "_resolve_max_listings()",
+      "file_type": "code",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L296",
+      "id": "scraper_pakwheels_resolve_max_listings",
+      "community": 3,
+      "norm_label": "_resolve_max_listings()"
+    },
+    {
+      "label": "scrape_pakwheels()",
+      "file_type": "code",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L307",
+      "id": "scraper_pakwheels_scrape_pakwheels",
+      "community": 3,
+      "norm_label": "scrape_pakwheels()"
+    },
+    {
+      "label": "PakWheels used-car scraper (Gujranwala, price filter) using requests + Beautiful",
+      "file_type": "rationale",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L1",
+      "id": "scraper_pakwheels_rationale_1",
+      "community": 3,
+      "norm_label": "pakwheels used-car scraper (gujranwala, price filter) using requests + beautiful"
+    },
+    {
+      "label": "Parse PakWheels 'Updated \u2026 ago' strings into an approximate UTC datetime.",
+      "file_type": "rationale",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L39",
+      "id": "scraper_pakwheels_rationale_39",
+      "community": 3,
+      "norm_label": "parse pakwheels 'updated ... ago' strings into an approximate utc datetime."
+    },
+    {
+      "label": "Return (integer PKR, display string).",
+      "file_type": "rationale",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L105",
+      "id": "scraper_pakwheels_rationale_105",
+      "community": 3,
+      "norm_label": "return (integer pkr, display string)."
+    },
+    {
+      "label": "Best-effort fields from a search-result card.",
+      "file_type": "rationale",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L151",
+      "id": "scraper_pakwheels_rationale_151",
+      "community": 3,
+      "norm_label": "best-effort fields from a search-result card."
+    },
+    {
+      "label": "Merge specification table + seller comment from a listing detail page.",
+      "file_type": "rationale",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L208",
+      "id": "scraper_pakwheels_rationale_208",
+      "community": 3,
+      "norm_label": "merge specification table + seller comment from a listing detail page."
+    },
+    {
+      "label": "Ensure a stable ``sortby`` when the URL omits it.      Default ``date_desc`` mat",
+      "file_type": "rationale",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L257",
+      "id": "scraper_pakwheels_rationale_257",
+      "community": 3,
+      "norm_label": "ensure a stable ``sortby`` when the url omits it.      default ``date_desc`` mat"
+    },
+    {
+      "label": "How far back 'Updated \u2026 ago' may be to include a listing (default: env or 168h =",
+      "file_type": "rationale",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L275",
+      "id": "scraper_pakwheels_rationale_275",
+      "community": 3,
+      "norm_label": "how far back 'updated ... ago' may be to include a listing (default: env or 168h ="
+    },
+    {
+      "label": "Cap search result pages (default 3). Env: PAKWHEELS_MAX_PAGES.",
+      "file_type": "rationale",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L286",
+      "id": "scraper_pakwheels_rationale_286",
+      "community": 3,
+      "norm_label": "cap search result pages (default 3). env: pakwheels_max_pages."
+    },
+    {
+      "label": "Cap total listings collected (default 50). Env: PAKWHEELS_MAX_LISTINGS.",
+      "file_type": "rationale",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L297",
+      "id": "scraper_pakwheels_rationale_297",
+      "community": 3,
+      "norm_label": "cap total listings collected (default 50). env: pakwheels_max_listings."
+    },
+    {
+      "label": "Fetch used cars from the given PakWheels search ``url`` (full browser URL).",
+      "file_type": "rationale",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L318",
+      "id": "scraper_pakwheels_rationale_318",
+      "community": 3,
+      "norm_label": "fetch used cars from the given pakwheels search ``url`` (full browser url)."
+    },
+    {
+      "label": "olx.py",
+      "file_type": "code",
+      "source_file": "scraper/olx.py",
+      "source_location": "L1",
+      "id": "scraper_olx_py",
+      "community": 4,
+      "norm_label": "olx.py"
+    },
+    {
+      "label": "_with_page_param()",
+      "file_type": "code",
+      "source_file": "scraper/olx.py",
+      "source_location": "L42",
+      "id": "scraper_olx_with_page_param",
+      "community": 4,
+      "norm_label": "_with_page_param()"
+    },
+    {
+      "label": "_resolve_max_pages()",
+      "file_type": "code",
+      "source_file": "scraper/olx.py",
+      "source_location": "L52",
+      "id": "scraper_olx_resolve_max_pages",
+      "community": 4,
+      "norm_label": "_resolve_max_pages()"
+    },
+    {
+      "label": "_resolve_max_listings()",
+      "file_type": "code",
+      "source_file": "scraper/olx.py",
+      "source_location": "L62",
+      "id": "scraper_olx_resolve_max_listings",
+      "community": 4,
+      "norm_label": "_resolve_max_listings()"
+    },
+    {
+      "label": "_parse_price()",
+      "file_type": "code",
+      "source_file": "scraper/olx.py",
+      "source_location": "L72",
+      "id": "scraper_olx_parse_price",
+      "community": 4,
+      "norm_label": "_parse_price()"
+    },
+    {
+      "label": "_parse_km()",
+      "file_type": "code",
+      "source_file": "scraper/olx.py",
+      "source_location": "L85",
+      "id": "scraper_olx_parse_km",
+      "community": 4,
+      "norm_label": "_parse_km()"
+    },
+    {
+      "label": "_parse_year()",
+      "file_type": "code",
+      "source_file": "scraper/olx.py",
+      "source_location": "L93",
+      "id": "scraper_olx_parse_year",
+      "community": 4,
+      "norm_label": "_parse_year()"
+    },
+    {
+      "label": "_normalize_href()",
+      "file_type": "code",
+      "source_file": "scraper/olx.py",
+      "source_location": "L98",
+      "id": "scraper_olx_normalize_href",
+      "community": 4,
+      "norm_label": "_normalize_href()"
+    },
+    {
+      "label": "_parse_article()",
+      "file_type": "code",
+      "source_file": "scraper/olx.py",
+      "source_location": "L109",
+      "id": "scraper_olx_parse_article",
+      "community": 4,
+      "norm_label": "_parse_article()"
+    },
+    {
+      "label": "_fetch_page_html()",
+      "file_type": "code",
+      "source_file": "scraper/olx.py",
+      "source_location": "L165",
+      "id": "scraper_olx_fetch_page_html",
+      "community": 4,
+      "norm_label": "_fetch_page_html()"
+    },
+    {
+      "label": "scrape_olx()",
+      "file_type": "code",
+      "source_file": "scraper/olx.py",
+      "source_location": "L178",
+      "id": "scraper_olx_scrape_olx",
+      "community": 4,
+      "norm_label": "scrape_olx()"
+    },
+    {
+      "label": "OLX Pakistan (cars_c84) scraper \u2014 Playwright headless browser edition.  OLX is a",
+      "file_type": "rationale",
+      "source_file": "scraper/olx.py",
+      "source_location": "L1",
+      "id": "scraper_olx_rationale_1",
+      "community": 4,
+      "norm_label": "olx pakistan (cars_c84) scraper \u2014 playwright headless browser edition.  olx is a"
+    },
+    {
+      "label": "Convert 'Rs 48.40 Lacs' / 'Rs 4,50,000' \u2192 int PKR.",
+      "file_type": "rationale",
+      "source_file": "scraper/olx.py",
+      "source_location": "L73",
+      "id": "scraper_olx_rationale_73",
+      "community": 4,
+      "norm_label": "convert 'rs 48.40 lacs' / 'rs 4,50,000' \u2192 int pkr."
+    },
+    {
+      "label": "Extract a listing dict from a rendered <article> element.",
+      "file_type": "rationale",
+      "source_file": "scraper/olx.py",
+      "source_location": "L110",
+      "id": "scraper_olx_rationale_110",
+      "community": 4,
+      "norm_label": "extract a listing dict from a rendered <article> element."
+    },
+    {
+      "label": "Load ``page_url`` in a new Playwright tab and return fully-rendered HTML.",
+      "file_type": "rationale",
+      "source_file": "scraper/olx.py",
+      "source_location": "L166",
+      "id": "scraper_olx_rationale_166",
+      "community": 4,
+      "norm_label": "load ``page_url`` in a new playwright tab and return fully-rendered html."
+    },
+    {
+      "label": "Scrape car listings from an OLX Pakistan search URL using a headless     Chromiu",
+      "file_type": "rationale",
+      "source_file": "scraper/olx.py",
+      "source_location": "L187",
+      "id": "scraper_olx_rationale_187",
+      "community": 4,
+      "norm_label": "scrape car listings from an olx pakistan search url using a headless     chromiu"
+    },
+    {
+      "label": "db.py",
+      "file_type": "code",
+      "source_file": "backend/db.py",
+      "source_location": "L1",
+      "id": "backend_db_py",
+      "community": 5,
+      "norm_label": "db.py"
+    },
+    {
+      "label": "_default_sqlite_url()",
+      "file_type": "code",
+      "source_file": "backend/db.py",
+      "source_location": "L18",
+      "id": "backend_db_default_sqlite_url",
+      "community": 5,
+      "norm_label": "_default_sqlite_url()"
+    },
+    {
+      "label": "connect_db()",
+      "file_type": "code",
+      "source_file": "backend/db.py",
+      "source_location": "L29",
+      "id": "backend_db_connect_db",
+      "community": 5,
+      "norm_label": "connect_db()"
+    },
+    {
+      "label": "close_db()",
+      "file_type": "code",
+      "source_file": "backend/db.py",
+      "source_location": "L58",
+      "id": "backend_db_close_db",
+      "community": 5,
+      "norm_label": "close_db()"
+    },
+    {
+      "label": "get_async_session_factory()",
+      "file_type": "code",
+      "source_file": "backend/db.py",
+      "source_location": "L66",
+      "id": "backend_db_get_async_session_factory",
+      "community": 1,
+      "norm_label": "get_async_session_factory()"
+    },
+    {
+      "label": "get_engine()",
+      "file_type": "code",
+      "source_file": "backend/db.py",
+      "source_location": "L72",
+      "id": "backend_db_get_engine",
+      "community": 5,
+      "norm_label": "get_engine()"
+    },
+    {
+      "label": "SQLite database (async) using SQLAlchemy 2 + aiosqlite.",
+      "file_type": "rationale",
+      "source_file": "backend/db.py",
+      "source_location": "L1",
+      "id": "backend_db_rationale_1",
+      "community": 5,
+      "norm_label": "sqlite database (async) using sqlalchemy 2 + aiosqlite."
+    },
+    {
+      "label": "File under backend/data/car_listings.db unless SQLITE_DATABASE_URL is set.",
+      "file_type": "rationale",
+      "source_file": "backend/db.py",
+      "source_location": "L19",
+      "id": "backend_db_rationale_19",
+      "community": 5,
+      "norm_label": "file under backend/data/car_listings.db unless sqlite_database_url is set."
+    },
+    {
+      "label": "Create engine, tables, and session factory.",
+      "file_type": "rationale",
+      "source_file": "backend/db.py",
+      "source_location": "L30",
+      "id": "backend_db_rationale_30",
+      "community": 5,
+      "norm_label": "create engine, tables, and session factory."
+    },
+    {
+      "label": "database_models.py",
+      "file_type": "code",
+      "source_file": "backend/database_models.py",
+      "source_location": "L1",
+      "id": "backend_database_models_py",
+      "community": 1,
+      "norm_label": "database_models.py"
+    },
+    {
+      "label": "Base",
+      "file_type": "code",
+      "source_file": "backend/database_models.py",
+      "source_location": "L11",
+      "id": "backend_database_models_base",
+      "community": 1,
+      "norm_label": "base"
+    },
+    {
+      "label": "DeclarativeBase",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "declarativebase",
+      "community": 1,
+      "norm_label": "declarativebase"
+    },
+    {
+      "label": "PakwheelsListing",
+      "file_type": "code",
+      "source_file": "backend/database_models.py",
+      "source_location": "L18",
+      "id": "backend_database_models_pakwheelslisting",
+      "community": 1,
+      "norm_label": "pakwheelslisting"
+    },
+    {
+      "label": "AppMeta",
+      "file_type": "code",
+      "source_file": "backend/database_models.py",
+      "source_location": "L39",
+      "id": "backend_database_models_appmeta",
+      "community": 1,
+      "norm_label": "appmeta"
+    },
+    {
+      "label": "SQLAlchemy models for SQLite (MVP).",
+      "file_type": "rationale",
+      "source_file": "backend/database_models.py",
+      "source_location": "L1",
+      "id": "backend_database_models_rationale_1",
+      "community": 1,
+      "norm_label": "sqlalchemy models for sqlite (mvp)."
+    },
+    {
+      "label": "main.py",
+      "file_type": "code",
+      "source_file": "backend/main.py",
+      "source_location": "L1",
+      "id": "backend_main_py",
+      "community": 5,
+      "norm_label": "main.py"
+    },
+    {
+      "label": "lifespan()",
+      "file_type": "code",
+      "source_file": "backend/main.py",
+      "source_location": "L27",
+      "id": "backend_main_lifespan",
+      "community": 5,
+      "norm_label": "lifespan()"
+    },
+    {
+      "label": "dashboard()",
+      "file_type": "code",
+      "source_file": "backend/main.py",
+      "source_location": "L46",
+      "id": "backend_main_dashboard",
+      "community": 5,
+      "norm_label": "dashboard()"
+    },
+    {
+      "label": "Car listing API \u2014 FastAPI application entrypoint.",
+      "file_type": "rationale",
+      "source_file": "backend/main.py",
+      "source_location": "L1",
+      "id": "backend_main_rationale_1",
+      "community": 5,
+      "norm_label": "car listing api \u2014 fastapi application entrypoint."
+    },
+    {
+      "label": "clear_all_listings.py",
+      "file_type": "code",
+      "source_file": "backend/scripts/clear_all_listings.py",
+      "source_location": "L1",
+      "id": "backend_scripts_clear_all_listings_py",
+      "community": 5,
+      "norm_label": "clear_all_listings.py"
+    },
+    {
+      "label": "main()",
+      "file_type": "code",
+      "source_file": "backend/scripts/clear_all_listings.py",
+      "source_location": "L21",
+      "id": "scripts_clear_all_listings_main",
+      "community": 5,
+      "norm_label": "main()"
+    },
+    {
+      "label": "Remove every row from ``pakwheels_listings``.  Usage (from repo):    cd car-fetc",
+      "file_type": "rationale",
+      "source_file": "backend/scripts/clear_all_listings.py",
+      "source_location": "L1",
+      "id": "scripts_clear_all_listings_rationale_1",
+      "community": 5,
+      "norm_label": "remove every row from ``pakwheels_listings``.  usage (from repo):    cd car-fetc"
+    },
+    {
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "backend/models/__init__.py",
+      "source_location": "L1",
+      "id": "backend_models_init_py",
+      "community": 13,
+      "norm_label": "__init__.py"
+    },
+    {
+      "label": "Pydantic models and shared schemas for car listings.",
+      "file_type": "rationale",
+      "source_file": "backend/models/__init__.py",
+      "source_location": "L1",
+      "id": "models_init_rationale_1",
+      "community": 13,
+      "norm_label": "pydantic models and shared schemas for car listings."
+    },
+    {
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "backend/utils/__init__.py",
+      "source_location": "L1",
+      "id": "backend_utils_init_py",
+      "community": 14,
+      "norm_label": "__init__.py"
+    },
+    {
+      "label": "Shared helpers (validators, serializers, etc.).",
+      "file_type": "rationale",
+      "source_file": "backend/utils/__init__.py",
+      "source_location": "L1",
+      "id": "utils_init_rationale_1",
+      "community": 14,
+      "norm_label": "shared helpers (validators, serializers, etc.)."
+    },
+    {
+      "label": "ollama_chat.py",
+      "file_type": "code",
+      "source_file": "backend/services/ollama_chat.py",
+      "source_location": "L1",
+      "id": "backend_services_ollama_chat_py",
+      "community": 2,
+      "norm_label": "ollama_chat.py"
+    },
+    {
+      "label": "_truncate()",
+      "file_type": "code",
+      "source_file": "backend/services/ollama_chat.py",
+      "source_location": "L21",
+      "id": "services_ollama_chat_truncate",
+      "community": 2,
+      "norm_label": "_truncate()"
+    },
+    {
+      "label": "build_listings_snapshot()",
+      "file_type": "code",
+      "source_file": "backend/services/ollama_chat.py",
+      "source_location": "L28",
+      "id": "services_ollama_chat_build_listings_snapshot",
+      "community": 2,
+      "norm_label": "build_listings_snapshot()"
+    },
+    {
+      "label": "chat_with_listings_context()",
+      "file_type": "code",
+      "source_file": "backend/services/ollama_chat.py",
+      "source_location": "L85",
+      "id": "services_ollama_chat_chat_with_listings_context",
+      "community": 2,
+      "norm_label": "chat_with_listings_context()"
+    },
+    {
+      "label": "RAG-style chat: NVIDIA NIM assistant grounded on SQLite listing snapshot.",
+      "file_type": "rationale",
+      "source_file": "backend/services/ollama_chat.py",
+      "source_location": "L1",
+      "id": "services_ollama_chat_rationale_1",
+      "community": 2,
+      "norm_label": "rag-style chat: nvidia nim assistant grounded on sqlite listing snapshot."
+    },
+    {
+      "label": "Compact text block for the LLM context window.",
+      "file_type": "rationale",
+      "source_file": "backend/services/ollama_chat.py",
+      "source_location": "L38",
+      "id": "services_ollama_chat_rationale_38",
+      "community": 2,
+      "norm_label": "compact text block for the llm context window."
+    },
+    {
+      "label": "``messages``: user/assistant turns only (no system); last message must be user.",
+      "file_type": "rationale",
+      "source_file": "backend/services/ollama_chat.py",
+      "source_location": "L91",
+      "id": "services_ollama_chat_rationale_91",
+      "community": 2,
+      "norm_label": "``messages``: user/assistant turns only (no system); last message must be user."
+    },
+    {
+      "label": "ollama_pakwheels.py",
+      "file_type": "code",
+      "source_file": "backend/services/ollama_pakwheels.py",
+      "source_location": "L1",
+      "id": "backend_services_ollama_pakwheels_py",
+      "community": 7,
+      "norm_label": "ollama_pakwheels.py"
+    },
+    {
+      "label": "_read_kb_doc()",
+      "file_type": "code",
+      "source_file": "backend/services/ollama_pakwheels.py",
+      "source_location": "L14",
+      "id": "services_ollama_pakwheels_read_kb_doc",
+      "community": 7,
+      "norm_label": "_read_kb_doc()"
+    },
+    {
+      "label": "build_pakwheels_expert_system_prompt()",
+      "file_type": "code",
+      "source_file": "backend/services/ollama_pakwheels.py",
+      "source_location": "L21",
+      "id": "services_ollama_pakwheels_build_pakwheels_expert_system_prompt",
+      "community": 7,
+      "norm_label": "build_pakwheels_expert_system_prompt()"
+    },
+    {
+      "label": "_strip_from_response()",
+      "file_type": "code",
+      "source_file": "backend/services/ollama_pakwheels.py",
+      "source_location": "L57",
+      "id": "services_ollama_pakwheels_strip_from_response",
+      "community": 7,
+      "norm_label": "_strip_from_response()"
+    },
+    {
+      "label": "extract_pakwheels_search_url()",
+      "file_type": "code",
+      "source_file": "backend/services/ollama_pakwheels.py",
+      "source_location": "L65",
+      "id": "services_ollama_pakwheels_extract_pakwheels_search_url",
+      "community": 7,
+      "norm_label": "extract_pakwheels_search_url()"
+    },
+    {
+      "label": "suggest_pakwheels_search_url()",
+      "file_type": "code",
+      "source_file": "backend/services/ollama_pakwheels.py",
+      "source_location": "L80",
+      "id": "services_ollama_pakwheels_suggest_pakwheels_search_url",
+      "community": 7,
+      "norm_label": "suggest_pakwheels_search_url()"
+    },
+    {
+      "label": "Call NVIDIA NIM to turn natural language into a PakWheels search URL.",
+      "file_type": "rationale",
+      "source_file": "backend/services/ollama_pakwheels.py",
+      "source_location": "L1",
+      "id": "services_ollama_pakwheels_rationale_1",
+      "community": 7,
+      "norm_label": "call nvidia nim to turn natural language into a pakwheels search url."
+    },
+    {
+      "label": "Role + knowledge from ``docs/pakwheels_patterns.md`` and ``docs/extraction_logic",
+      "file_type": "rationale",
+      "source_file": "backend/services/ollama_pakwheels.py",
+      "source_location": "L22",
+      "id": "services_ollama_pakwheels_rationale_22",
+      "community": 7,
+      "norm_label": "role + knowledge from ``docs/pakwheels_patterns.md`` and ``docs/extraction_logic"
+    },
+    {
+      "label": "Pull first plausible PakWheels used-cars search URL from model output.",
+      "file_type": "rationale",
+      "source_file": "backend/services/ollama_pakwheels.py",
+      "source_location": "L66",
+      "id": "services_ollama_pakwheels_rationale_66",
+      "community": 7,
+      "norm_label": "pull first plausible pakwheels used-cars search url from model output."
+    },
+    {
+      "label": "Returns (normalized_url, raw_assistant_text, model_used).     Raises httpx.HTTPE",
+      "file_type": "rationale",
+      "source_file": "backend/services/ollama_pakwheels.py",
+      "source_location": "L86",
+      "id": "services_ollama_pakwheels_rationale_86",
+      "community": 7,
+      "norm_label": "returns (normalized_url, raw_assistant_text, model_used).     raises httpx.httpe"
+    },
+    {
+      "label": "listings_repo.py",
+      "file_type": "code",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L1",
+      "id": "backend_services_listings_repo_py",
+      "community": 1,
+      "norm_label": "listings_repo.py"
+    },
+    {
+      "label": "norm_listing_url()",
+      "file_type": "code",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L14",
+      "id": "services_listings_repo_norm_listing_url",
+      "community": 1,
+      "norm_label": "norm_listing_url()"
+    },
+    {
+      "label": "norm_search_url()",
+      "file_type": "code",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L20",
+      "id": "services_listings_repo_norm_search_url",
+      "community": 1,
+      "norm_label": "norm_search_url()"
+    },
+    {
+      "label": "_row_to_dict()",
+      "file_type": "code",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L30",
+      "id": "services_listings_repo_row_to_dict",
+      "community": 1,
+      "norm_label": "_row_to_dict()"
+    },
+    {
+      "label": "listing_dict_json_safe()",
+      "file_type": "code",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L50",
+      "id": "services_listings_repo_listing_dict_json_safe",
+      "community": 1,
+      "norm_label": "listing_dict_json_safe()"
+    },
+    {
+      "label": "fetch_all_listings()",
+      "file_type": "code",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L62",
+      "id": "services_listings_repo_fetch_all_listings",
+      "community": 1,
+      "norm_label": "fetch_all_listings()"
+    },
+    {
+      "label": "count_listings()",
+      "file_type": "code",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L83",
+      "id": "services_listings_repo_count_listings",
+      "community": 1,
+      "norm_label": "count_listings()"
+    },
+    {
+      "label": "get_sync_meta()",
+      "file_type": "code",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L90",
+      "id": "services_listings_repo_get_sync_meta",
+      "community": 1,
+      "norm_label": "get_sync_meta()"
+    },
+    {
+      "label": "set_sync_success()",
+      "file_type": "code",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L99",
+      "id": "services_listings_repo_set_sync_success",
+      "community": 1,
+      "norm_label": "set_sync_success()"
+    },
+    {
+      "label": "_listing_market_source()",
+      "file_type": "code",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L112",
+      "id": "services_listings_repo_listing_market_source",
+      "community": 1,
+      "norm_label": "_listing_market_source()"
+    },
+    {
+      "label": "upsert_one_listing()",
+      "file_type": "code",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L117",
+      "id": "services_listings_repo_upsert_one_listing",
+      "community": 1,
+      "norm_label": "upsert_one_listing()"
+    },
+    {
+      "label": "set_sync_error()",
+      "file_type": "code",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L186",
+      "id": "services_listings_repo_set_sync_error",
+      "community": 1,
+      "norm_label": "set_sync_error()"
+    },
+    {
+      "label": "Persist PakWheels listings in SQLite with upserts keyed by canonical listing URL",
+      "file_type": "rationale",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L1",
+      "id": "services_listings_repo_rationale_1",
+      "community": 1,
+      "norm_label": "persist pakwheels listings in sqlite with upserts keyed by canonical listing url"
+    },
+    {
+      "label": "Normalize PakWheels search URL for storage and filtering.",
+      "file_type": "rationale",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L21",
+      "id": "services_listings_repo_rationale_21",
+      "community": 1,
+      "norm_label": "normalize pakwheels search url for storage and filtering."
+    },
+    {
+      "label": "Listing row dict with ``datetime`` fields converted for ``json.dumps`` / WebSock",
+      "file_type": "rationale",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L51",
+      "id": "services_listings_repo_rationale_51",
+      "community": 1,
+      "norm_label": "listing row dict with ``datetime`` fields converted for ``json.dumps`` / websock"
+    },
+    {
+      "label": "Insert or update a single scraped row. Does **not** update ``AppMeta`` sync time",
+      "file_type": "rationale",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L123",
+      "id": "services_listings_repo_rationale_123",
+      "community": 1,
+      "norm_label": "insert or update a single scraped row. does **not** update ``appmeta`` sync time"
+    },
+    {
+      "label": "ollama_olx.py",
+      "file_type": "code",
+      "source_file": "backend/services/ollama_olx.py",
+      "source_location": "L1",
+      "id": "backend_services_ollama_olx_py",
+      "community": 8,
+      "norm_label": "ollama_olx.py"
+    },
+    {
+      "label": "_read_kb_doc()",
+      "file_type": "code",
+      "source_file": "backend/services/ollama_olx.py",
+      "source_location": "L14",
+      "id": "services_ollama_olx_read_kb_doc",
+      "community": 8,
+      "norm_label": "_read_kb_doc()"
+    },
+    {
+      "label": "build_olx_expert_system_prompt()",
+      "file_type": "code",
+      "source_file": "backend/services/ollama_olx.py",
+      "source_location": "L21",
+      "id": "services_ollama_olx_build_olx_expert_system_prompt",
+      "community": 8,
+      "norm_label": "build_olx_expert_system_prompt()"
+    },
+    {
+      "label": "_strip_from_response()",
+      "file_type": "code",
+      "source_file": "backend/services/ollama_olx.py",
+      "source_location": "L49",
+      "id": "services_ollama_olx_strip_from_response",
+      "community": 8,
+      "norm_label": "_strip_from_response()"
+    },
+    {
+      "label": "extract_olx_search_url()",
+      "file_type": "code",
+      "source_file": "backend/services/ollama_olx.py",
+      "source_location": "L57",
+      "id": "services_ollama_olx_extract_olx_search_url",
+      "community": 8,
+      "norm_label": "extract_olx_search_url()"
+    },
+    {
+      "label": "suggest_olx_search_url()",
+      "file_type": "code",
+      "source_file": "backend/services/ollama_olx.py",
+      "source_location": "L67",
+      "id": "services_ollama_olx_suggest_olx_search_url",
+      "community": 8,
+      "norm_label": "suggest_olx_search_url()"
+    },
+    {
+      "label": "Call NVIDIA NIM to turn natural language into an OLX Pakistan cars search URL.",
+      "file_type": "rationale",
+      "source_file": "backend/services/ollama_olx.py",
+      "source_location": "L1",
+      "id": "services_ollama_olx_rationale_1",
+      "community": 8,
+      "norm_label": "call nvidia nim to turn natural language into an olx pakistan cars search url."
+    },
+    {
+      "label": "Returns (normalized_url, raw_assistant_text, model_used).",
+      "file_type": "rationale",
+      "source_file": "backend/services/ollama_olx.py",
+      "source_location": "L73",
+      "id": "services_ollama_olx_rationale_73",
+      "community": 8,
+      "norm_label": "returns (normalized_url, raw_assistant_text, model_used)."
+    },
+    {
+      "label": "nim_client.py",
+      "file_type": "code",
+      "source_file": "backend/services/nim_client.py",
+      "source_location": "L1",
+      "id": "backend_services_nim_client_py",
+      "community": 10,
+      "norm_label": "nim_client.py"
+    },
+    {
+      "label": "_client()",
+      "file_type": "code",
+      "source_file": "backend/services/nim_client.py",
+      "source_location": "L17",
+      "id": "services_nim_client_client",
+      "community": 10,
+      "norm_label": "_client()"
+    },
+    {
+      "label": "get_model()",
+      "file_type": "code",
+      "source_file": "backend/services/nim_client.py",
+      "source_location": "L26",
+      "id": "services_nim_client_get_model",
+      "community": 10,
+      "norm_label": "get_model()"
+    },
+    {
+      "label": "chat()",
+      "file_type": "code",
+      "source_file": "backend/services/nim_client.py",
+      "source_location": "L33",
+      "id": "services_nim_client_chat",
+      "community": 10,
+      "norm_label": "chat()"
+    },
+    {
+      "label": "NVIDIA NIM OpenAI-compatible async chat client.  Drop-in replacement for local O",
+      "file_type": "rationale",
+      "source_file": "backend/services/nim_client.py",
+      "source_location": "L1",
+      "id": "services_nim_client_rationale_1",
+      "community": 10,
+      "norm_label": "nvidia nim openai-compatible async chat client.  drop-in replacement for local o"
+    },
+    {
+      "label": "Send messages and return the assistant reply as a plain string.",
+      "file_type": "rationale",
+      "source_file": "backend/services/nim_client.py",
+      "source_location": "L39",
+      "id": "services_nim_client_rationale_39",
+      "community": 10,
+      "norm_label": "send messages and return the assistant reply as a plain string."
+    },
+    {
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "backend/services/__init__.py",
+      "source_location": "L1",
+      "id": "backend_services_init_py",
+      "community": 15,
+      "norm_label": "__init__.py"
+    },
+    {
+      "label": "Domain services (Mongo persistence, etc.).",
+      "file_type": "rationale",
+      "source_file": "backend/services/__init__.py",
+      "source_location": "L1",
+      "id": "services_init_rationale_1",
+      "community": 15,
+      "norm_label": "domain services (mongo persistence, etc.)."
+    },
+    {
+      "label": "pakwheels_api.py",
+      "file_type": "code",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L1",
+      "id": "backend_routes_pakwheels_api_py",
+      "community": 2,
+      "norm_label": "pakwheels_api.py"
+    },
+    {
+      "label": "_chat_max_items()",
+      "file_type": "code",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L40",
+      "id": "routes_pakwheels_api_chat_max_items",
+      "community": 2,
+      "norm_label": "_chat_max_items()"
+    },
+    {
+      "label": "_chat_max_chars()",
+      "file_type": "code",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L48",
+      "id": "routes_pakwheels_api_chat_max_chars",
+      "community": 2,
+      "norm_label": "_chat_max_chars()"
+    },
+    {
+      "label": "_effective_max_age_hours()",
+      "file_type": "code",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L56",
+      "id": "routes_pakwheels_api_effective_max_age_hours",
+      "community": 2,
+      "norm_label": "_effective_max_age_hours()"
+    },
+    {
+      "label": "scrape_hints()",
+      "file_type": "code",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L67",
+      "id": "routes_pakwheels_api_scrape_hints",
+      "community": 2,
+      "norm_label": "scrape_hints()"
+    },
+    {
+      "label": "_iso_meta()",
+      "file_type": "code",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L85",
+      "id": "routes_pakwheels_api_iso_meta",
+      "community": 1,
+      "norm_label": "_iso_meta()"
+    },
+    {
+      "label": "ChatMessage",
+      "file_type": "code",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L93",
+      "id": "routes_pakwheels_api_chatmessage",
+      "community": 2,
+      "norm_label": "chatmessage"
+    },
+    {
+      "label": "BaseModel",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "basemodel",
+      "community": 2,
+      "norm_label": "basemodel"
+    },
+    {
+      "label": "ChatBody",
+      "file_type": "code",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L98",
+      "id": "routes_pakwheels_api_chatbody",
+      "community": 2,
+      "norm_label": "chatbody"
+    },
+    {
+      "label": "last_must_be_user()",
+      "file_type": "code",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L116",
+      "id": "routes_pakwheels_api_last_must_be_user",
+      "community": 2,
+      "norm_label": "last_must_be_user()"
+    },
+    {
+      "label": "SuggestUrlBody",
+      "file_type": "code",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L122",
+      "id": "routes_pakwheels_api_suggesturlbody",
+      "community": 2,
+      "norm_label": "suggesturlbody"
+    },
+    {
+      "label": "_scraper_module()",
+      "file_type": "code",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L143",
+      "id": "routes_pakwheels_api_scraper_module",
+      "community": 2,
+      "norm_label": "_scraper_module()"
+    },
+    {
+      "label": "_olx_scraper_module()",
+      "file_type": "code",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L158",
+      "id": "routes_pakwheels_api_olx_scraper_module",
+      "community": 2,
+      "norm_label": "_olx_scraper_module()"
+    },
+    {
+      "label": "suggest_pakwheels_url_endpoint()",
+      "file_type": "code",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L173",
+      "id": "routes_pakwheels_api_suggest_pakwheels_url_endpoint",
+      "community": 8,
+      "norm_label": "suggest_pakwheels_url_endpoint()"
+    },
+    {
+      "label": "chat_with_database()",
+      "file_type": "code",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L223",
+      "id": "routes_pakwheels_api_chat_with_database",
+      "community": 2,
+      "norm_label": "chat_with_database()"
+    },
+    {
+      "label": "get_listings()",
+      "file_type": "code",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L299",
+      "id": "routes_pakwheels_api_get_listings",
+      "community": 1,
+      "norm_label": "get_listings()"
+    },
+    {
+      "label": "_stream_max_listings()",
+      "file_type": "code",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L337",
+      "id": "routes_pakwheels_api_stream_max_listings",
+      "community": 2,
+      "norm_label": "_stream_max_listings()"
+    },
+    {
+      "label": "scrape_stream_ws()",
+      "file_type": "code",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L352",
+      "id": "routes_pakwheels_api_scrape_stream_ws",
+      "community": 1,
+      "norm_label": "scrape_stream_ws()"
+    },
+    {
+      "label": "PakWheels scraper API: configurable search URL, SQLite upserts, filter listings",
+      "file_type": "rationale",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L1",
+      "id": "routes_pakwheels_api_rationale_1",
+      "community": 2,
+      "norm_label": "pakwheels scraper api: configurable search url, sqlite upserts, filter listings"
+    },
+    {
+      "label": "Must match scraper `pakwheels._resolve_max_age_hours` semantics.",
+      "file_type": "rationale",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L57",
+      "id": "routes_pakwheels_api_rationale_57",
+      "community": 2,
+      "norm_label": "must match scraper `pakwheels._resolve_max_age_hours` semantics."
+    },
+    {
+      "label": "Explain common empty results (see server logs for scrape diagnostics).",
+      "file_type": "rationale",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L68",
+      "id": "routes_pakwheels_api_rationale_68",
+      "community": 2,
+      "norm_label": "explain common empty results (see server logs for scrape diagnostics)."
+    },
+    {
+      "label": "Chat with Ollama using listing data from SQLite as context.",
+      "file_type": "rationale",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L99",
+      "id": "routes_pakwheels_api_rationale_99",
+      "community": 2,
+      "norm_label": "chat with ollama using listing data from sqlite as context."
+    },
+    {
+      "label": "Natural-language intent \u2192 PakWheels search URL via local Ollama.",
+      "file_type": "rationale",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L123",
+      "id": "routes_pakwheels_api_rationale_123",
+      "community": 2,
+      "norm_label": "natural-language intent \u2192 pakwheels search url via local ollama."
+    },
+    {
+      "label": "Import scraper from `car-fetching/scraper/` (sibling of `backend/`).",
+      "file_type": "rationale",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L144",
+      "id": "routes_pakwheels_api_rationale_144",
+      "community": 2,
+      "norm_label": "import scraper from `car-fetching/scraper/` (sibling of `backend/`)."
+    },
+    {
+      "label": "Ask Ollama to produce PakWheels + OLX Pakistan cars search URLs from plain-langu",
+      "file_type": "rationale",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L174",
+      "id": "routes_pakwheels_api_rationale_174",
+      "community": 8,
+      "norm_label": "ask ollama to produce pakwheels + olx pakistan cars search urls from plain-langu"
+    },
+    {
+      "label": "Ollama chat grounded on car listings in SQLite (optional filter by ``search_url`",
+      "file_type": "rationale",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L224",
+      "id": "routes_pakwheels_api_rationale_224",
+      "community": 2,
+      "norm_label": "ollama chat grounded on car listings in sqlite (optional filter by ``search_url`"
+    },
+    {
+      "label": "Stream scraped listings as each row is persisted (PakWheels + optional OLX).",
+      "file_type": "rationale",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L353",
+      "id": "routes_pakwheels_api_rationale_353",
+      "community": 1,
+      "norm_label": "stream scraped listings as each row is persisted (pakwheels + optional olx)."
+    },
+    {
+      "label": "health.py",
+      "file_type": "code",
+      "source_file": "backend/routes/health.py",
+      "source_location": "L1",
+      "id": "backend_routes_health_py",
+      "community": 1,
+      "norm_label": "health.py"
+    },
+    {
+      "label": "health()",
+      "file_type": "code",
+      "source_file": "backend/routes/health.py",
+      "source_location": "L12",
+      "id": "routes_health_health",
+      "community": 1,
+      "norm_label": "health()"
+    },
+    {
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "backend/routes/__init__.py",
+      "source_location": "L1",
+      "id": "backend_routes_init_py",
+      "community": 16,
+      "norm_label": "__init__.py"
+    },
+    {
+      "label": "app.js",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L1",
+      "id": "backend_static_js_app_js",
+      "community": 0,
+      "norm_label": "app.js"
+    },
+    {
+      "label": "chatThread",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L12",
+      "id": "js_app_chatthread",
+      "community": 0,
+      "norm_label": "chatthread"
+    },
+    {
+      "label": "allItems",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L13",
+      "id": "js_app_allitems",
+      "community": 0,
+      "norm_label": "allitems"
+    },
+    {
+      "label": "lastMeta",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L14",
+      "id": "js_app_lastmeta",
+      "community": 0,
+      "norm_label": "lastmeta"
+    },
+    {
+      "label": "$()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L21",
+      "id": "js_app",
+      "community": 0,
+      "norm_label": "$()"
+    },
+    {
+      "label": "appendChatBubble()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L25",
+      "id": "js_app_appendchatbubble",
+      "community": 0,
+      "norm_label": "appendchatbubble()"
+    },
+    {
+      "label": "setChatOpen()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L41",
+      "id": "js_app_setchatopen",
+      "community": 0,
+      "norm_label": "setchatopen()"
+    },
+    {
+      "label": "resetChat()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L50",
+      "id": "js_app_resetchat",
+      "community": 0,
+      "norm_label": "resetchat()"
+    },
+    {
+      "label": "sendChat()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L56",
+      "id": "js_app_sendchat",
+      "community": 0,
+      "norm_label": "sendchat()"
+    },
+    {
+      "label": "platformUrlQuery()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L105",
+      "id": "js_app_platformurlquery",
+      "community": 0,
+      "norm_label": "platformurlquery()"
+    },
+    {
+      "label": "setScrapeOverlayProgress()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L115",
+      "id": "js_app_setscrapeoverlayprogress",
+      "community": 0,
+      "norm_label": "setscrapeoverlayprogress()"
+    },
+    {
+      "label": "runStreamingScrape()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L124",
+      "id": "js_app_runstreamingscrape",
+      "community": 0,
+      "norm_label": "runstreamingscrape()"
+    },
+    {
+      "label": "setScraping()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L195",
+      "id": "js_app_setscraping",
+      "community": 0,
+      "norm_label": "setscraping()"
+    },
+    {
+      "label": "showHints()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L209",
+      "id": "js_app_showhints",
+      "community": 0,
+      "norm_label": "showhints()"
+    },
+    {
+      "label": "defaultEmptyHtml()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L220",
+      "id": "js_app_defaultemptyhtml",
+      "community": 0,
+      "norm_label": "defaultemptyhtml()"
+    },
+    {
+      "label": "filterMismatchHtml()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L228",
+      "id": "js_app_filtermismatchhtml",
+      "community": 0,
+      "norm_label": "filtermismatchhtml()"
+    },
+    {
+      "label": "formatPrice()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L235",
+      "id": "js_app_formatprice",
+      "community": 0,
+      "norm_label": "formatprice()"
+    },
+    {
+      "label": "formatSyncLabel()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L245",
+      "id": "js_app_formatsynclabel",
+      "community": 0,
+      "norm_label": "formatsynclabel()"
+    },
+    {
+      "label": "formatPostedTime()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L258",
+      "id": "js_app_formatpostedtime",
+      "community": 0,
+      "norm_label": "formatpostedtime()"
+    },
+    {
+      "label": "searchOriginClasses()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L265",
+      "id": "js_app_searchoriginclasses",
+      "community": 0,
+      "norm_label": "searchoriginclasses()"
+    },
+    {
+      "label": "searchOriginLabel()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L276",
+      "id": "js_app_searchoriginlabel",
+      "community": 0,
+      "norm_label": "searchoriginlabel()"
+    },
+    {
+      "label": "platformSourceClasses()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L283",
+      "id": "js_app_platformsourceclasses",
+      "community": 0,
+      "norm_label": "platformsourceclasses()"
+    },
+    {
+      "label": "platformSourceLabel()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L289",
+      "id": "js_app_platformsourcelabel",
+      "community": 0,
+      "norm_label": "platformsourcelabel()"
+    },
+    {
+      "label": "listingOutboundLabel()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L293",
+      "id": "js_app_listingoutboundlabel",
+      "community": 0,
+      "norm_label": "listingoutboundlabel()"
+    },
+    {
+      "label": "matchesQuery()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L297",
+      "id": "js_app_matchesquery",
+      "community": 0,
+      "norm_label": "matchesquery()"
+    },
+    {
+      "label": "updateListingSearchVisibility()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L320",
+      "id": "js_app_updatelistingsearchvisibility",
+      "community": 0,
+      "norm_label": "updatelistingsearchvisibility()"
+    },
+    {
+      "label": "hidePaginationBar()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L328",
+      "id": "js_app_hidepaginationbar",
+      "community": 0,
+      "norm_label": "hidepaginationbar()"
+    },
+    {
+      "label": "updatePaginationBar()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L333",
+      "id": "js_app_updatepaginationbar",
+      "community": 0,
+      "norm_label": "updatepaginationbar()"
+    },
+    {
+      "label": "render()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L356",
+      "id": "js_app_render",
+      "community": 0,
+      "norm_label": "render()"
+    },
+    {
+      "label": "escapeHtml()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L428",
+      "id": "js_app_escapehtml",
+      "community": 0,
+      "norm_label": "escapehtml()"
+    },
+    {
+      "label": "escapeAttr()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L436",
+      "id": "js_app_escapeattr",
+      "community": 0,
+      "norm_label": "escapeattr()"
+    },
+    {
+      "label": "showToastSuccess()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L440",
+      "id": "js_app_showtoastsuccess",
+      "community": 0,
+      "norm_label": "showtoastsuccess()"
+    },
+    {
+      "label": "showToastError()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L448",
+      "id": "js_app_showtoasterror",
+      "community": 0,
+      "norm_label": "showtoasterror()"
+    },
+    {
+      "label": "loadCached()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L454",
+      "id": "js_app_loadcached",
+      "community": 0,
+      "norm_label": "loadcached()"
+    },
+    {
+      "label": "applyResyncResponse()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L476",
+      "id": "js_app_applyresyncresponse",
+      "community": 0,
+      "norm_label": "applyresyncresponse()"
+    },
+    {
+      "label": "translateAndSearchPakwheels()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L499",
+      "id": "js_app_translateandsearchpakwheels",
+      "community": 0,
+      "norm_label": "translateandsearchpakwheels()"
+    },
+    {
+      "label": "syncThemeToggleLabel()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L560",
+      "id": "js_app_syncthemetogglelabel",
+      "community": 0,
+      "norm_label": "syncthemetogglelabel()"
+    },
+    {
+      "label": "applyStoredTheme()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L567",
+      "id": "js_app_applystoredtheme",
+      "community": 0,
+      "norm_label": "applystoredtheme()"
+    },
+    {
+      "label": "toggleTheme()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L579",
+      "id": "js_app_toggletheme",
+      "community": 0,
+      "norm_label": "toggletheme()"
+    },
+    {
+      "label": "initPlatformUrl()",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L587",
+      "id": "js_app_initplatformurl",
+      "community": 0,
+      "norm_label": "initplatformurl()"
+    },
+    {
+      "label": "panel",
+      "file_type": "code",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L610",
+      "id": "js_app_panel",
+      "community": 0,
+      "norm_label": "panel"
+    },
+    {
+      "label": "olx_extraction.md",
+      "file_type": "document",
+      "source_file": "docs/olx_extraction.md",
+      "source_location": "L1",
+      "id": "docs_olx_extraction_md",
+      "community": 12,
+      "norm_label": "olx_extraction.md"
+    },
+    {
+      "label": "OLX Data Extraction Guide for AI Agents",
+      "file_type": "document",
+      "source_file": "docs/olx_extraction.md",
+      "source_location": "L1",
+      "id": "docs_olx_extraction_olx_data_extraction_guide_for_ai_agents",
+      "community": 12,
+      "norm_label": "olx data extraction guide for ai agents"
+    },
+    {
+      "label": "1. Item Containers",
+      "file_type": "document",
+      "source_file": "docs/olx_extraction.md",
+      "source_location": "L5",
+      "id": "docs_olx_extraction_1_item_containers",
+      "community": 12,
+      "norm_label": "1. item containers"
+    },
+    {
+      "label": "2. Field Selectors",
+      "file_type": "document",
+      "source_file": "docs/olx_extraction.md",
+      "source_location": "L9",
+      "id": "docs_olx_extraction_2_field_selectors",
+      "community": 12,
+      "norm_label": "2. field selectors"
+    },
+    {
+      "label": "3. Implementation Logic",
+      "file_type": "document",
+      "source_file": "docs/olx_extraction.md",
+      "source_location": "L18",
+      "id": "docs_olx_extraction_3_implementation_logic",
+      "community": 12,
+      "norm_label": "3. implementation logic"
+    },
+    {
+      "label": "olx_patterns.md",
+      "file_type": "document",
+      "source_file": "docs/olx_patterns.md",
+      "source_location": "L1",
+      "id": "docs_olx_patterns_md",
+      "community": 9,
+      "norm_label": "olx_patterns.md"
+    },
+    {
+      "label": "OLX Pakistan Search Patterns for AI Agents",
+      "file_type": "document",
+      "source_file": "docs/olx_patterns.md",
+      "source_location": "L1",
+      "id": "docs_olx_patterns_olx_pakistan_search_patterns_for_ai_agents",
+      "community": 9,
+      "norm_label": "olx pakistan search patterns for ai agents"
+    },
+    {
+      "label": "1. Base URL Structure",
+      "file_type": "document",
+      "source_file": "docs/olx_patterns.md",
+      "source_location": "L5",
+      "id": "docs_olx_patterns_1_base_url_structure",
+      "community": 9,
+      "norm_label": "1. base url structure"
+    },
+    {
+      "label": "2. Dynamic URL Patterns",
+      "file_type": "document",
+      "source_file": "docs/olx_patterns.md",
+      "source_location": "L9",
+      "id": "docs_olx_patterns_2_dynamic_url_patterns",
+      "community": 9,
+      "norm_label": "2. dynamic url patterns"
+    },
+    {
+      "label": "A. Location & Make Slugs",
+      "file_type": "document",
+      "source_file": "docs/olx_patterns.md",
+      "source_location": "L12",
+      "id": "docs_olx_patterns_a_location_make_slugs",
+      "community": 9,
+      "norm_label": "a. location & make slugs"
+    },
+    {
+      "label": "B. Filter Parameters (`?filter=`)",
+      "file_type": "document",
+      "source_file": "docs/olx_patterns.md",
+      "source_location": "L20",
+      "id": "docs_olx_patterns_b_filter_parameters_filter",
+      "community": 9,
+      "norm_label": "b. filter parameters (`?filter=`)"
+    },
+    {
+      "label": "3. Pattern Construction (Examples)",
+      "file_type": "document",
+      "source_file": "docs/olx_patterns.md",
+      "source_location": "L31",
+      "id": "docs_olx_patterns_3_pattern_construction_examples",
+      "community": 9,
+      "norm_label": "3. pattern construction (examples)"
+    },
+    {
+      "label": "4. Sorting and View",
+      "file_type": "document",
+      "source_file": "docs/olx_patterns.md",
+      "source_location": "L47",
+      "id": "docs_olx_patterns_4_sorting_and_view",
+      "community": 9,
+      "norm_label": "4. sorting and view"
+    },
+    {
+      "label": "pakwheels_patterns.md",
+      "file_type": "document",
+      "source_file": "docs/pakwheels_patterns.md",
+      "source_location": "L1",
+      "id": "docs_pakwheels_patterns_md",
+      "community": 6,
+      "norm_label": "pakwheels_patterns.md"
+    },
+    {
+      "label": "PakWheels used-car search URL patterns",
+      "file_type": "document",
+      "source_file": "docs/pakwheels_patterns.md",
+      "source_location": "L1",
+      "id": "docs_pakwheels_patterns_pakwheels_used_car_search_url_patterns",
+      "community": 6,
+      "norm_label": "pakwheels used-car search url patterns"
+    },
+    {
+      "label": "Base URL shape",
+      "file_type": "document",
+      "source_file": "docs/pakwheels_patterns.md",
+      "source_location": "L5",
+      "id": "docs_pakwheels_patterns_base_url_shape",
+      "community": 6,
+      "norm_label": "base url shape"
+    },
+    {
+      "label": "code:block1 (https://www.pakwheels.com/used-cars/search/-/<segments>/[<qu)",
+      "file_type": "document",
+      "source_file": "docs/pakwheels_patterns.md",
+      "source_location": "L7",
+      "id": "docs_pakwheels_patterns_codeblock_1",
+      "community": 6,
+      "norm_label": "code:block1 (https://www.pakwheels.com/used-cars/search/-/<segments>/[<qu)"
+    },
+    {
+      "label": "Documented path segments (only these)",
+      "file_type": "document",
+      "source_file": "docs/pakwheels_patterns.md",
+      "source_location": "L14",
+      "id": "docs_pakwheels_patterns_documented_path_segments_only_these",
+      "community": 6,
+      "norm_label": "documented path segments (only these)"
+    },
+    {
+      "label": "Lakh / lac \u2192 integer PKR for `pr_less_` (required)",
+      "file_type": "document",
+      "source_file": "docs/pakwheels_patterns.md",
+      "source_location": "L26",
+      "id": "docs_pakwheels_patterns_lakh_lac_integer_pkr_for_pr_less_required",
+      "community": 6,
+      "norm_label": "lakh / lac \u2192 integer pkr for `pr_less_` (required)"
+    },
+    {
+      "label": "code:text (pk_integer = round(lakhs \u00d7 100_000))",
+      "file_type": "document",
+      "source_file": "docs/pakwheels_patterns.md",
+      "source_location": "L37",
+      "id": "docs_pakwheels_patterns_codeblock_2",
+      "community": 6,
+      "norm_label": "code:text (pk_integer = round(lakhs \u00d7 100_000))"
+    },
+    {
+      "label": "Examples (memorize the pattern)",
+      "file_type": "document",
+      "source_file": "docs/pakwheels_patterns.md",
+      "source_location": "L43",
+      "id": "docs_pakwheels_patterns_examples_memorize_the_pattern",
+      "community": 6,
+      "norm_label": "examples (memorize the pattern)"
+    },
+    {
+      "label": "Documented query parameters (only these)",
+      "file_type": "document",
+      "source_file": "docs/pakwheels_patterns.md",
+      "source_location": "L57",
+      "id": "docs_pakwheels_patterns_documented_query_parameters_only_these",
+      "community": 6,
+      "norm_label": "documented query parameters (only these)"
+    },
+    {
+      "label": "Sort (`sortby`) \u2014 allowed values",
+      "file_type": "document",
+      "source_file": "docs/pakwheels_patterns.md",
+      "source_location": "L66",
+      "id": "docs_pakwheels_patterns_sort_sortby_allowed_values",
+      "community": 6,
+      "norm_label": "sort (`sortby`) \u2014 allowed values"
+    },
+    {
+      "label": "Examples (path only; add `https://www.pakwheels.com` and query as needed)",
+      "file_type": "document",
+      "source_file": "docs/pakwheels_patterns.md",
+      "source_location": "L79",
+      "id": "docs_pakwheels_patterns_examples_path_only_add_https_www_pakwheels_com_and_query_as_needed",
+      "community": 6,
+      "norm_label": "examples (path only; add `https://www.pakwheels.com` and query as needed)"
+    },
+    {
+      "label": "extraction_logic.md",
+      "file_type": "document",
+      "source_file": "docs/extraction_logic.md",
+      "source_location": "L1",
+      "id": "docs_extraction_logic_md",
+      "community": 11,
+      "norm_label": "extraction_logic.md"
+    },
+    {
+      "label": "PakWheels search results page \u2014 extraction logic",
+      "file_type": "document",
+      "source_file": "docs/extraction_logic.md",
+      "source_location": "L1",
+      "id": "docs_extraction_logic_pakwheels_search_results_page_extraction_logic",
+      "community": 11,
+      "norm_label": "pakwheels search results page \u2014 extraction logic"
+    },
+    {
+      "label": "Result list container",
+      "file_type": "document",
+      "source_file": "docs/extraction_logic.md",
+      "source_location": "L5",
+      "id": "docs_extraction_logic_result_list_container",
+      "community": 11,
+      "norm_label": "result list container"
+    },
+    {
+      "label": "Per-card fields",
+      "file_type": "document",
+      "source_file": "docs/extraction_logic.md",
+      "source_location": "L10",
+      "id": "docs_extraction_logic_per_card_fields",
+      "community": 11,
+      "norm_label": "per-card fields"
+    },
+    {
+      "label": "Detail page (optional second fetch)",
+      "file_type": "document",
+      "source_file": "docs/extraction_logic.md",
+      "source_location": "L23",
+      "id": "docs_extraction_logic_detail_page_optional_second_fetch",
+      "community": 11,
+      "norm_label": "detail page (optional second fetch)"
+    },
+    {
+      "label": "Price text normalization",
+      "file_type": "document",
+      "source_file": "docs/extraction_logic.md",
+      "source_location": "L31",
+      "id": "docs_extraction_logic_price_text_normalization",
+      "community": 11,
+      "norm_label": "price text normalization"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L34",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_py",
+      "target": "scraper_pakwheels_utc_now",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L38",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_py",
+      "target": "scraper_pakwheels_parse_relative_posted_time",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L89",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_py",
+      "target": "scraper_pakwheels_iso",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L95",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_py",
+      "target": "scraper_pakwheels_normalize_url",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L104",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_py",
+      "target": "scraper_pakwheels_parse_price_pkr",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L125",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_py",
+      "target": "scraper_pakwheels_extract_updated_snippet",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L143",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_py",
+      "target": "scraper_pakwheels_digits_int",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L150",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_py",
+      "target": "scraper_pakwheels_extract_card_fields",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L207",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_py",
+      "target": "scraper_pakwheels_parse_detail_page",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L245",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_py",
+      "target": "scraper_pakwheels_with_page_param",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L256",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_py",
+      "target": "scraper_pakwheels_ensure_default_sort",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L274",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_py",
+      "target": "scraper_pakwheels_resolve_max_age_hours",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L285",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_py",
+      "target": "scraper_pakwheels_resolve_max_pages",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L296",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_py",
+      "target": "scraper_pakwheels_resolve_max_listings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L307",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_py",
+      "target": "scraper_pakwheels_scrape_pakwheels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_rationale_1",
+      "target": "scraper_pakwheels_py",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L44",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_parse_relative_posted_time",
+      "target": "scraper_pakwheels_utc_now",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L339",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_scrape_pakwheels",
+      "target": "scraper_pakwheels_utc_now",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L374",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_scrape_pakwheels",
+      "target": "scraper_pakwheels_parse_relative_posted_time",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L39",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_rationale_39",
+      "target": "scraper_pakwheels_parse_relative_posted_time",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L400",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_scrape_pakwheels",
+      "target": "scraper_pakwheels_iso",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L154",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_extract_card_fields",
+      "target": "scraper_pakwheels_normalize_url",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L169",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_extract_card_fields",
+      "target": "scraper_pakwheels_parse_price_pkr",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L227",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_parse_detail_page",
+      "target": "scraper_pakwheels_parse_price_pkr",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L105",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_rationale_105",
+      "target": "scraper_pakwheels_parse_price_pkr",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L373",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_scrape_pakwheels",
+      "target": "scraper_pakwheels_extract_updated_snippet",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L187",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_extract_card_fields",
+      "target": "scraper_pakwheels_digits_int",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L223",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_parse_detail_page",
+      "target": "scraper_pakwheels_digits_int",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L385",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_scrape_pakwheels",
+      "target": "scraper_pakwheels_extract_card_fields",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L151",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_rationale_151",
+      "target": "scraper_pakwheels_extract_card_fields",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L408",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_scrape_pakwheels",
+      "target": "scraper_pakwheels_parse_detail_page",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L208",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_rationale_208",
+      "target": "scraper_pakwheels_parse_detail_page",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L355",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_scrape_pakwheels",
+      "target": "scraper_pakwheels_with_page_param",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L332",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_scrape_pakwheels",
+      "target": "scraper_pakwheels_ensure_default_sort",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L257",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_rationale_257",
+      "target": "scraper_pakwheels_ensure_default_sort",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L333",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_scrape_pakwheels",
+      "target": "scraper_pakwheels_resolve_max_age_hours",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L275",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_rationale_275",
+      "target": "scraper_pakwheels_resolve_max_age_hours",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L334",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_scrape_pakwheels",
+      "target": "scraper_pakwheels_resolve_max_pages",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L286",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_rationale_286",
+      "target": "scraper_pakwheels_resolve_max_pages",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L335",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_scrape_pakwheels",
+      "target": "scraper_pakwheels_resolve_max_listings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L297",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_rationale_297",
+      "target": "scraper_pakwheels_resolve_max_listings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/pakwheels.py",
+      "source_location": "L318",
+      "weight": 1.0,
+      "source": "scraper_pakwheels_rationale_318",
+      "target": "scraper_pakwheels_scrape_pakwheels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/olx.py",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "scraper_olx_py",
+      "target": "scraper_olx_with_page_param",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/olx.py",
+      "source_location": "L52",
+      "weight": 1.0,
+      "source": "scraper_olx_py",
+      "target": "scraper_olx_resolve_max_pages",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/olx.py",
+      "source_location": "L62",
+      "weight": 1.0,
+      "source": "scraper_olx_py",
+      "target": "scraper_olx_resolve_max_listings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/olx.py",
+      "source_location": "L72",
+      "weight": 1.0,
+      "source": "scraper_olx_py",
+      "target": "scraper_olx_parse_price",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/olx.py",
+      "source_location": "L85",
+      "weight": 1.0,
+      "source": "scraper_olx_py",
+      "target": "scraper_olx_parse_km",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/olx.py",
+      "source_location": "L93",
+      "weight": 1.0,
+      "source": "scraper_olx_py",
+      "target": "scraper_olx_parse_year",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/olx.py",
+      "source_location": "L98",
+      "weight": 1.0,
+      "source": "scraper_olx_py",
+      "target": "scraper_olx_normalize_href",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/olx.py",
+      "source_location": "L109",
+      "weight": 1.0,
+      "source": "scraper_olx_py",
+      "target": "scraper_olx_parse_article",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/olx.py",
+      "source_location": "L165",
+      "weight": 1.0,
+      "source": "scraper_olx_py",
+      "target": "scraper_olx_fetch_page_html",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/olx.py",
+      "source_location": "L178",
+      "weight": 1.0,
+      "source": "scraper_olx_py",
+      "target": "scraper_olx_scrape_olx",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/olx.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "scraper_olx_rationale_1",
+      "target": "scraper_olx_py",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/olx.py",
+      "source_location": "L215",
+      "weight": 1.0,
+      "source": "scraper_olx_scrape_olx",
+      "target": "scraper_olx_with_page_param",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/olx.py",
+      "source_location": "L200",
+      "weight": 1.0,
+      "source": "scraper_olx_scrape_olx",
+      "target": "scraper_olx_resolve_max_pages",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/olx.py",
+      "source_location": "L201",
+      "weight": 1.0,
+      "source": "scraper_olx_scrape_olx",
+      "target": "scraper_olx_resolve_max_listings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/olx.py",
+      "source_location": "L131",
+      "weight": 1.0,
+      "source": "scraper_olx_parse_article",
+      "target": "scraper_olx_parse_price",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/olx.py",
+      "source_location": "L73",
+      "weight": 1.0,
+      "source": "scraper_olx_rationale_73",
+      "target": "scraper_olx_parse_price",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/olx.py",
+      "source_location": "L137",
+      "weight": 1.0,
+      "source": "scraper_olx_parse_article",
+      "target": "scraper_olx_parse_km",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/olx.py",
+      "source_location": "L136",
+      "weight": 1.0,
+      "source": "scraper_olx_parse_article",
+      "target": "scraper_olx_parse_year",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/olx.py",
+      "source_location": "L119",
+      "weight": 1.0,
+      "source": "scraper_olx_parse_article",
+      "target": "scraper_olx_normalize_href",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/olx.py",
+      "source_location": "L232",
+      "weight": 1.0,
+      "source": "scraper_olx_scrape_olx",
+      "target": "scraper_olx_parse_article",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/olx.py",
+      "source_location": "L110",
+      "weight": 1.0,
+      "source": "scraper_olx_rationale_110",
+      "target": "scraper_olx_parse_article",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/olx.py",
+      "source_location": "L217",
+      "weight": 1.0,
+      "source": "scraper_olx_scrape_olx",
+      "target": "scraper_olx_fetch_page_html",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/olx.py",
+      "source_location": "L166",
+      "weight": 1.0,
+      "source": "scraper_olx_rationale_166",
+      "target": "scraper_olx_fetch_page_html",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scraper/olx.py",
+      "source_location": "L187",
+      "weight": 1.0,
+      "source": "scraper_olx_rationale_187",
+      "target": "scraper_olx_scrape_olx",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/db.py",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "backend_db_py",
+      "target": "backend_db_default_sqlite_url",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/db.py",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "backend_db_py",
+      "target": "backend_db_connect_db",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/db.py",
+      "source_location": "L58",
+      "weight": 1.0,
+      "source": "backend_db_py",
+      "target": "backend_db_close_db",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/db.py",
+      "source_location": "L66",
+      "weight": 1.0,
+      "source": "backend_db_py",
+      "target": "backend_db_get_async_session_factory",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/db.py",
+      "source_location": "L72",
+      "weight": 1.0,
+      "source": "backend_db_py",
+      "target": "backend_db_get_engine",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/db.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "backend_db_rationale_1",
+      "target": "backend_db_py",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/db.py",
+      "source_location": "L33",
+      "weight": 1.0,
+      "source": "backend_db_connect_db",
+      "target": "backend_db_default_sqlite_url",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/db.py",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "backend_db_rationale_19",
+      "target": "backend_db_default_sqlite_url",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/db.py",
+      "source_location": "L30",
+      "weight": 1.0,
+      "source": "backend_db_rationale_30",
+      "target": "backend_db_connect_db",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/main.py",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "backend_main_lifespan",
+      "target": "backend_db_connect_db"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/scripts/clear_all_listings.py",
+      "source_location": "L30",
+      "weight": 1.0,
+      "source": "scripts_clear_all_listings_main",
+      "target": "backend_db_connect_db"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/main.py",
+      "source_location": "L30",
+      "weight": 1.0,
+      "source": "backend_main_lifespan",
+      "target": "backend_db_close_db"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/scripts/clear_all_listings.py",
+      "source_location": "L37",
+      "weight": 1.0,
+      "source": "scripts_clear_all_listings_main",
+      "target": "backend_db_close_db"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/scripts/clear_all_listings.py",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "scripts_clear_all_listings_main",
+      "target": "backend_db_get_async_session_factory"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L66",
+      "weight": 1.0,
+      "source": "services_listings_repo_fetch_all_listings",
+      "target": "backend_db_get_async_session_factory"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L84",
+      "weight": 1.0,
+      "source": "services_listings_repo_count_listings",
+      "target": "backend_db_get_async_session_factory"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L91",
+      "weight": 1.0,
+      "source": "services_listings_repo_get_sync_meta",
+      "target": "backend_db_get_async_session_factory"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L100",
+      "weight": 1.0,
+      "source": "services_listings_repo_set_sync_success",
+      "target": "backend_db_get_async_session_factory"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L136",
+      "weight": 1.0,
+      "source": "services_listings_repo_upsert_one_listing",
+      "target": "backend_db_get_async_session_factory"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L187",
+      "weight": 1.0,
+      "source": "services_listings_repo_set_sync_error",
+      "target": "backend_db_get_async_session_factory"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/routes/health.py",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "routes_health_health",
+      "target": "backend_db_get_async_session_factory"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/database_models.py",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "backend_database_models_py",
+      "target": "backend_database_models_base",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/database_models.py",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "backend_database_models_py",
+      "target": "backend_database_models_pakwheelslisting",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/database_models.py",
+      "source_location": "L39",
+      "weight": 1.0,
+      "source": "backend_database_models_py",
+      "target": "backend_database_models_appmeta",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/database_models.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "backend_database_models_rationale_1",
+      "target": "backend_database_models_py",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/database_models.py",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "backend_database_models_base",
+      "target": "declarativebase",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/database_models.py",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "backend_database_models_pakwheelslisting",
+      "target": "backend_database_models_base",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/database_models.py",
+      "source_location": "L39",
+      "weight": 1.0,
+      "source": "backend_database_models_appmeta",
+      "target": "backend_database_models_base",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L159",
+      "weight": 1.0,
+      "source": "services_listings_repo_upsert_one_listing",
+      "target": "backend_database_models_pakwheelslisting"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L104",
+      "weight": 1.0,
+      "source": "services_listings_repo_set_sync_success",
+      "target": "backend_database_models_appmeta"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L191",
+      "weight": 1.0,
+      "source": "services_listings_repo_set_sync_error",
+      "target": "backend_database_models_appmeta"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "backend_main_py",
+      "target": "backend_main_lifespan",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L46",
+      "weight": 1.0,
+      "source": "backend_main_py",
+      "target": "backend_main_dashboard",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "backend_main_rationale_1",
+      "target": "backend_main_py",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/scripts/clear_all_listings.py",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "backend_scripts_clear_all_listings_py",
+      "target": "scripts_clear_all_listings_main",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/scripts/clear_all_listings.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "scripts_clear_all_listings_rationale_1",
+      "target": "backend_scripts_clear_all_listings_py",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/models/__init__.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "models_init_rationale_1",
+      "target": "backend_models_init_py",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/utils/__init__.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "utils_init_rationale_1",
+      "target": "backend_utils_init_py",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_chat.py",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "backend_services_ollama_chat_py",
+      "target": "services_ollama_chat_truncate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_chat.py",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "backend_services_ollama_chat_py",
+      "target": "services_ollama_chat_build_listings_snapshot",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_chat.py",
+      "source_location": "L85",
+      "weight": 1.0,
+      "source": "backend_services_ollama_chat_py",
+      "target": "services_ollama_chat_chat_with_listings_context",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_chat.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "services_ollama_chat_rationale_1",
+      "target": "backend_services_ollama_chat_py",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_chat.py",
+      "source_location": "L68",
+      "weight": 1.0,
+      "source": "services_ollama_chat_build_listings_snapshot",
+      "target": "services_ollama_chat_truncate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_chat.py",
+      "source_location": "L38",
+      "weight": 1.0,
+      "source": "services_ollama_chat_rationale_38",
+      "target": "services_ollama_chat_build_listings_snapshot",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L236",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_chat_with_database",
+      "target": "services_ollama_chat_build_listings_snapshot"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_chat.py",
+      "source_location": "L91",
+      "weight": 1.0,
+      "source": "services_ollama_chat_rationale_91",
+      "target": "services_ollama_chat_chat_with_listings_context",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L249",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_chat_with_database",
+      "target": "services_ollama_chat_chat_with_listings_context"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_pakwheels.py",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "backend_services_ollama_pakwheels_py",
+      "target": "services_ollama_pakwheels_read_kb_doc",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_pakwheels.py",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "backend_services_ollama_pakwheels_py",
+      "target": "services_ollama_pakwheels_build_pakwheels_expert_system_prompt",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_pakwheels.py",
+      "source_location": "L57",
+      "weight": 1.0,
+      "source": "backend_services_ollama_pakwheels_py",
+      "target": "services_ollama_pakwheels_strip_from_response",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_pakwheels.py",
+      "source_location": "L65",
+      "weight": 1.0,
+      "source": "backend_services_ollama_pakwheels_py",
+      "target": "services_ollama_pakwheels_extract_pakwheels_search_url",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_pakwheels.py",
+      "source_location": "L80",
+      "weight": 1.0,
+      "source": "backend_services_ollama_pakwheels_py",
+      "target": "services_ollama_pakwheels_suggest_pakwheels_search_url",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_pakwheels.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "services_ollama_pakwheels_rationale_1",
+      "target": "backend_services_ollama_pakwheels_py",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_pakwheels.py",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "services_ollama_pakwheels_build_pakwheels_expert_system_prompt",
+      "target": "services_ollama_pakwheels_read_kb_doc",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_pakwheels.py",
+      "source_location": "L92",
+      "weight": 1.0,
+      "source": "services_ollama_pakwheels_suggest_pakwheels_search_url",
+      "target": "services_ollama_pakwheels_build_pakwheels_expert_system_prompt",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_pakwheels.py",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "services_ollama_pakwheels_rationale_22",
+      "target": "services_ollama_pakwheels_build_pakwheels_expert_system_prompt",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_pakwheels.py",
+      "source_location": "L67",
+      "weight": 1.0,
+      "source": "services_ollama_pakwheels_extract_pakwheels_search_url",
+      "target": "services_ollama_pakwheels_strip_from_response",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_pakwheels.py",
+      "source_location": "L110",
+      "weight": 1.0,
+      "source": "services_ollama_pakwheels_suggest_pakwheels_search_url",
+      "target": "services_ollama_pakwheels_extract_pakwheels_search_url",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_pakwheels.py",
+      "source_location": "L66",
+      "weight": 1.0,
+      "source": "services_ollama_pakwheels_rationale_66",
+      "target": "services_ollama_pakwheels_extract_pakwheels_search_url",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_pakwheels.py",
+      "source_location": "L86",
+      "weight": 1.0,
+      "source": "services_ollama_pakwheels_rationale_86",
+      "target": "services_ollama_pakwheels_suggest_pakwheels_search_url",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/services/ollama_pakwheels.py",
+      "source_location": "L117",
+      "weight": 1.0,
+      "source": "services_ollama_pakwheels_suggest_pakwheels_search_url",
+      "target": "services_listings_repo_norm_search_url"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L176",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_suggest_pakwheels_url_endpoint",
+      "target": "services_ollama_pakwheels_suggest_pakwheels_search_url"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "backend_services_listings_repo_py",
+      "target": "services_listings_repo_norm_listing_url",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "backend_services_listings_repo_py",
+      "target": "services_listings_repo_norm_search_url",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L30",
+      "weight": 1.0,
+      "source": "backend_services_listings_repo_py",
+      "target": "services_listings_repo_row_to_dict",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L50",
+      "weight": 1.0,
+      "source": "backend_services_listings_repo_py",
+      "target": "services_listings_repo_listing_dict_json_safe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L62",
+      "weight": 1.0,
+      "source": "backend_services_listings_repo_py",
+      "target": "services_listings_repo_fetch_all_listings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L83",
+      "weight": 1.0,
+      "source": "backend_services_listings_repo_py",
+      "target": "services_listings_repo_count_listings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L90",
+      "weight": 1.0,
+      "source": "backend_services_listings_repo_py",
+      "target": "services_listings_repo_get_sync_meta",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L99",
+      "weight": 1.0,
+      "source": "backend_services_listings_repo_py",
+      "target": "services_listings_repo_set_sync_success",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L112",
+      "weight": 1.0,
+      "source": "backend_services_listings_repo_py",
+      "target": "services_listings_repo_listing_market_source",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L117",
+      "weight": 1.0,
+      "source": "backend_services_listings_repo_py",
+      "target": "services_listings_repo_upsert_one_listing",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L186",
+      "weight": 1.0,
+      "source": "backend_services_listings_repo_py",
+      "target": "services_listings_repo_set_sync_error",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "services_listings_repo_rationale_1",
+      "target": "backend_services_listings_repo_py",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L138",
+      "weight": 1.0,
+      "source": "services_listings_repo_upsert_one_listing",
+      "target": "services_listings_repo_norm_listing_url",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L70",
+      "weight": 1.0,
+      "source": "services_listings_repo_fetch_all_listings",
+      "target": "services_listings_repo_norm_search_url",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L129",
+      "weight": 1.0,
+      "source": "services_listings_repo_upsert_one_listing",
+      "target": "services_listings_repo_norm_search_url",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "services_listings_repo_rationale_21",
+      "target": "services_listings_repo_norm_search_url",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/services/ollama_olx.py",
+      "source_location": "L103",
+      "weight": 1.0,
+      "source": "services_ollama_olx_suggest_olx_search_url",
+      "target": "services_listings_repo_norm_search_url"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L225",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_chat_with_database",
+      "target": "services_listings_repo_norm_search_url"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L310",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_get_listings",
+      "target": "services_listings_repo_norm_search_url"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L360",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_scrape_stream_ws",
+      "target": "services_listings_repo_norm_search_url"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L80",
+      "weight": 1.0,
+      "source": "services_listings_repo_fetch_all_listings",
+      "target": "services_listings_repo_row_to_dict",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L183",
+      "weight": 1.0,
+      "source": "services_listings_repo_upsert_one_listing",
+      "target": "services_listings_repo_row_to_dict",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L51",
+      "weight": 1.0,
+      "source": "services_listings_repo_rationale_51",
+      "target": "services_listings_repo_listing_dict_json_safe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L516",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_scrape_stream_ws",
+      "target": "services_listings_repo_listing_dict_json_safe"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L227",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_chat_with_database",
+      "target": "services_listings_repo_fetch_all_listings"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L314",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_get_listings",
+      "target": "services_listings_repo_fetch_all_listings"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L494",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_scrape_stream_ws",
+      "target": "services_listings_repo_fetch_all_listings"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L228",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_chat_with_database",
+      "target": "services_listings_repo_count_listings"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L326",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_get_listings",
+      "target": "services_listings_repo_count_listings"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L492",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_scrape_stream_ws",
+      "target": "services_listings_repo_count_listings"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L309",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_get_listings",
+      "target": "services_listings_repo_get_sync_meta"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L491",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_scrape_stream_ws",
+      "target": "services_listings_repo_get_sync_meta"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L490",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_scrape_stream_ws",
+      "target": "services_listings_repo_set_sync_success"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L133",
+      "weight": 1.0,
+      "source": "services_listings_repo_upsert_one_listing",
+      "target": "services_listings_repo_listing_market_source",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/listings_repo.py",
+      "source_location": "L123",
+      "weight": 1.0,
+      "source": "services_listings_repo_rationale_123",
+      "target": "services_listings_repo_upsert_one_listing",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L456",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_scrape_stream_ws",
+      "target": "services_listings_repo_upsert_one_listing"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L484",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_scrape_stream_ws",
+      "target": "services_listings_repo_set_sync_error"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_olx.py",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "backend_services_ollama_olx_py",
+      "target": "services_ollama_olx_read_kb_doc",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_olx.py",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "backend_services_ollama_olx_py",
+      "target": "services_ollama_olx_build_olx_expert_system_prompt",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_olx.py",
+      "source_location": "L49",
+      "weight": 1.0,
+      "source": "backend_services_ollama_olx_py",
+      "target": "services_ollama_olx_strip_from_response",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_olx.py",
+      "source_location": "L57",
+      "weight": 1.0,
+      "source": "backend_services_ollama_olx_py",
+      "target": "services_ollama_olx_extract_olx_search_url",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_olx.py",
+      "source_location": "L67",
+      "weight": 1.0,
+      "source": "backend_services_ollama_olx_py",
+      "target": "services_ollama_olx_suggest_olx_search_url",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_olx.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "services_ollama_olx_rationale_1",
+      "target": "backend_services_ollama_olx_py",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_olx.py",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "services_ollama_olx_build_olx_expert_system_prompt",
+      "target": "services_ollama_olx_read_kb_doc",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_olx.py",
+      "source_location": "L78",
+      "weight": 1.0,
+      "source": "services_ollama_olx_suggest_olx_search_url",
+      "target": "services_ollama_olx_build_olx_expert_system_prompt",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_olx.py",
+      "source_location": "L58",
+      "weight": 1.0,
+      "source": "services_ollama_olx_extract_olx_search_url",
+      "target": "services_ollama_olx_strip_from_response",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_olx.py",
+      "source_location": "L96",
+      "weight": 1.0,
+      "source": "services_ollama_olx_suggest_olx_search_url",
+      "target": "services_ollama_olx_extract_olx_search_url",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/ollama_olx.py",
+      "source_location": "L73",
+      "weight": 1.0,
+      "source": "services_ollama_olx_rationale_73",
+      "target": "services_ollama_olx_suggest_olx_search_url",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L181",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_suggest_pakwheels_url_endpoint",
+      "target": "services_ollama_olx_suggest_olx_search_url"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/nim_client.py",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "backend_services_nim_client_py",
+      "target": "services_nim_client_client",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/nim_client.py",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "backend_services_nim_client_py",
+      "target": "services_nim_client_get_model",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/nim_client.py",
+      "source_location": "L33",
+      "weight": 1.0,
+      "source": "backend_services_nim_client_py",
+      "target": "services_nim_client_chat",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/nim_client.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "services_nim_client_rationale_1",
+      "target": "backend_services_nim_client_py",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/nim_client.py",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "services_nim_client_chat",
+      "target": "services_nim_client_client",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/nim_client.py",
+      "source_location": "L39",
+      "weight": 1.0,
+      "source": "services_nim_client_rationale_39",
+      "target": "services_nim_client_chat",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/__init__.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "services_init_rationale_1",
+      "target": "backend_services_init_py",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L40",
+      "weight": 1.0,
+      "source": "backend_routes_pakwheels_api_py",
+      "target": "routes_pakwheels_api_chat_max_items",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L48",
+      "weight": 1.0,
+      "source": "backend_routes_pakwheels_api_py",
+      "target": "routes_pakwheels_api_chat_max_chars",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L56",
+      "weight": 1.0,
+      "source": "backend_routes_pakwheels_api_py",
+      "target": "routes_pakwheels_api_effective_max_age_hours",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L67",
+      "weight": 1.0,
+      "source": "backend_routes_pakwheels_api_py",
+      "target": "routes_pakwheels_api_scrape_hints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L85",
+      "weight": 1.0,
+      "source": "backend_routes_pakwheels_api_py",
+      "target": "routes_pakwheels_api_iso_meta",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L93",
+      "weight": 1.0,
+      "source": "backend_routes_pakwheels_api_py",
+      "target": "routes_pakwheels_api_chatmessage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L98",
+      "weight": 1.0,
+      "source": "backend_routes_pakwheels_api_py",
+      "target": "routes_pakwheels_api_chatbody",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L116",
+      "weight": 1.0,
+      "source": "backend_routes_pakwheels_api_py",
+      "target": "routes_pakwheels_api_last_must_be_user",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L122",
+      "weight": 1.0,
+      "source": "backend_routes_pakwheels_api_py",
+      "target": "routes_pakwheels_api_suggesturlbody",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L143",
+      "weight": 1.0,
+      "source": "backend_routes_pakwheels_api_py",
+      "target": "routes_pakwheels_api_scraper_module",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L158",
+      "weight": 1.0,
+      "source": "backend_routes_pakwheels_api_py",
+      "target": "routes_pakwheels_api_olx_scraper_module",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L173",
+      "weight": 1.0,
+      "source": "backend_routes_pakwheels_api_py",
+      "target": "routes_pakwheels_api_suggest_pakwheels_url_endpoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L223",
+      "weight": 1.0,
+      "source": "backend_routes_pakwheels_api_py",
+      "target": "routes_pakwheels_api_chat_with_database",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L299",
+      "weight": 1.0,
+      "source": "backend_routes_pakwheels_api_py",
+      "target": "routes_pakwheels_api_get_listings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L337",
+      "weight": 1.0,
+      "source": "backend_routes_pakwheels_api_py",
+      "target": "routes_pakwheels_api_stream_max_listings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L352",
+      "weight": 1.0,
+      "source": "backend_routes_pakwheels_api_py",
+      "target": "routes_pakwheels_api_scrape_stream_ws",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_rationale_1",
+      "target": "backend_routes_pakwheels_api_py",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L230",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_chat_with_database",
+      "target": "routes_pakwheels_api_chat_max_items",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L231",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_chat_with_database",
+      "target": "routes_pakwheels_api_chat_max_chars",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L431",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_scrape_stream_ws",
+      "target": "routes_pakwheels_api_effective_max_age_hours",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L57",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_rationale_57",
+      "target": "routes_pakwheels_api_effective_max_age_hours",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L498",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_scrape_stream_ws",
+      "target": "routes_pakwheels_api_scrape_hints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L68",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_rationale_68",
+      "target": "routes_pakwheels_api_scrape_hints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L332",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_get_listings",
+      "target": "routes_pakwheels_api_iso_meta",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L513",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_scrape_stream_ws",
+      "target": "routes_pakwheels_api_iso_meta",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L93",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_chatmessage",
+      "target": "basemodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L98",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_chatbody",
+      "target": "basemodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L122",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_suggesturlbody",
+      "target": "basemodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L99",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_rationale_99",
+      "target": "routes_pakwheels_api_chatbody",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L123",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_rationale_123",
+      "target": "routes_pakwheels_api_suggesturlbody",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L397",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_scrape_stream_ws",
+      "target": "routes_pakwheels_api_scraper_module",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L144",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_rationale_144",
+      "target": "routes_pakwheels_api_scraper_module",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L398",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_scrape_stream_ws",
+      "target": "routes_pakwheels_api_olx_scraper_module",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L174",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_rationale_174",
+      "target": "routes_pakwheels_api_suggest_pakwheels_url_endpoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L224",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_rationale_224",
+      "target": "routes_pakwheels_api_chat_with_database",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L385",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_scrape_stream_ws",
+      "target": "routes_pakwheels_api_stream_max_listings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/pakwheels_api.py",
+      "source_location": "L353",
+      "weight": 1.0,
+      "source": "routes_pakwheels_api_rationale_353",
+      "target": "routes_pakwheels_api_scrape_stream_ws",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routes/health.py",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "backend_routes_health_py",
+      "target": "routes_health_health",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_chatthread",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_allitems",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_lastmeta",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_appendchatbubble",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L41",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_setchatopen",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L50",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_resetchat",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L56",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_sendchat",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L105",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_platformurlquery",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L115",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_setscrapeoverlayprogress",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L124",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_runstreamingscrape",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L195",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_setscraping",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L209",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_showhints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L220",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_defaultemptyhtml",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L228",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_filtermismatchhtml",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L235",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_formatprice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L245",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_formatsynclabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L258",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_formatpostedtime",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L265",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_searchoriginclasses",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L276",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_searchoriginlabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L283",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_platformsourceclasses",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L289",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_platformsourcelabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L293",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_listingoutboundlabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L297",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_matchesquery",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L320",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_updatelistingsearchvisibility",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L328",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_hidepaginationbar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L333",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_updatepaginationbar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L356",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_render",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L428",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_escapehtml",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L436",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_escapeattr",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L440",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_showtoastsuccess",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L448",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_showtoasterror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L454",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_loadcached",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L476",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_applyresyncresponse",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L499",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_translateandsearchpakwheels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L560",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_syncthemetogglelabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L567",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_applystoredtheme",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L579",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_toggletheme",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L587",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_initplatformurl",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L610",
+      "weight": 1.0,
+      "source": "backend_static_js_app_js",
+      "target": "js_app_panel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "js_app_appendchatbubble",
+      "target": "js_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "js_app_setchatopen",
+      "target": "js_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L52",
+      "weight": 1.0,
+      "source": "js_app_resetchat",
+      "target": "js_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L57",
+      "weight": 1.0,
+      "source": "js_app_sendchat",
+      "target": "js_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L106",
+      "weight": 1.0,
+      "source": "js_app_platformurlquery",
+      "target": "js_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L116",
+      "weight": 1.0,
+      "source": "js_app_setscrapeoverlayprogress",
+      "target": "js_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L125",
+      "weight": 1.0,
+      "source": "js_app_runstreamingscrape",
+      "target": "js_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L196",
+      "weight": 1.0,
+      "source": "js_app_setscraping",
+      "target": "js_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L210",
+      "weight": 1.0,
+      "source": "js_app_showhints",
+      "target": "js_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L321",
+      "weight": 1.0,
+      "source": "js_app_updatelistingsearchvisibility",
+      "target": "js_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L329",
+      "weight": 1.0,
+      "source": "js_app_hidepaginationbar",
+      "target": "js_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L334",
+      "weight": 1.0,
+      "source": "js_app_updatepaginationbar",
+      "target": "js_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L359",
+      "weight": 1.0,
+      "source": "js_app_render",
+      "target": "js_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L441",
+      "weight": 1.0,
+      "source": "js_app_showtoastsuccess",
+      "target": "js_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L449",
+      "weight": 1.0,
+      "source": "js_app_showtoasterror",
+      "target": "js_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L463",
+      "weight": 1.0,
+      "source": "js_app_loadcached",
+      "target": "js_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L482",
+      "weight": 1.0,
+      "source": "js_app_applyresyncresponse",
+      "target": "js_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L500",
+      "weight": 1.0,
+      "source": "js_app_translateandsearchpakwheels",
+      "target": "js_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L561",
+      "weight": 1.0,
+      "source": "js_app_syncthemetogglelabel",
+      "target": "js_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L590",
+      "weight": 1.0,
+      "source": "js_app_initplatformurl",
+      "target": "js_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L53",
+      "weight": 1.0,
+      "source": "js_app_resetchat",
+      "target": "js_app_appendchatbubble",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L63",
+      "weight": 1.0,
+      "source": "js_app_sendchat",
+      "target": "js_app_appendchatbubble",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L98",
+      "weight": 1.0,
+      "source": "js_app_sendchat",
+      "target": "js_app_showtoasterror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L455",
+      "weight": 1.0,
+      "source": "js_app_loadcached",
+      "target": "js_app_platformurlquery",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L203",
+      "weight": 1.0,
+      "source": "js_app_setscraping",
+      "target": "js_app_setscrapeoverlayprogress",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L548",
+      "weight": 1.0,
+      "source": "js_app_translateandsearchpakwheels",
+      "target": "js_app_runstreamingscrape",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L546",
+      "weight": 1.0,
+      "source": "js_app_translateandsearchpakwheels",
+      "target": "js_app_setscraping",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L494",
+      "weight": 1.0,
+      "source": "js_app_applyresyncresponse",
+      "target": "js_app_showhints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L545",
+      "weight": 1.0,
+      "source": "js_app_translateandsearchpakwheels",
+      "target": "js_app_showhints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L381",
+      "weight": 1.0,
+      "source": "js_app_render",
+      "target": "js_app_defaultemptyhtml",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L381",
+      "weight": 1.0,
+      "source": "js_app_render",
+      "target": "js_app_filtermismatchhtml",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L261",
+      "weight": 1.0,
+      "source": "js_app_formatpostedtime",
+      "target": "js_app_formatsynclabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L463",
+      "weight": 1.0,
+      "source": "js_app_loadcached",
+      "target": "js_app_formatsynclabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L482",
+      "weight": 1.0,
+      "source": "js_app_applyresyncresponse",
+      "target": "js_app_formatsynclabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L357",
+      "weight": 1.0,
+      "source": "js_app_render",
+      "target": "js_app_updatelistingsearchvisibility",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L378",
+      "weight": 1.0,
+      "source": "js_app_render",
+      "target": "js_app_hidepaginationbar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L425",
+      "weight": 1.0,
+      "source": "js_app_render",
+      "target": "js_app_updatepaginationbar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L473",
+      "weight": 1.0,
+      "source": "js_app_loadcached",
+      "target": "js_app_render",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L496",
+      "weight": 1.0,
+      "source": "js_app_applyresyncresponse",
+      "target": "js_app_render",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L437",
+      "weight": 1.0,
+      "source": "js_app_escapeattr",
+      "target": "js_app_escapehtml",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L490",
+      "weight": 1.0,
+      "source": "js_app_applyresyncresponse",
+      "target": "js_app_showtoastsuccess",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L502",
+      "weight": 1.0,
+      "source": "js_app_translateandsearchpakwheels",
+      "target": "js_app_showtoasterror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L576",
+      "weight": 1.0,
+      "source": "js_app_applystoredtheme",
+      "target": "js_app_syncthemetogglelabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/static/js/app.js",
+      "source_location": "L584",
+      "weight": 1.0,
+      "source": "js_app_toggletheme",
+      "target": "js_app_syncthemetogglelabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/olx_extraction.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "docs_olx_extraction_md",
+      "target": "docs_olx_extraction_olx_data_extraction_guide_for_ai_agents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/olx_extraction.md",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "docs_olx_extraction_olx_data_extraction_guide_for_ai_agents",
+      "target": "docs_olx_extraction_1_item_containers",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/olx_extraction.md",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "docs_olx_extraction_olx_data_extraction_guide_for_ai_agents",
+      "target": "docs_olx_extraction_2_field_selectors",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/olx_extraction.md",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "docs_olx_extraction_olx_data_extraction_guide_for_ai_agents",
+      "target": "docs_olx_extraction_3_implementation_logic",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/olx_patterns.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "docs_olx_patterns_md",
+      "target": "docs_olx_patterns_olx_pakistan_search_patterns_for_ai_agents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/olx_patterns.md",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "docs_olx_patterns_olx_pakistan_search_patterns_for_ai_agents",
+      "target": "docs_olx_patterns_1_base_url_structure",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/olx_patterns.md",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "docs_olx_patterns_olx_pakistan_search_patterns_for_ai_agents",
+      "target": "docs_olx_patterns_2_dynamic_url_patterns",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/olx_patterns.md",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "docs_olx_patterns_olx_pakistan_search_patterns_for_ai_agents",
+      "target": "docs_olx_patterns_3_pattern_construction_examples",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/olx_patterns.md",
+      "source_location": "L47",
+      "weight": 1.0,
+      "source": "docs_olx_patterns_olx_pakistan_search_patterns_for_ai_agents",
+      "target": "docs_olx_patterns_4_sorting_and_view",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/olx_patterns.md",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "docs_olx_patterns_2_dynamic_url_patterns",
+      "target": "docs_olx_patterns_a_location_make_slugs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/olx_patterns.md",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "docs_olx_patterns_2_dynamic_url_patterns",
+      "target": "docs_olx_patterns_b_filter_parameters_filter",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/pakwheels_patterns.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "docs_pakwheels_patterns_md",
+      "target": "docs_pakwheels_patterns_pakwheels_used_car_search_url_patterns",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/pakwheels_patterns.md",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "docs_pakwheels_patterns_pakwheels_used_car_search_url_patterns",
+      "target": "docs_pakwheels_patterns_base_url_shape",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/pakwheels_patterns.md",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "docs_pakwheels_patterns_pakwheels_used_car_search_url_patterns",
+      "target": "docs_pakwheels_patterns_documented_path_segments_only_these",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/pakwheels_patterns.md",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "docs_pakwheels_patterns_pakwheels_used_car_search_url_patterns",
+      "target": "docs_pakwheels_patterns_lakh_lac_integer_pkr_for_pr_less_required",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/pakwheels_patterns.md",
+      "source_location": "L57",
+      "weight": 1.0,
+      "source": "docs_pakwheels_patterns_pakwheels_used_car_search_url_patterns",
+      "target": "docs_pakwheels_patterns_documented_query_parameters_only_these",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/pakwheels_patterns.md",
+      "source_location": "L66",
+      "weight": 1.0,
+      "source": "docs_pakwheels_patterns_pakwheels_used_car_search_url_patterns",
+      "target": "docs_pakwheels_patterns_sort_sortby_allowed_values",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/pakwheels_patterns.md",
+      "source_location": "L79",
+      "weight": 1.0,
+      "source": "docs_pakwheels_patterns_pakwheels_used_car_search_url_patterns",
+      "target": "docs_pakwheels_patterns_examples_path_only_add_https_www_pakwheels_com_and_query_as_needed",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/pakwheels_patterns.md",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "docs_pakwheels_patterns_base_url_shape",
+      "target": "docs_pakwheels_patterns_codeblock_1",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/pakwheels_patterns.md",
+      "source_location": "L37",
+      "weight": 1.0,
+      "source": "docs_pakwheels_patterns_lakh_lac_integer_pkr_for_pr_less_required",
+      "target": "docs_pakwheels_patterns_codeblock_2",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/pakwheels_patterns.md",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "docs_pakwheels_patterns_lakh_lac_integer_pkr_for_pr_less_required",
+      "target": "docs_pakwheels_patterns_examples_memorize_the_pattern",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/extraction_logic.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "docs_extraction_logic_md",
+      "target": "docs_extraction_logic_pakwheels_search_results_page_extraction_logic",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/extraction_logic.md",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "docs_extraction_logic_pakwheels_search_results_page_extraction_logic",
+      "target": "docs_extraction_logic_result_list_container",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/extraction_logic.md",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "docs_extraction_logic_pakwheels_search_results_page_extraction_logic",
+      "target": "docs_extraction_logic_per_card_fields",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/extraction_logic.md",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "docs_extraction_logic_pakwheels_search_results_page_extraction_logic",
+      "target": "docs_extraction_logic_detail_page_optional_second_fetch",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/extraction_logic.md",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "docs_extraction_logic_pakwheels_search_results_page_extraction_logic",
+      "target": "docs_extraction_logic_price_text_normalization",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "2794145c86b4c7f93d1a6ef0cb166400f89ccda2"
+}

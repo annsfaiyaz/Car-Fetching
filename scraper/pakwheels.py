@@ -94,7 +94,7 @@ def _iso(dt: datetime) -> str:
 
 def _normalize_url(href: str, base: str = "https://www.pakwheels.com") -> str:
     href = (href or "").strip()
-    if not href:
+    if not href or href.startswith("data:"):
         return ""
     if href.startswith("http"):
         return href.split("#")[0]
@@ -168,12 +168,16 @@ def _extract_card_fields(li: BeautifulSoup) -> dict[str, Any]:
 
     price_num, price_display = _parse_price_pkr(price_text)
 
-    city = "Gujranwala"
-    loc = li.select_one(".search-vehicle-info-2 li, .city-name, [class*='location']")
-    if loc:
-        loc_t = loc.get_text(strip=True)
-        if loc_t and len(loc_t) < 80:
-            city = loc_t
+    city = None
+    # .search-vehicle-info (no suffix) holds city; .search-vehicle-info-2 holds specs (year/km/transmission)
+    for _city_sel in (".search-vehicle-info li", ".city-name", "[class*='city']"):
+        _loc = li.select_one(_city_sel)
+        if _loc:
+            _loc_t = _loc.get_text(strip=True)
+            # Reject if it looks like a year, a km value, or a transmission keyword
+            if _loc_t and len(_loc_t) < 80 and not re.fullmatch(r"(19|20)\d{2}", _loc_t) and "km" not in _loc_t.lower() and _loc_t.lower() not in ("automatic", "manual"):
+                city = _loc_t
+                break
 
     blob = li.get_text("\n", strip=True)
     year = None
@@ -192,6 +196,17 @@ def _extract_card_fields(li: BeautifulSoup) -> dict[str, Any]:
             transmission = kw
             break
 
+    image_url = ""
+    for _img in li.select("img"):
+        # Prefer data-src (real lazy-loaded URL); src is usually a data: placeholder
+        _raw = _normalize_url(_img.get("data-src") or "")
+        if not _raw:
+            _raw = _normalize_url(_img.get("src") or "")
+        # Accept only valid http(s) image URLs from known image hosts; skip YouTube/data URIs
+        if _raw and _raw.startswith("http") and "youtube" not in _raw and "data:" not in _raw:
+            image_url = _raw
+            break
+
     return {
         "title": title,
         "price": price_num,
@@ -201,6 +216,7 @@ def _extract_card_fields(li: BeautifulSoup) -> dict[str, Any]:
         "transmission": transmission,
         "mileage": mileage,
         "url": href,
+        "image_url": image_url or None,
     }
 
 
@@ -272,14 +288,20 @@ def _ensure_default_sort(url: str) -> str:
 
 
 def _resolve_max_age_hours(explicit: int | None) -> int:
-    """How far back 'Updated … ago' may be to include a listing (default: env or 168h = 7d)."""
+    """How far back listing freshness may go (default: ``SCRAPE_MAX_LISTING_AGE_HOURS`` or ``PAKWHEELS_MAX_AGE_HOURS``, else 48h)."""
     if explicit is not None:
         return max(1, min(int(explicit), 8760))
-    raw = os.environ.get("PAKWHEELS_MAX_AGE_HOURS", "168").strip()
+    raw = os.environ.get("SCRAPE_MAX_LISTING_AGE_HOURS", "").strip()
+    if raw:
+        try:
+            return max(1, min(int(raw), 8760))
+        except ValueError:
+            pass
+    raw = os.environ.get("PAKWHEELS_MAX_AGE_HOURS", "48").strip()
     try:
         return max(1, min(int(raw), 8760))
     except ValueError:
-        return 168
+        return 48
 
 
 def _resolve_max_pages(explicit: int | None) -> int:
@@ -318,7 +340,7 @@ def scrape_pakwheels(
     """
     Fetch used cars from the given PakWheels search ``url`` (full browser URL).
     Keeps listings whose bump time (\"Updated … ago\") falls within ``max_age_hours``
-    (default from env ``PAKWHEELS_MAX_AGE_HOURS`` or 168 hours / 7 days).
+    (default from env ``SCRAPE_MAX_LISTING_AGE_HOURS`` / ``PAKWHEELS_MAX_AGE_HOURS``, else 48 hours).
 
     Stops when either ``max_pages`` (default 3) or ``max_listings`` (default 50) is reached.
 
@@ -434,6 +456,7 @@ def scrape_pakwheels(
                 "description": row.get("description") or "",
                 "posted_time": row.get("posted_time"),
                 "source": "pakwheels",
+                "image_url": card.get("image_url"),
             }
             results.append(clean)
             if on_listing is not None:

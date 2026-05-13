@@ -1,12 +1,13 @@
-"""Call NVIDIA NIM to turn natural language into an OLX Pakistan cars search URL."""
+"""Turn natural language into an OLX Pakistan cars search URL (multi-provider LLM)."""
 
 from __future__ import annotations
 
 import re
 from pathlib import Path
 
-from services import nim_client
+from services.feedback_repo import feedback_digest_for_query
 from services.listings_repo import norm_search_url
+from services.llm_router import chat_completion
 
 _DOCS_DIR = Path(__file__).resolve().parents[2] / "docs"
 
@@ -18,9 +19,24 @@ def _read_kb_doc(filename: str) -> str:
     return path.read_text(encoding="utf-8")
 
 
+def _read_optional_user_patterns(filename: str) -> str:
+    path = _DOCS_DIR / filename
+    if not path.is_file():
+        return ""
+    return path.read_text(encoding="utf-8").strip()
+
+
 def build_olx_expert_system_prompt() -> str:
     patterns = _read_kb_doc("olx_patterns.md")
     extraction = _read_kb_doc("olx_extraction.md")
+    user_extra = _read_optional_user_patterns("olx_patterns_user.md")
+    optional_block = ""
+    if user_extra:
+        optional_block = (
+            "\n\n### Optional overrides (docs/olx_patterns_user.md)\n\n"
+            + user_extra
+            + "\n"
+        )
 
     return f"""You are an **OLX Pakistan (Cars)** Search Expert. Translate car-buying requests into **one valid** OLX **cars** search URL (`cars_c84`).
 
@@ -29,7 +45,7 @@ def build_olx_expert_system_prompt() -> str:
 ### olx_patterns.md
 
 {patterns}
-
+{optional_block}
 ### olx_extraction.md
 
 {extraction}
@@ -70,27 +86,26 @@ async def suggest_olx_search_url(
     ai_prompt: str | None,
     model_override: str | None,
 ) -> tuple[str, str, str]:
-    """
-    Returns (normalized_url, raw_assistant_text, model_used).
-    """
-    model = nim_client.get_model(model_override)
-
     system = build_olx_expert_system_prompt()
     extra = (ai_prompt or "").strip()
     if extra:
         system = system + "\n\n## Additional user instructions\n\n" + extra
+
+    fd = await feedback_digest_for_query(user_query)
+    if fd:
+        system += "\n\n## Past negative relevance\n\n" + fd
 
     user_msg = (
         "Build the OLX Pakistan cars search URL that best matches this intent:\n\n"
         + user_query.strip()
     )
 
-    content = await nim_client.chat(
-        messages=[
+    content, model_used, provider = await chat_completion(
+        [
             {"role": "system", "content": system},
             {"role": "user", "content": user_msg},
         ],
-        model=model,
+        model_override=model_override,
     )
 
     raw_url = extract_olx_search_url(content)
@@ -105,4 +120,4 @@ async def suggest_olx_search_url(
     if "olx.com.pk" not in low:
         raise ValueError("Parsed URL does not look like OLX Pakistan")
 
-    return normalized, content, model
+    return normalized, content, f"{model_used}@{provider}"

@@ -5,10 +5,8 @@ from __future__ import annotations
 import asyncio
 import logging
 import os
-import sys
 import traceback
 from datetime import datetime, timezone
-from pathlib import Path
 from queue import SimpleQueue
 from typing import Literal
 
@@ -16,12 +14,14 @@ import httpx
 from fastapi import APIRouter, HTTPException, Query, WebSocket, WebSocketDisconnect
 from pydantic import BaseModel, Field, field_validator
 
+from services import settings_repo
 from services.listings_repo import (
     count_listings,
     fetch_all_listings,
     get_sync_meta,
     listing_dict_json_safe,
     norm_search_url,
+    set_listing_spam,
     set_sync_error,
     set_sync_success,
     upsert_one_listing,
@@ -29,6 +29,9 @@ from services.listings_repo import (
 from services.ollama_chat import build_listings_snapshot, chat_with_listings_context
 from services.ollama_olx import suggest_olx_search_url
 from services.ollama_pakwheels import suggest_pakwheels_search_url
+from services.scrape_olx import scrape_olx
+from services.scrape_pakwheels import resolve_max_pages, scrape_pakwheels
+from services.search_sessions_repo import get_open_ai_session
 
 router = APIRouter(prefix="/api/pakwheels", tags=["pakwheels"])
 
@@ -57,11 +60,17 @@ def _effective_max_age_hours(requested: int | None) -> int:
     """Must match scraper `pakwheels._resolve_max_age_hours` semantics."""
     if requested is not None:
         return max(1, min(int(requested), 8760))
-    raw = os.environ.get("PAKWHEELS_MAX_AGE_HOURS", "168").strip()
+    raw = os.environ.get("SCRAPE_MAX_LISTING_AGE_HOURS", "").strip()
+    if raw:
+        try:
+            return max(1, min(int(raw), 8760))
+        except ValueError:
+            pass
+    raw = os.environ.get("PAKWHEELS_MAX_AGE_HOURS", "48").strip()
     try:
         return max(1, min(int(raw), 8760))
     except ValueError:
-        return 168
+        return 48
 
 
 def scrape_hints(url: str, scraped_count: int, max_age_hours: int) -> list[str]:
@@ -76,8 +85,7 @@ def scrape_hints(url: str, scraped_count: int, max_age_hours: int) -> list[str]:
     if scraped_count == 0:
         hints.append(
             f"Scraper collected 0 listings newer than {max_age_hours}h for this search. "
-            "Try a larger window (e.g. 7 days), fix the price segment above, or confirm PakWheels shows "
-            '"Updated … ago" on listings — see terminal logs "PakWheels page 1 summary".'
+            'Try widening the age window in settings or env, fix URL filters, or check logs for "page 1 summary".'
         )
     return hints
 
@@ -140,35 +148,6 @@ class SuggestUrlBody(BaseModel):
     )
 
 
-def _scraper_module():
-    """Import scraper from `car-fetching/scraper/` (sibling of `backend/`)."""
-    routes_dir = Path(__file__).resolve().parent
-    backend_dir = routes_dir.parent
-    project_root = backend_dir.parent
-    scraper_dir = project_root / "scraper"
-    if not (scraper_dir / "pakwheels.py").is_file():
-        raise RuntimeError(f"Scraper not found at {scraper_dir / 'pakwheels.py'}")
-    if str(scraper_dir) not in sys.path:
-        sys.path.insert(0, str(scraper_dir))
-    import pakwheels as pw  # noqa: PLC0415 — dynamic path before import
-
-    return pw
-
-
-def _olx_scraper_module():
-    routes_dir = Path(__file__).resolve().parent
-    backend_dir = routes_dir.parent
-    project_root = backend_dir.parent
-    scraper_dir = project_root / "scraper"
-    if not (scraper_dir / "olx.py").is_file():
-        raise RuntimeError(f"OLX scraper not found at {scraper_dir / 'olx.py'}")
-    if str(scraper_dir) not in sys.path:
-        sys.path.insert(0, str(scraper_dir))
-    import olx as ox  # noqa: PLC0415
-
-    return ox
-
-
 @router.post("/suggest-url")
 async def suggest_pakwheels_url_endpoint(body: SuggestUrlBody):
     """Ask Ollama to produce PakWheels + OLX Pakistan cars search URLs from plain-language intent."""
@@ -186,15 +165,12 @@ async def suggest_pakwheels_url_endpoint(body: SuggestUrlBody):
     except httpx.ConnectError as e:
         raise HTTPException(
             status_code=503,
-            detail=(
-                "Cannot connect to Ollama. Install Ollama, run `ollama serve`, pull a model "
-                "(e.g. `ollama pull llama3.2`), then retry. Optional env: OLLAMA_BASE_URL, OLLAMA_MODEL."
-            ),
+            detail="Cannot reach LLM provider. Configure API keys under Settings or check network.",
         ) from e
     except httpx.TimeoutException as e:
         raise HTTPException(
             status_code=504,
-            detail="Ollama request timed out. Try a smaller/faster model or increase OLLAMA_TIMEOUT_SEC.",
+            detail="LLM request timed out.",
         ) from e
     except httpx.HTTPStatusError as e:
         body_txt = ""
@@ -204,8 +180,10 @@ async def suggest_pakwheels_url_endpoint(body: SuggestUrlBody):
             body_txt = ""
         raise HTTPException(
             status_code=502,
-            detail=f"Ollama returned HTTP {e.response.status_code}. {body_txt}".strip(),
+            detail=f"LLM HTTP {e.response.status_code}. {body_txt}".strip(),
         ) from e
+    except RuntimeError as e:
+        raise HTTPException(status_code=503, detail=str(e)) from e
     except ValueError as e:
         raise HTTPException(status_code=422, detail=str(e)) from e
 
@@ -254,15 +232,12 @@ async def chat_with_database(body: ChatBody):
     except httpx.ConnectError as e:
         raise HTTPException(
             status_code=503,
-            detail=(
-                "Cannot connect to Ollama. Run `ollama serve` and ensure a model is pulled "
-                "(e.g. `ollama pull llama3.2`). Optional: OLLAMA_BASE_URL, OLLAMA_CHAT_MODEL."
-            ),
+            detail="Cannot reach LLM provider. Check API keys in Settings or network.",
         ) from e
     except httpx.TimeoutException as e:
         raise HTTPException(
             status_code=504,
-            detail="Ollama chat timed out. Try OLLAMA_CHAT_TIMEOUT_SEC or a smaller snapshot (OLLAMA_CHAT_MAX_LISTINGS).",
+            detail="LLM request timed out. Try a smaller snapshot (OLLAMA_CHAT_MAX_LISTINGS).",
         ) from e
     except httpx.HTTPStatusError as e:
         body_txt = ""
@@ -272,8 +247,10 @@ async def chat_with_database(body: ChatBody):
             body_txt = ""
         raise HTTPException(
             status_code=502,
-            detail=f"Ollama returned HTTP {e.response.status_code}. {body_txt}".strip(),
+            detail=f"LLM HTTP {e.response.status_code}. {body_txt}".strip(),
         ) from e
+    except RuntimeError as e:
+        raise HTTPException(status_code=503, detail=str(e)) from e
     except ValueError as e:
         raise HTTPException(status_code=422, detail=str(e)) from e
 
@@ -295,6 +272,17 @@ async def chat_with_database(body: ChatBody):
     }
 
 
+@router.get("/stats/summary")
+async def stats_summary():
+    meta = await get_sync_meta()
+    total = await count_listings()
+    return {
+        "total_listings": total,
+        "synced_at": _iso_meta(meta.get("at")),
+        "last_error": meta.get("last_error"),
+    }
+
+
 @router.get("/listings")
 async def get_listings(
     search_url: str | None = Query(
@@ -305,22 +293,64 @@ async def get_listings(
         None,
         description="Optional OLX search URL filter (normalized). With search_url, returns rows matching either.",
     ),
+    tab: str | None = Query(
+        None,
+        description="existing = promoted inventory; ai = current AI session; all = no session filter",
+    ),
+    ai_session_id: int | None = Query(None),
+    include_spam: bool = Query(False),
+    limit: int | None = Query(
+        None,
+        ge=1,
+        le=500,
+        description="Optional cap on rows returned (most recent first).",
+    ),
 ):
     meta = await get_sync_meta()
     pw = norm_search_url(search_url) if search_url and search_url.strip() else None
     ox = norm_search_url(olx_search_url) if olx_search_url and olx_search_url.strip() else None
 
+    existing_only = tab == "existing"
+    # tab=all → return every item matching the URLs, regardless of which session scraped it
+    url_only_mode = tab == "all"
+    sess_id = ai_session_id
+    if tab == "ai" and sess_id is None:
+        open_s = await get_open_ai_session()
+        sess_id = open_s.id if open_s else None
+
+    if tab == "ai" and sess_id is None:
+        total = await count_listings()
+        return {
+            "items": [],
+            "count": 0,
+            "total_in_db": total,
+            "filtered_by_search_url": bool(pw or ox),
+            "synced_at": _iso_meta(meta.get("at")),
+            "last_error": meta.get("last_error"),
+            "tab": tab,
+            "ai_session_id_resolved": None,
+        }
+
+    kw: dict = {"hide_spam": not include_spam, "include_hidden": False}
+    if limit is not None:
+        kw["limit"] = limit
+    if not url_only_mode:
+        if existing_only:
+            kw["existing_only"] = True
+        elif tab == "ai" and sess_id is not None:
+            kw["ai_session_id"] = sess_id
+
     if pw and ox:
-        items = await fetch_all_listings(search_urls=[pw, ox])
+        items = await fetch_all_listings(search_urls=[pw, ox], **kw)
         filtered = True
     elif pw:
-        items = await fetch_all_listings(search_url=pw)
+        items = await fetch_all_listings(search_url=pw, **kw)
         filtered = True
     elif ox:
-        items = await fetch_all_listings(search_url=ox)
+        items = await fetch_all_listings(search_url=ox, **kw)
         filtered = True
     else:
-        items = await fetch_all_listings()
+        items = await fetch_all_listings(**kw)
         filtered = False
 
     total = await count_listings()
@@ -331,26 +361,28 @@ async def get_listings(
         "filtered_by_search_url": filtered,
         "synced_at": _iso_meta(meta.get("at")),
         "last_error": meta.get("last_error"),
+        "tab": tab,
+        "ai_session_id_resolved": sess_id,
     }
 
 
-def _stream_max_listings(cfg: dict) -> int:
+async def _resolve_stream_cap(cfg: dict) -> int:
     raw = cfg.get("max_listings")
     if raw is not None:
         try:
             return max(1, min(int(raw), 500))
         except (TypeError, ValueError):
             pass
-    env = os.environ.get("PAKWHEELS_STREAM_MAX_LISTINGS", "25").strip()
+    dbv = await settings_repo.get_setting("scrape.max_listings", 25)
     try:
-        return max(1, min(int(env), 500))
-    except ValueError:
+        return max(1, min(int(dbv), 500))
+    except (TypeError, ValueError):
         return 25
 
 
 @router.websocket("/ws/scrape")
 async def scrape_stream_ws(websocket: WebSocket):
-    """Stream scraped listings as each row is persisted (PakWheels + optional OLX)."""
+    """Stream scraped listings as each row is persisted (primary + optional secondary marketplace)."""
     await websocket.accept()
     try:
         cfg = await websocket.receive_json()
@@ -365,7 +397,7 @@ async def scrape_stream_ws(websocket: WebSocket):
     low = url.lower()
     if "pakwheels.com" not in low or "/used-cars" not in low:
         await websocket.send_json(
-            {"type": "error", "message": "URL must be a PakWheels used-cars search URL"},
+            {"type": "error", "message": "Primary URL must be a supported used-cars search link."},
         )
         await websocket.close(code=4400)
         return
@@ -374,7 +406,9 @@ async def scrape_stream_ws(websocket: WebSocket):
     if olx_u:
         ox_low = olx_u.lower()
         if "olx.com.pk" not in ox_low:
-            await websocket.send_json({"type": "error", "message": "olx_url must be on olx.com.pk"})
+            await websocket.send_json(
+                {"type": "error", "message": "Secondary URL must be a supported cars search link."},
+            )
             await websocket.close(code=4400)
             return
 
@@ -382,22 +416,38 @@ async def scrape_stream_ws(websocket: WebSocket):
     if sync_origin not in ("ai", "url"):
         sync_origin = "url"
 
-    cap = _stream_max_listings(cfg)
+    ai_sid = cfg.get("ai_session_id")
+    if ai_sid is not None:
+        try:
+            ai_sid = int(ai_sid)
+        except (TypeError, ValueError):
+            ai_sid = None
+
+    cap = await _resolve_stream_cap(cfg)
     max_age_req = cfg.get("max_age_hours")
+    if max_age_req is None:
+        sag = await settings_repo.get_setting("scrape.max_age_hours", None)
+        if sag is not None:
+            try:
+                max_age_req = max(1, min(int(sag), 8760))
+            except (TypeError, ValueError):
+                max_age_req = None
     if max_age_req is not None:
         try:
             max_age_req = max(1, min(int(max_age_req), 8760))
         except (TypeError, ValueError):
             max_age_req = None
 
+    mp = cfg.get("max_pages")
+    if mp is None:
+        mp = await settings_repo.get_setting("scrape.max_pages", 3)
+    eff_pages = resolve_max_pages(mp)
+    olx_pages = min(eff_pages, 5)
+
     cap_pw = max(1, cap // 2) if olx_u else cap
     cap_ox = (cap - cap_pw) if olx_u else 0
 
     async with _lock:
-        pw = _scraper_module()
-        ox = _olx_scraper_module() if olx_u and cap_ox > 0 else None
-        eff_pages = pw._resolve_max_pages(cfg.get("max_pages"))
-        olx_pages = min(eff_pages, 5)
         q: SimpleQueue = SimpleQueue()
         err: list[BaseException | None] = [None]
 
@@ -407,7 +457,7 @@ async def scrape_stream_ws(websocket: WebSocket):
                 def cb(clean: dict) -> None:
                     q.put(clean)
 
-                pw.scrape_pakwheels(
+                scrape_pakwheels(
                     url,
                     max_age_hours=max_age_req,
                     max_pages=eff_pages,
@@ -415,11 +465,12 @@ async def scrape_stream_ws(websocket: WebSocket):
                     on_listing=cb,
                 )
 
-                if ox is not None and cap_ox > 0:
-                    ox.scrape_olx(
+                if olx_u and cap_ox > 0:
+                    scrape_olx(
                         olx_u,
                         max_pages=olx_pages,
                         max_listings=cap_ox,
+                        max_age_hours=max_age_req,
                         on_listing=cb,
                     )
             except BaseException as exc:
@@ -453,11 +504,31 @@ async def scrape_stream_ws(websocket: WebSocket):
                     break
                 idx += 1
                 src_key = norm_search_url(olx_u) if clean.get("source") == "olx" else norm_search_url(url)
-                _, kind = await upsert_one_listing(
+                row_dict, kind = await upsert_one_listing(
                     clean,
                     src_key,
                     search_origin=sync_origin,
+                    ai_session_id=ai_sid,
                 )
+                if os.environ.get("ENRICH_ON_SCRAPE", "").lower() in ("1", "true", "yes"):
+                    from services.enrichment_worker import schedule_enrichment
+
+                    schedule_enrichment(int(row_dict["id"]), row_dict)
+                if os.environ.get("SPAM_AI_ON_SCRAPE", "").lower() in ("1", "true", "yes"):
+                    from services.spam_ai import score_listing
+
+                    rid = int(row_dict["id"])
+
+                    async def _spam_row() -> None:
+                        _, sp, rs = await score_listing(
+                            str(row_dict.get("title") or ""),
+                            row_dict.get("price"),
+                            str(row_dict.get("url") or ""),
+                        )
+                        await set_listing_spam(rid, is_spam=sp, reason=rs)
+
+                    asyncio.create_task(_spam_row())
+
                 if clean.get("source") == "olx":
                     olx_saved += 1
                 else:
@@ -490,15 +561,21 @@ async def scrape_stream_ws(websocket: WebSocket):
         await set_sync_success(now)
         meta = await get_sync_meta()
         total = await count_listings()
+        kw_fetch: dict = {}
+        if ai_sid is not None:
+            kw_fetch["ai_session_id"] = ai_sid
         if olx_u:
-            items = await fetch_all_listings(search_urls=[norm_search_url(url), norm_search_url(olx_u)])
+            items = await fetch_all_listings(
+                search_urls=[norm_search_url(url), norm_search_url(olx_u)],
+                **kw_fetch,
+            )
         else:
-            items = await fetch_all_listings(search_url=norm_search_url(url))
+            items = await fetch_all_listings(search_url=norm_search_url(url), **kw_fetch)
         eff_hours = _effective_max_age_hours(max_age_req)
         hints = scrape_hints(url, pw_saved, eff_hours)
         if olx_u and cap_ox > 0 and olx_saved == 0:
             hints.append(
-                "OLX returned no listings this run — verify the OLX URL opens in a browser or check server logs for OLX.",
+                "Secondary marketplace returned no listings this run — verify the URL in a browser or check server logs.",
             )
 
         done_payload: dict = {
@@ -520,6 +597,7 @@ async def scrape_stream_ws(websocket: WebSocket):
             "sync_origin_used": sync_origin,
             "search_url_used": url,
             "filtered_by_search_url": True,
+            "ai_session_id": ai_sid,
         }
         if olx_u:
             done_payload["olx_search_url_used"] = olx_u

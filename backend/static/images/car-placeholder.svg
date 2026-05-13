@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-hidden="true">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e2e8f0"/>
+      <stop offset="55%" stop-color="#cbd5e1"/>
+      <stop offset="100%" stop-color="#fde68a"/>
+    </linearGradient>
+    <filter id="soft" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+    <linearGradient id="car" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#94a3b8"/>
+      <stop offset="100%" stop-color="#64748b"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <ellipse cx="400" cy="300" rx="340" ry="90" fill="#64748b" opacity="0.22" filter="url(#soft)"/>
+  <g opacity="0.55">
+    <path fill="url(#car)" d="M160 258h480l-36-52h-72l-44-36H312l-48 36h-68z"/>
+    <ellipse cx="248" cy="268" rx="34" ry="34" fill="#475569"/>
+    <ellipse cx="552" cy="268" rx="34" ry="34" fill="#475569"/>
+    <rect x="320" y="188" width="160" height="28" rx="6" fill="#94a3b8"/>
+  </g>
+</svg>

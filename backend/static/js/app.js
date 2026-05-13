@@ -5,6 +5,7 @@
   const LS_OLX_URL = "pakwheels_olx_search_url";
   const LS_NL_QUERY = "pakwheels_nl_query";
   const LS_THEME = "pakwheels_theme";
+  const LISTING_IMAGE_PLACEHOLDER = "/static/images/car-placeholder.svg";
 
   const CHAT_WELCOME =
     "Ask about your saved listings (prices, cities, comparisons) or general used-car topics in Pakistan. Listing details come from your database snapshot when you send a message.";
@@ -15,6 +16,8 @@
   /** Current page (1-based) for the listing grid; PAGE_SIZE cards per page. */
   let listingPage = 1;
   const PAGE_SIZE = 10;
+  let currentResultsTab = localStorage.getItem("wheelwise_results_tab") || "existing";
+  let currentAiSessionId = null;
 
   const STREAM_MAX_DEFAULT = 25;
 
@@ -31,7 +34,7 @@
       "rounded-lg px-3 py-2 text-sm leading-snug whitespace-pre-wrap break-words " +
       (role === "user"
         ? "border border-amber-400/35 bg-amber-500/15 dark:border-amber-400/35"
-        : "border border-slate-200 bg-slate-50 dark:border-slate-600 dark:bg-slate-900");
+        : "border border-slate-200 bg-slate-50 dark:border-zinc-700 dark:bg-zinc-900");
     bubble.textContent = text;
     wrap.appendChild(bubble);
     box.appendChild(wrap);
@@ -108,8 +111,27 @@
     const params = new URLSearchParams();
     if (u) params.set("search_url", u);
     if (ox) params.set("olx_search_url", ox);
+    const tabForApi = currentResultsTab === "news" ? "existing" : currentResultsTab;
+    params.set("tab", tabForApi);
+    if (currentResultsTab === "ai" && currentAiSessionId != null) {
+      params.set("ai_session_id", String(currentAiSessionId));
+    }
     const qs = params.toString();
-    return qs ? "?" + qs : "";
+    return "?" + qs;
+  }
+
+  // Builds a query that fetches ALL items matching the stored URLs,
+  // with NO session/tab filter — used for cache hits so every user
+  // sees the same data regardless of which session originally scraped it.
+  function urlOnlyQuery() {
+    const u = $("platform-url").value.trim();
+    const ox = $("olx-url").value.trim();
+    const params = new URLSearchParams();
+    if (u) params.set("search_url", u);
+    if (ox) params.set("olx_search_url", ox);
+    // tab=all → backend skips existing_only and ai_session filters
+    params.set("tab", "all");
+    return "?" + params.toString();
   }
 
   function setScrapeOverlayProgress(message, progress) {
@@ -121,7 +143,7 @@
     }
   }
 
-  function runStreamingScrape(syncOrigin) {
+  function runStreamingScrape(syncOrigin, aiSessionId) {
     const url = $("platform-url").value.trim();
     const olxUrl = $("olx-url").value.trim();
     localStorage.setItem(LS_PLATFORM_URL, url);
@@ -146,6 +168,7 @@
           max_listings: STREAM_MAX_DEFAULT,
         };
         if (olxUrl) payload.olx_url = olxUrl;
+        if (aiSessionId != null) payload.ai_session_id = aiSessionId;
         ws.send(JSON.stringify(payload));
         setScrapeOverlayProgress("Connecting…", 0);
       };
@@ -219,16 +242,33 @@
 
   function defaultEmptyHtml() {
     return (
-      "<h3 class=\"mb-2 text-lg font-semibold text-slate-800 dark:text-slate-100\">No listings yet</h3>" +
-      "<p class=\"text-slate-600 dark:text-slate-400\">Type what you want in the bar above and press <strong>Enter</strong>. " +
-      "We fetch matching listings from <strong>PakWheels</strong> and <strong>OLX</strong> into SQLite.</p>"
+      "<h3 class=\"mb-2 text-lg font-semibold text-slate-800 dark:text-zinc-100\">No listings yet</h3>" +
+      "<p class=\"text-slate-600 dark:text-zinc-400\">Type what you want in the bar above and press <strong>Enter</strong>. " +
+      "We plan searches and cache matching listings from supported marketplaces.</p>"
     );
+  }
+
+  function showHomeEmptyState() {
+    const empty = $("empty");
+    const grid = $("grid");
+    if (empty) {
+      empty.innerHTML =
+        "<h3 class=\"mb-3 text-xl font-bold text-slate-800 dark:text-zinc-100\">Your search starts here</h3>" +
+        "<p class=\"text-slate-600 dark:text-zinc-400\">Describe the car you want above and press <strong>Enter</strong>. " +
+        "We search PakWheels &amp; OLX, cache the results, and show them instantly on your next visit.</p>";
+      empty.classList.remove("hidden");
+    }
+    if (grid) grid.innerHTML = "";
+    updateListingSearchVisibility();
+    hidePaginationBar();
+    const countEl = $("count-display");
+    if (countEl) countEl.textContent = "0 listings";
   }
 
   function filterMismatchHtml() {
     return (
-      "<h3 class=\"mb-2 text-lg font-semibold text-slate-800 dark:text-slate-100\">No rows for this search</h3>" +
-      "<p class=\"text-slate-600 dark:text-slate-400\">Your saved URL filter doesn’t match anything in the DB. Run a new search or clear site data for this page and reload to browse all listings.</p>"
+      "<h3 class=\"mb-2 text-lg font-semibold text-slate-800 dark:text-zinc-100\">No rows for this search</h3>" +
+      "<p class=\"text-slate-600 dark:text-zinc-400\">Your saved URL filter doesn’t match anything in the database. Run a new search or clear site data for this page and reload to browse all listings.</p>"
     );
   }
 
@@ -255,11 +295,23 @@
     }
   }
 
-  function formatPostedTime(val) {
+  function relativeTime(val) {
     if (!val) return "";
-    // If it looks like an ISO timestamp, convert it to a readable format
-    if (/^\d{4}-\d{2}-\d{2}T/.test(val)) return formatSyncLabel(val);
-    return val;
+    // If already a human string (e.g. "1 day ago" from PakWheels), return as-is
+    if (!/^\d{4}-\d{2}-\d{2}T/.test(String(val))) return val;
+    try {
+      const diff = Math.floor((Date.now() - new Date(val)) / 1000); // seconds
+      if (diff < 60) return "just now";
+      if (diff < 3600) { const m = Math.floor(diff / 60); return m + " min" + (m !== 1 ? "s" : "") + " ago"; }
+      if (diff < 86400) { const h = Math.floor(diff / 3600); return h + " hour" + (h !== 1 ? "s" : "") + " ago"; }
+      if (diff < 86400 * 30) { const d = Math.floor(diff / 86400); return d + " day" + (d !== 1 ? "s" : "") + " ago"; }
+      if (diff < 86400 * 365) { const mo = Math.floor(diff / (86400 * 30)); return mo + " month" + (mo !== 1 ? "s" : "") + " ago"; }
+      return formatSyncLabel(val);
+    } catch { return ""; }
+  }
+
+  function formatPostedTime(car) {
+    return relativeTime(car.posted_time) || relativeTime(car.created_at) || "";
   }
 
   function searchOriginClasses(car) {
@@ -280,18 +332,16 @@
     return "Legacy";
   }
 
-  function platformSourceClasses(car) {
-    return (car.source || "pakwheels") === "olx"
-      ? "border border-teal-500/45 bg-teal-500/15 font-semibold text-teal-900 dark:text-teal-200"
-      : "border border-amber-500/45 bg-amber-500/15 font-semibold text-amber-950 dark:text-amber-100";
+  function listingDetailHref(car) {
+    if (car.has_internal_detail === true || car.has_internal_detail === "true") {
+      return "/api/listings/" + encodeURIComponent(String(car.id)) + "/html";
+    }
+    const u = car.url || "";
+    return u || "#";
   }
 
-  function platformSourceLabel(car) {
-    return (car.source || "pakwheels") === "olx" ? "OLX" : "PakWheels";
-  }
-
-  function listingOutboundLabel(car) {
-    return (car.source || "pakwheels") === "olx" ? "Open on OLX →" : "Open on PakWheels →";
+  function listingDetailExternal(car) {
+    return !(car.has_internal_detail === true || car.has_internal_detail === "true");
   }
 
   function matchesQuery(car, q) {
@@ -358,15 +408,16 @@
 
     const searchEl = $("search");
     const q = searchEl ? searchEl.value.trim().toLowerCase() : "";
-    const filtered = allItems.filter((c) => matchesQuery(c, q));
+    const filtered = allItems
+      .filter((c) => matchesQuery(c, q))
+      .sort((a, b) => {
+        const ta = a.created_at || a.posted_time || "";
+        const tb = b.created_at || b.posted_time || "";
+        return tb.localeCompare(ta);
+      });
 
-    const totalDb = lastMeta.total_in_db != null ? lastMeta.total_in_db : allItems.length;
-    const pu = $("platform-url").value.trim();
-    if (pu && lastMeta.filtered_by_search_url) {
-      $("count-display").textContent = allItems.length + " shown · " + totalDb + " total in DB";
-    } else {
-      $("count-display").textContent = allItems.length + " listings in database";
-    }
+    const countEl = $("count-display");
+    if (countEl) countEl.textContent = allItems.length + " listing" + (allItems.length !== 1 ? "s" : "");
     const fb = $("filter-badge");
     if (fb) fb.classList.toggle("hidden", !q);
 
@@ -378,7 +429,7 @@
       hidePaginationBar();
       empty.classList.remove("hidden");
       empty.innerHTML =
-        totalDb > 0 && lastMeta.filtered_by_search_url ? filterMismatchHtml() : defaultEmptyHtml();
+        lastMeta.total_in_db > 0 && lastMeta.filtered_by_search_url ? filterMismatchHtml() : defaultEmptyHtml();
       return;
     }
 
@@ -394,21 +445,32 @@
     grid.innerHTML = pageSlice
       .map(
         (car) => `
-      <article class="flex flex-col gap-2 rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900/60">
-        <h2 class="text-base font-semibold leading-snug text-slate-900 dark:text-slate-100">${escapeHtml(car.title || "Untitled")}</h2>
+      <article class="flex flex-col gap-2 rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-zinc-800/80 dark:bg-zinc-900">
+        ${listingCardImageHtml(car)}
+        <h2 class="line-clamp-2 text-base font-semibold leading-snug text-slate-900 dark:text-zinc-100">${escapeHtml(car.title || "Untitled")}</h2>
         <div class="text-lg font-bold text-amber-600 dark:text-amber-400">${formatPrice(car.price)}</div>
         <div class="flex flex-wrap gap-1.5">
-          <span class="rounded-md px-2 py-0.5 text-[0.72rem] ${platformSourceClasses(car)}" title="Marketplace">${escapeHtml(platformSourceLabel(car))}</span>
-          <span class="rounded-md px-2 py-0.5 text-[0.72rem] font-medium ${searchOriginClasses(car)}">${escapeHtml(searchOriginLabel(car))}</span>
-          <span class="rounded-md bg-slate-100 px-2 py-0.5 text-[0.72rem] text-slate-600 dark:bg-slate-800 dark:text-slate-400">${escapeHtml(String(car.city || "—"))}</span>
-          <span class="rounded-md bg-slate-100 px-2 py-0.5 text-[0.72rem] text-slate-600 dark:bg-slate-800 dark:text-slate-400">${car.model_year != null ? escapeHtml(String(car.model_year)) : "—"}</span>
-          <span class="rounded-md bg-slate-100 px-2 py-0.5 text-[0.72rem] text-slate-600 dark:bg-slate-800 dark:text-slate-400">${escapeHtml(car.transmission || "—")}</span>
-          <span class="rounded-md bg-slate-100 px-2 py-0.5 text-[0.72rem] text-slate-600 dark:bg-slate-800 dark:text-slate-400">${car.mileage != null ? escapeHtml(String(car.mileage).replace(/\B(?=(\d{3})+(?!\d))/g, ",")) + " km" : "—"}</span>
+          ${(car.source || "").toLowerCase().includes("olx")
+            ? `<span class="rounded-md bg-blue-500/15 px-2 py-0.5 text-[0.72rem] font-semibold text-blue-700 dark:text-blue-300">OLX</span>`
+            : `<span class="rounded-md bg-amber-500/15 px-2 py-0.5 text-[0.72rem] font-semibold text-amber-800 dark:text-amber-300">PakWheels</span>`}
+          ${car.city ? `<span class="rounded-md bg-sky-500/15 px-2 py-0.5 text-[0.72rem] text-sky-700 dark:text-sky-300">📍 ${escapeHtml(car.city)}</span>` : ""}
+          ${car.model_year != null ? `<span class="rounded-md bg-violet-500/15 px-2 py-0.5 text-[0.72rem] text-violet-700 dark:text-violet-300">🗓 ${escapeHtml(String(car.model_year))}</span>` : ""}
+          ${car.transmission ? `<span class="rounded-md bg-emerald-500/15 px-2 py-0.5 text-[0.72rem] text-emerald-700 dark:text-emerald-300">⚙ ${escapeHtml(car.transmission)}</span>` : ""}
+          ${car.mileage != null ? `<span class="rounded-md bg-zinc-100 px-2 py-0.5 text-[0.72rem] text-zinc-600 dark:bg-zinc-700/50 dark:text-zinc-300">🛣 ${escapeHtml(String(car.mileage).replace(/\B(?=(\d{3})+(?!\d))/g, ","))} km</span>` : ""}
         </div>
-        ${car.description ? `<p class="line-clamp-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400">${escapeHtml(car.description)}</p>` : ""}
-        <div class="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-3 text-xs text-slate-500 dark:border-slate-700 dark:text-slate-500">
-          <span>${escapeHtml(formatPostedTime(car.posted_time))}</span>
-          <a class="font-semibold text-amber-600 hover:underline dark:text-amber-400" href="${escapeAttr(car.url || "#")}" target="_blank" rel="noopener noreferrer">${escapeHtml(listingOutboundLabel(car))}</a>
+        ${car.description ? `<p class="line-clamp-2 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">${escapeHtml(car.description)}</p>` : ""}
+        ${
+          car.ai_market_price_note || car.ai_fuel_avg_note
+            ? `<div class="rounded-lg border border-amber-500/25 bg-amber-500/10 px-2 py-1.5 text-xs text-slate-700 dark:text-zinc-200">
+          ${car.enrichment_status === "pending" ? "<p class=\"text-amber-700 dark:text-amber-300\">AI insights loading…</p>" : ""}
+          ${car.ai_market_price_note ? `<p><strong>AI market:</strong> ${escapeHtml(car.ai_market_price_note)}</p>` : ""}
+          ${car.ai_fuel_avg_note ? `<p><strong>AI fuel:</strong> ${escapeHtml(car.ai_fuel_avg_note)}</p>` : ""}
+        </div>`
+            : ""
+        }
+        <div class="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-3 text-xs text-slate-500 dark:border-zinc-800 dark:text-zinc-500">
+          <span>${escapeHtml(formatPostedTime(car))}</span>
+          <a class="font-semibold text-amber-600 hover:underline dark:text-amber-400" href="${escapeAttr(listingDetailHref(car))}" ${listingDetailExternal(car) ? 'target="_blank" rel="noopener noreferrer"' : ""}>View details</a>
         </div>
       </article>
     `
@@ -417,7 +479,7 @@
 
     if (filtered.length === 0 && q) {
       grid.innerHTML =
-        '<div class="col-span-full rounded-xl border border-dashed border-slate-300 p-8 text-center dark:border-slate-600"><h3 class="mb-1 font-semibold text-slate-800 dark:text-slate-200">No matches</h3><p class="text-sm text-slate-600 dark:text-slate-400">Try another keyword.</p></div>';
+        '<div class="col-span-full rounded-xl border border-dashed border-slate-300 p-8 text-center dark:border-zinc-700"><h3 class="mb-1 font-semibold text-slate-800 dark:text-zinc-100">No matches</h3><p class="text-sm text-slate-600 dark:text-zinc-400">Try another keyword.</p></div>';
       hidePaginationBar();
       return;
     }
@@ -437,6 +499,21 @@
     return escapeHtml(s).replace(/'/g, "&#39;");
   }
 
+  function listingCardImageHtml(car) {
+    const raw = String(car.image_url || "").trim();
+    let src = LISTING_IMAGE_PLACEHOLDER;
+    if (raw) {
+      // Route PakWheels images through the backend proxy to bypass hotlink protection
+      try {
+        const host = new URL(raw).hostname;
+        src = host.includes("pakwheels.com")
+          ? escapeAttr("/api/img-proxy?url=" + encodeURIComponent(raw))
+          : escapeAttr(raw);
+      } catch { src = escapeAttr(raw); }
+    }
+    return `<div class="-mx-4 -mt-4 mb-3 overflow-hidden rounded-t-xl"><div class="relative h-80 w-full bg-slate-100 dark:bg-zinc-800"><img src="${src}" alt="" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${LISTING_IMAGE_PLACEHOLDER}'"/></div></div>`;
+  }
+
   function showToastSuccess(msg) {
     const el = $("toast-success");
     el.textContent = msg;
@@ -452,7 +529,7 @@
   }
 
   async function loadCached() {
-    const r = await fetch("/api/pakwheels/listings" + platformUrlQuery());
+    const r = await fetch("/api/pakwheels/listings" + urlOnlyQuery());
     if (!r.ok) throw new Error("Failed to load listings");
     const data = await r.json();
     allItems = data.items || [];
@@ -460,8 +537,6 @@
       total_in_db: data.total_in_db != null ? data.total_in_db : data.count,
       filtered_by_search_url: !!data.filtered_by_search_url,
     };
-    $("sync-display").textContent = "Last scrape saved: " + formatSyncLabel(data.synced_at);
-    $("sync-stats").textContent = "";
     const errEl = $("toast-error");
     if (data.last_error) {
       errEl.textContent = data.last_error;
@@ -475,21 +550,14 @@
 
   function applyResyncResponse(data) {
     allItems = data.items || [];
+    if (data.ai_session_id != null) currentAiSessionId = data.ai_session_id;
     lastMeta = {
       total_in_db: data.total_in_db != null ? data.total_in_db : data.count,
       filtered_by_search_url: !!data.filtered_by_search_url,
     };
-    $("sync-display").textContent = "Last scrape saved: " + formatSyncLabel(data.synced_at);
     const ws = data.write_stats;
-    const win = data.max_age_hours_used != null ? ` · window ${data.max_age_hours_used}h` : "";
-    const extra = ws
-      ? `This run: ${ws.upserted} new, ${ws.modified} updated · scraped ${data.scraped_count ?? "—"}${win}`
-      : "";
-    $("sync-stats").textContent = extra;
     if (ws && data.count != null) {
-      showToastSuccess(
-        `${data.count} listing(s) for this search. Inserts: ${ws.upserted}, updates: ${ws.modified}.`
-      );
+      showToastSuccess(`Found ${data.count} listing${data.count !== 1 ? "s" : ""} for your search.`);
     }
     showHints(data.hints || []);
     listingPage = 1;
@@ -499,7 +567,7 @@
   async function translateAndSearchPakwheels() {
     const query = $("nl-query").value.trim();
     if (!query) {
-      showToastError("Type what you’re looking for, then press Enter.");
+      showToastError("Describe what you’re looking for, then press Enter.");
       return;
     }
     localStorage.setItem(LS_NL_QUERY, query);
@@ -509,46 +577,96 @@
     qIn.disabled = true;
     $("toast-error").classList.add("hidden");
     $("toast-success").classList.add("hidden");
-    $("ollama-model-hint").textContent = "";
 
     try {
-      const r = await fetch("/api/pakwheels/suggest-url", {
+      const planRes = await fetch("/api/search/plan", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              query,
-            }),
+        body: JSON.stringify({ query }),
       });
-      const text = await r.text();
-      let sug;
+      const planText = await planRes.text();
+      let plan;
       try {
-        sug = JSON.parse(text);
+        plan = JSON.parse(planText);
       } catch {
-        throw new Error(text || r.statusText);
+        throw new Error(planText || planRes.statusText);
       }
-      if (!r.ok) {
-        let detail = sug.detail;
+      if (!planRes.ok) {
+        let detail = plan.detail;
         if (typeof detail !== "string") detail = JSON.stringify(detail);
-        throw new Error(detail || text || "Could not build PakWheels URL");
+        throw new Error(detail || planText || "Search planning failed");
       }
-      $("platform-url").value = sug.suggested_url || "";
-      $("olx-url").value = sug.olx_url || "";
+
+      $("platform-url").value = plan.suggested_url || "";
+      $("olx-url").value = plan.olx_url || "";
       localStorage.setItem(LS_PLATFORM_URL, $("platform-url").value.trim());
       localStorage.setItem(LS_OLX_URL, $("olx-url").value.trim());
-      const model = sug.model || "";
-      const olxModel = sug.olx_model || "";
-      let mh = "";
-      if (model) mh += "PW: " + model;
-      if (olxModel) mh += (mh ? " · " : "") + "OLX: " + olxModel;
-      $("ollama-model-hint").textContent = mh;
 
-      showHints([]);
-      setScraping(true);
-      try {
-        await runStreamingScrape("ai");
-      } finally {
-        setScraping(false);
+      // ── CASE 1: Fresh cache — load all items from DB (both PakWheels + OLX), no scrape ─
+      if (plan.skip_scrape && (plan.cached_items || []).length) {
+        currentResultsTab = "existing";
+        try { localStorage.setItem("wheelwise_results_tab", currentResultsTab); } catch (_) {}
+        syncTabButtons();
+        applyWorkspacePanels();
+        await loadCached();
+        // If loadCached returns 0 (e.g. session filter mismatch), fall through to scrape
+        if (allItems.length > 0) {
+          showToastSuccess(`${allItems.length} listing${allItems.length !== 1 ? "s" : ""} found.`);
+          return;
+        }
       }
+
+      // ── CASE 2: Stale cache — show old results (all of them), refresh silently in background ─
+      const hasStaleCache = plan.stale_cache && (plan.cached_items || []).length > 0;
+      if (hasStaleCache) {
+        currentResultsTab = "existing";
+        try { localStorage.setItem("wheelwise_results_tab", currentResultsTab); } catch (_) {}
+        syncTabButtons();
+        applyWorkspacePanels();
+        await loadCached();
+        if (allItems.length > 0) {
+          showHints(["Showing saved results — fetching fresh listings in the background."]);
+        }
+      }
+
+      // ── Create search session (Case 2 & 3) ───────────────────────────
+      const sessRes = await fetch("/api/search/session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query,
+          pakwheels_url: $("platform-url").value.trim(),
+          olx_url: $("olx-url").value.trim(),
+        }),
+      });
+      const sessText = await sessRes.text();
+      let sess;
+      try {
+        sess = JSON.parse(sessText);
+      } catch {
+        throw new Error(sessText || sessRes.statusText);
+      }
+      if (!sessRes.ok) throw new Error(sess.detail || "Could not start AI session");
+      currentAiSessionId = sess.session_id;
+
+      if (!hasStaleCache) {
+        // ── CASE 3: No cache — full foreground scrape with overlay ─────────────
+        currentResultsTab = "ai";
+        try { localStorage.setItem("wheelwise_results_tab", currentResultsTab); } catch (_) {}
+        syncTabButtons();
+        applyWorkspacePanels();
+        showHints([]);
+      }
+
+      // Scrape: silent (no overlay) for stale-cache background refresh, blocking for fresh scrape
+      if (!hasStaleCache) setScraping(true);
+      try {
+        await runStreamingScrape("ai", currentAiSessionId);
+      } finally {
+        if (!hasStaleCache) setScraping(false);
+      }
+      if (hasStaleCache) showHints([]);  // clear "refreshing" hint when done
+
     } catch (e) {
       showToastError(String(e.message || e));
     } finally {
@@ -584,7 +702,20 @@
     syncThemeToggleLabel();
   }
 
+  function readInitialTab() {
+    try {
+      const p = new URLSearchParams(location.search).get("tab");
+      if (p === "news" || p === "ai" || p === "existing") return p;
+    } catch (_) {}
+    try {
+      const t = localStorage.getItem("wheelwise_results_tab");
+      if (t === "news" || t === "ai" || t === "existing") return t;
+    } catch (_) {}
+    return "existing";
+  }
+
   function initPlatformUrl() {
+    currentResultsTab = readInitialTab();
     try {
       const saved = localStorage.getItem(LS_PLATFORM_URL);
       if (saved) $("platform-url").value = saved;
@@ -595,10 +726,151 @@
     } catch (_) {}
   }
 
+  function applyWorkspacePanels() {
+    const listings = $("panel-listings");
+    const newsP = $("panel-news");
+    const searchSec = $("search-section");
+    if (!listings || !newsP) return;
+    const isNews = currentResultsTab === "news";
+    listings.classList.toggle("hidden", isNews);
+    newsP.classList.toggle("hidden", !isNews);
+    if (searchSec) searchSec.classList.toggle("hidden", isNews);
+  }
+
+  function syncTabButtons() {
+    const a = $("tab-existing");
+    const b = $("tab-ai");
+    const c = $("tab-news");
+    if (!a || !b || !c) return;
+    const on = "rounded-lg bg-amber-500/20 px-4 py-2 text-sm font-semibold text-amber-900 dark:text-amber-100";
+    const off = "rounded-lg px-4 py-2 text-sm font-semibold text-slate-500 dark:text-zinc-400";
+    a.className = currentResultsTab === "existing" ? on : off;
+    b.className = currentResultsTab === "ai" ? on : off;
+    c.className = currentResultsTab === "news" ? on : off;
+  }
+
+  async function loadSidebar() {
+    const ul = $("saved-sidebar");
+    const empty = $("saved-sidebar-empty");
+    if (!ul) return;
+    try {
+      const r = await fetch("/api/search/sessions/sidebar");
+      const data = await r.json();
+      const items = data.items || [];
+      ul.innerHTML = items
+        .map(
+          (x) =>
+            `<li><button type="button" class="w-full rounded-md px-2 py-1.5 text-left hover:bg-slate-100 dark:hover:bg-zinc-800" data-pw="${escapeAttr(x.pakwheels_url || "")}" data-ox="${escapeAttr(x.olx_url || "")}" data-q="${escapeAttr(x.nl_query || "")}">${escapeHtml(x.label || x.nl_query || "Saved")}</button></li>`
+        )
+        .join("");
+      if (empty) empty.classList.toggle("hidden", items.length > 0);
+      ul.querySelectorAll("button[data-pw]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          $("platform-url").value = btn.getAttribute("data-pw") || "";
+          $("olx-url").value = btn.getAttribute("data-ox") || "";
+          $("nl-query").value = btn.getAttribute("data-q") || "";
+          localStorage.setItem(LS_PLATFORM_URL, $("platform-url").value.trim());
+          localStorage.setItem(LS_OLX_URL, $("olx-url").value.trim());
+          currentResultsTab = "existing";
+          try {
+            localStorage.setItem("wheelwise_results_tab", "existing");
+          } catch (_) {}
+          syncTabButtons();
+          applyWorkspacePanels();
+          loadCached().catch((e) => showToastError(String(e.message || e)));
+        });
+      });
+    } catch (_) {}
+  }
+
+  async function loadNewsTab() {
+    const grid = $("news-tab-grid");
+    if (!grid) return;
+    grid.innerHTML = '<p class="col-span-full text-sm text-slate-500 dark:text-zinc-400">Loading headlines…</p>';
+    try {
+      const r = await fetch("/api/settings/external/news?relevant=true&limit=48");
+      const data = await r.json();
+      const items = data.items || [];
+      if (!items.length) {
+        grid.innerHTML =
+          '<p class="col-span-full text-sm text-slate-600 dark:text-zinc-400">No headlines yet. Add RSS URLs to <code class="rounded bg-slate-100 px-1 font-mono text-xs dark:bg-zinc-800">news.rss_urls</code> (SQLite settings) and wait for the hourly background job.</p>';
+        return;
+      }
+      grid.innerHTML = items
+        .map((x) => {
+          const raw = (x.body || "").replace(/<[^>]+>/g, "");
+          const body = raw.slice(0, 300);
+          const when = x.fetched_at ? formatSyncLabel(x.fetched_at) : "";
+          const link = escapeAttr(x.source_url || "#");
+          return `<article class="flex flex-col gap-2 rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-zinc-800/80 dark:bg-zinc-900">
+            <h3 class="text-base font-semibold leading-snug text-slate-900 dark:text-zinc-100">${escapeHtml(x.title || "")}</h3>
+            <p class="line-clamp-4 text-sm text-slate-600 dark:text-zinc-400">${escapeHtml(body)}${raw.length > 300 ? "…" : ""}</p>
+            <div class="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-3 text-xs text-slate-500 dark:border-zinc-800 dark:text-zinc-500">
+              <span>${escapeHtml(when)}</span>
+              <a href="${link}" target="_blank" rel="noopener noreferrer" class="font-semibold text-amber-600 hover:underline dark:text-amber-400">Read source →</a>
+            </div>
+          </article>`;
+        })
+        .join("");
+    } catch (e) {
+      grid.innerHTML = `<p class="col-span-full text-sm text-red-600 dark:text-red-400">${escapeHtml(String(e.message || e))}</p>`;
+    }
+  }
+
+  async function loadFuelStrip() {
+    const box = $("fuel-strip");
+    if (!box) return;
+    try {
+      const r = await fetch("/api/settings/external/fuel");
+      const data = await r.json();
+      const items = data.items || [];
+      if (!items.length) return;
+      box.innerHTML = items
+        .slice(0, 4)
+        .map(
+          (x) =>
+            `<article class="rounded-lg border border-slate-200 p-3 dark:border-zinc-700"><p class="font-semibold text-slate-900 dark:text-zinc-100">${escapeHtml(x.title || "Fuel snapshot")}</p><p class="mt-1 max-h-48 overflow-y-auto font-mono text-xs leading-relaxed text-slate-600 dark:text-zinc-400">${escapeHtml((x.body || "").slice(0, 2400))}</p></article>`
+        )
+        .join("");
+    } catch (_) {}
+  }
+
   /** Boot */
   applyStoredTheme();
+  initPlatformUrl();
+  resetChat();
 
   $("btn-theme-toggle").addEventListener("click", toggleTheme);
+
+  $("tab-existing")?.addEventListener("click", () => {
+    currentResultsTab = "existing";
+    try {
+      localStorage.setItem("wheelwise_results_tab", currentResultsTab);
+    } catch (_) {}
+    syncTabButtons();
+    applyWorkspacePanels();
+    loadCached().catch((e) => showToastError(String(e.message || e)));
+  });
+  $("tab-ai")?.addEventListener("click", () => {
+    currentResultsTab = "ai";
+    try {
+      localStorage.setItem("wheelwise_results_tab", currentResultsTab);
+    } catch (_) {}
+    syncTabButtons();
+    applyWorkspacePanels();
+    loadCached().catch((e) => showToastError(String(e.message || e)));
+  });
+  $("tab-news")?.addEventListener("click", () => {
+    currentResultsTab = "news";
+    try {
+      localStorage.setItem("wheelwise_results_tab", currentResultsTab);
+    } catch (_) {}
+    syncTabButtons();
+    applyWorkspacePanels();
+    loadNewsTab();
+  });
+  syncTabButtons();
+  applyWorkspacePanels();
 
   $("nl-query").addEventListener("keydown", (ev) => {
     if (ev.key !== "Enter") return;
@@ -637,10 +909,22 @@
     render();
     $("grid").scrollIntoView({ behavior: "smooth", block: "start" });
   });
-  initPlatformUrl();
-  resetChat();
 
-  loadCached().catch((e) => {
-    showToastError(String(e.message || e));
-  });
+  loadSidebar();
+  loadFuelStrip();
+
+  if (currentResultsTab === "news") {
+    loadNewsTab();
+  } else {
+    // Only load cached listings if this user has a saved search URL.
+    // New visitors (no localStorage URL) see the empty state with the search prompt.
+    const hasSavedUrl = !!(
+      localStorage.getItem(LS_PLATFORM_URL) || localStorage.getItem(LS_OLX_URL)
+    );
+    if (hasSavedUrl) {
+      loadCached().catch((e) => showToastError(String(e.message || e)));
+    } else {
+      showHomeEmptyState();
+    }
+  }
 })();

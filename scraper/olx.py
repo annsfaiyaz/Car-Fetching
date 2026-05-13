@@ -17,9 +17,11 @@ import os
 import re
 import time
 from collections.abc import Callable
+from datetime import datetime, timedelta, timezone
 from typing import Any
 from urllib.parse import parse_qs, urlencode, urlparse, urlunparse
 
+import pakwheels as _pw
 from bs4 import BeautifulSoup
 from playwright.sync_api import Browser, sync_playwright
 
@@ -32,9 +34,19 @@ _UA = (
     "Chrome/124.0.0.0 Safari/537.36"
 )
 
-# How long to wait (ms) after DOMContentLoaded for React to render cards
-_RENDER_WAIT_MS = 4000
+# How long to wait (ms) after DOMContentLoaded for React to render cards (override with OLX_RENDER_WAIT_MS)
+_RENDER_WAIT_MS = 6500
 _PAGE_TIMEOUT_MS = 30_000
+
+
+def _render_wait_ms() -> int:
+    raw = os.environ.get("OLX_RENDER_WAIT_MS", "").strip()
+    if raw:
+        try:
+            return max(500, min(int(raw), 60_000))
+        except ValueError:
+            pass
+    return _RENDER_WAIT_MS
 
 
 # ── helpers ──────────────────────────────────────────────────────────────────
@@ -104,6 +116,39 @@ def _normalize_href(href: str) -> str:
     return f"{_BASE.rstrip('/')}{href}".split("#")[0]
 
 
+def _iso_utc(dt: datetime) -> str:
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return dt.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
+
+
+def _card_freshness_dt(card: dict[str, Any]) -> datetime | None:
+    """Best-effort datetime for age filtering (ISO ``posted_time`` or relative text in ``_age_blob``)."""
+    ps = (card.get("posted_time") or "").strip()
+    if ps and "T" in ps:
+        try:
+            d = datetime.fromisoformat(ps.replace("Z", "+00:00"))
+            if d.tzinfo is None:
+                d = d.replace(tzinfo=timezone.utc)
+            return d.astimezone(timezone.utc)
+        except ValueError:
+            pass
+    blob = card.get("_age_blob") or ""
+    pt = _pw.parse_relative_posted_time(blob)
+    if pt is None:
+        return None
+    if pt.tzinfo is None:
+        pt = pt.replace(tzinfo=timezone.utc)
+    return pt.astimezone(timezone.utc)
+
+
+def _skip_listing_too_old(card: dict[str, Any], cutoff_utc: datetime) -> bool:
+    dt = _card_freshness_dt(card)
+    if dt is None:
+        return False
+    return dt < cutoff_utc
+
+
 # ── card parser ───────────────────────────────────────────────────────────────
 
 def _parse_article(article: BeautifulSoup) -> dict[str, Any] | None:
@@ -146,6 +191,14 @@ def _parse_article(article: BeautifulSoup) -> dict[str, Any] | None:
     # City: OLX currently omits city from cards — leave None
     city: str | None = None
 
+    image_url = ""
+    img = article.select_one("img[src]")
+    if img and img.get("src"):
+        image_url = _normalize_href(img.get("src", ""))
+
+    pt = _pw.parse_relative_posted_time(text_blob)
+    posted_iso = _iso_utc(pt) if pt else ""
+
     return {
         "title": title,
         "price": price,
@@ -155,19 +208,83 @@ def _parse_article(article: BeautifulSoup) -> dict[str, Any] | None:
         "mileage": km,
         "url": url,
         "description": "",
-        "posted_time": "",
+        "posted_time": posted_iso,
         "source": "olx",
+        "image_url": image_url or None,
+        "_age_blob": text_blob,
     }
+
+
+def _fallback_cards_from_item_links(soup: BeautifulSoup) -> list[dict[str, Any]]:
+    """When OLX drops ``<article>`` wrappers, recover cards from ``/item/`` links."""
+    out: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for a in soup.select('a[href*="/item/"]'):
+        href = (a.get("href") or "").strip()
+        url = _normalize_href(href)
+        if not url or "/item/" not in url.lower():
+            continue
+        if url in seen:
+            continue
+        seen.add(url)
+        title = (a.get_text(strip=True) or "").strip() or "Listing"
+        parent = a.find_parent(["article", "li", "div"])
+        blob = parent.get_text("\n", strip=True) if parent else title
+        price: int | None = None
+        for ln in blob.splitlines():
+            low = ln.lower().strip()
+            if low.startswith("rs"):
+                price = _parse_price(ln)
+                if price:
+                    break
+        text_blob = " ".join(blob.splitlines())
+        year = _parse_year(text_blob)
+        km = _parse_km(text_blob)
+        blob_low = text_blob.lower()
+        transmission: str | None = None
+        if "automatic" in blob_low:
+            transmission = "Automatic"
+        elif "manual" in blob_low:
+            transmission = "Manual"
+        image_url = ""
+        if parent:
+            img = parent.select_one("img[src]")
+            if img and img.get("src"):
+                image_url = _normalize_href(img.get("src", ""))
+        pt = _pw.parse_relative_posted_time(text_blob)
+        posted_iso = _iso_utc(pt) if pt else ""
+        out.append(
+            {
+                "title": title[:500],
+                "price": price,
+                "city": None,
+                "model_year": year,
+                "transmission": transmission,
+                "mileage": km,
+                "url": url,
+                "description": "",
+                "posted_time": posted_iso,
+                "source": "olx",
+                "image_url": image_url or None,
+                "_age_blob": text_blob,
+            }
+        )
+    return out
 
 
 # ── page fetcher ──────────────────────────────────────────────────────────────
 
 def _fetch_page_html(browser: Browser, page_url: str) -> str:
     """Load ``page_url`` in a new Playwright tab and return fully-rendered HTML."""
+    render_ms = _render_wait_ms()
     page = browser.new_page(user_agent=_UA)
     try:
         page.goto(page_url, wait_until="domcontentloaded", timeout=_PAGE_TIMEOUT_MS)
-        page.wait_for_timeout(_RENDER_WAIT_MS)
+        try:
+            page.wait_for_selector("article, a[href*='/item/']", timeout=min(25_000, _PAGE_TIMEOUT_MS))
+        except Exception:
+            logger.debug("OLX: selector wait skipped or timed out for %s", page_url[:80])
+        page.wait_for_timeout(render_ms)
         return page.content()
     finally:
         page.close()
@@ -180,6 +297,7 @@ def scrape_olx(
     *,
     max_pages: int | None = None,
     max_listings: int | None = None,
+    max_age_hours: int | None = None,
     session: Any = None,           # kept for API compatibility, unused
     request_delay_sec: float = 1.0,
     on_listing: Callable[[dict[str, Any]], None] | None = None,
@@ -199,13 +317,19 @@ def scrape_olx(
 
     page_limit = _resolve_max_pages(max_pages)
     listing_limit = _resolve_max_listings(max_listings)
+    hours = _pw._resolve_max_age_hours(max_age_hours)
+    cutoff = datetime.now(timezone.utc) - timedelta(hours=hours)
 
     results: list[dict[str, Any]] = []
     seen_urls: set[str] = set()
 
     logger.info(
-        "OLX (Playwright) scrape start url=%s max_pages=%s max_listings=%s",
-        base_url, page_limit, listing_limit,
+        "OLX (Playwright) scrape start url=%s max_pages=%s max_listings=%s max_age_hours=%s cutoff=%s",
+        base_url,
+        page_limit,
+        listing_limit,
+        hours,
+        cutoff.isoformat(),
     )
 
     with sync_playwright() as pw:
@@ -221,21 +345,32 @@ def scrape_olx(
 
                 soup = BeautifulSoup(html, "html.parser")
                 articles = soup.find_all("article")
-                logger.info(
-                    "OLX page %s: articles_found=%s", page_num, len(articles)
-                )
-
-                if not articles:
-                    break
-
+                cards: list[dict[str, Any]] = []
                 for art in articles:
                     card = _parse_article(art)
-                    if not card:
-                        continue
+                    if card:
+                        cards.append(card)
+                if not cards:
+                    cards = _fallback_cards_from_item_links(soup)
+                logger.info(
+                    "OLX page %s: articles=%s cards=%s",
+                    page_num,
+                    len(articles),
+                    len(cards),
+                )
+
+                if not cards:
+                    break
+
+                for card in cards:
                     listing_url = card["url"]
                     if not listing_url or listing_url in seen_urls:
                         continue
+                    if _skip_listing_too_old(card, cutoff):
+                        continue
+
                     seen_urls.add(listing_url)
+                    card.pop("_age_blob", None)
 
                     results.append(card)
                     if on_listing is not None:

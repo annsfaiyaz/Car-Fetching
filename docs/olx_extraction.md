@@ -1,21 +1,38 @@
-# OLX Data Extraction Guide for AI Agents
+# OLX Data Extraction Guide
 
-When the agent scrapes OLX, use these selectors to identify car listings.
+OLX Pakistan is a client-side React app. Listings are only visible after
+JavaScript executes. Use a headless browser (Playwright/Chromium) to fetch
+the fully-rendered HTML, then parse with BeautifulSoup.
 
 ## 1. Item Containers
-Listing cards are typically found within:
-`li[data-aut-id="itemBox"]`
+Each listing card is an `<article>` element in the rendered DOM.
 
-## 2. Field Selectors
-| Field | CSS Selector / Attribute |
+```python
+articles = soup.find_all("article")
+```
+
+## 2. Field Extraction per Article
+
+| Field | Method |
 | :--- | :--- |
-| **Price** | `span[data-aut-id="itemPrice"]` |
-| **Title** | `span[data-aut-id="itemTitle"]` |
-| **Location** | `span[data-aut-id="itemLocation"]` |
-| **Details (Year/KM)** | `span[data-aut-id="itemDetails"]` |
-| **Link** | `article > a` (href attribute) |
+| **Title** | First `<h2>` or `<h3>` tag inside the article |
+| **Price** | Text line starting with "Rs" — parse Lacs (e.g. "Rs 48.40 Lacs" → 4,840,000) |
+| **Year** | Regex `\b(19|20)\d{2}\b` on full article text |
+| **Mileage** | Regex `([\d,]+)\s*km` on full article text |
+| **Transmission** | "automatic" / "manual" keyword in full article text |
+| **URL** | `href` attribute of first `<a>` tag inside the article |
 
-## 3. Implementation Logic
-1. **URL Builder:** Combine the location ID and filters using commas (`%2C`).
-2. **Infinite Scroll:** OLX may require scrolling or "Load More" clicks to reveal more data.
-3. **Regex:** Use Regex to extract the Year and Mileage from the `itemDetails` text string.
+## 3. Fallback Strategy
+If `<article>` count is 0 (OLX changed layout), fall back to:
+```python
+soup.select('a[href*="/item/"]')
+```
+Each `/item/` link and its parent container can be used to recover title, price, year, and km.
+
+## 4. Pagination
+Append `&page=N` to the search URL query string (not as a path segment).
+
+## 5. Notes
+- City/location is no longer included in listing cards — set `city = None`.
+- CSS class names on OLX are hashed and change with every deployment — never rely on them.
+- Always use tag names and regex patterns for robust extraction.

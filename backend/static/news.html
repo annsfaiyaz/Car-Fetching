@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>News — WheelWise PK</title>
+    <script>
+      (function () {
+        try {
+          var s = localStorage.getItem("pakwheels_theme");
+          if (s === "dark") document.documentElement.classList.add("dark");
+          else if (s === "light") document.documentElement.classList.remove("dark");
+          else if (matchMedia("(prefers-color-scheme: dark)").matches) document.documentElement.classList.add("dark");
+        } catch (e) {}
+      })();
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: { extend: { fontFamily: { sans: ["DM Sans", "system-ui", "sans-serif"] } } },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700&display=swap" rel="stylesheet" />
+    <style>
+      html { font-family: DM Sans, system-ui, sans-serif; }
+      .dark ::-webkit-scrollbar { width: 6px; background: #27272a; }
+      .dark ::-webkit-scrollbar-thumb { background: #52525b; border-radius: 3px; }
+    </style>
+  </head>
+  <body class="min-h-full bg-slate-100 text-slate-900 antialiased dark:bg-zinc-900 dark:text-zinc-100">
+
+    <header class="sticky top-0 z-40 border-b border-slate-200/80 bg-white/90 backdrop-blur-md dark:border-zinc-800 dark:bg-zinc-900/95">
+      <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3 lg:px-6">
+        <a href="/" class="text-sm font-bold tracking-tight text-slate-900 dark:text-white">WheelWise PK</a>
+        <nav class="flex flex-wrap items-center gap-1 text-sm font-medium" aria-label="Primary">
+          <a href="/" class="rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100 dark:text-zinc-300 dark:hover:bg-zinc-800">Home</a>
+          <a href="/news" class="rounded-lg bg-amber-500/15 px-3 py-2 font-semibold text-amber-900 dark:text-amber-300" aria-current="page">News</a>
+          <a href="/about" class="rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100 dark:text-zinc-300 dark:hover:bg-zinc-800">How it works</a>
+          <a href="/settings" class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-300 bg-white text-slate-700 shadow-sm hover:bg-slate-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700" aria-label="Settings">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.063-.374-.313-.686-.645-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </a>
+          <button type="button" id="btn-theme-toggle" class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-300 bg-white text-slate-700 shadow-sm hover:bg-slate-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-violet-400 dark:hover:bg-zinc-700" aria-label="Toggle color theme">
+            <svg class="h-5 w-5 dark:hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+            </svg>
+            <svg class="hidden h-5 w-5 dark:inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+            </svg>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-5xl px-4 py-10 lg:px-6">
+      <!-- Page heading -->
+      <div class="mb-8">
+        <p class="mb-2 inline-flex items-center gap-2 rounded-full border border-violet-300/40 bg-violet-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-violet-700 dark:border-violet-500/30 dark:text-violet-300">
+          Auto &amp; Mobility
+        </p>
+        <h1 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Latest News</h1>
+        <p class="mt-2 text-slate-600 dark:text-zinc-400">
+          Headlines from RSS feeds you configure under
+          <a href="/settings" class="font-semibold text-violet-600 underline dark:text-violet-400">Settings</a>.
+          The background job runs <strong>every hour</strong>.
+        </p>
+      </div>
+
+      <div id="news-strip" class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <p class="col-span-full text-sm text-slate-500 dark:text-zinc-500">Loading…</p>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        document.getElementById("btn-theme-toggle").addEventListener("click", function () {
+          document.documentElement.classList.toggle("dark");
+          try { localStorage.setItem("pakwheels_theme", document.documentElement.classList.contains("dark") ? "dark" : "light"); } catch (e) {}
+        });
+
+        function escapeHtml(s) {
+          return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+        }
+        function escapeAttr(s) { return escapeHtml(s).replace(/'/g, "&#39;"); }
+        function timeAgo(iso) {
+          if (!iso) return "";
+          var d = Math.round((Date.now() - new Date(iso)) / 60000);
+          if (d < 60) return d + "m ago";
+          if (d < 1440) return Math.round(d/60) + "h ago";
+          return Math.round(d/1440) + "d ago";
+        }
+
+        fetch("/api/settings/external/news?relevant=true&limit=48")
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            var items = data.items || [];
+            var box = document.getElementById("news-strip");
+            if (!items.length) {
+              box.innerHTML = '<p class="col-span-full text-sm text-slate-600 dark:text-zinc-400">No cached headlines yet. Add RSS feeds in <a href="/settings" class="underline font-semibold text-violet-600 dark:text-violet-400">Settings</a> and wait for the background job.</p>';
+              return;
+            }
+            box.innerHTML = items.slice(0, 24).map(function (x) {
+              var body = (x.body || "").replace(/<[^>]+>/g, "");
+              var href = escapeAttr(x.source_url || "#");
+              return (
+                '<a href="' + href + '" target="_blank" rel="noopener noreferrer" class="group flex flex-col gap-2 rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition hover:border-violet-400/60 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-800 dark:hover:border-violet-500/40">' +
+                '<p class="text-xs font-semibold uppercase tracking-wide text-violet-600 dark:text-violet-400">' + escapeHtml(x.source || "News") + '</p>' +
+                '<p class="line-clamp-2 font-semibold leading-snug text-slate-900 group-hover:text-violet-700 dark:text-zinc-100 dark:group-hover:text-violet-300">' + escapeHtml(x.title || "") + '</p>' +
+                '<p class="line-clamp-3 text-sm text-slate-600 dark:text-zinc-400">' + escapeHtml(body) + '</p>' +
+                '<div class="mt-auto flex items-center justify-between pt-2">' +
+                '<span class="text-xs text-slate-500 dark:text-zinc-500">' + timeAgo(x.published_at || x.fetched_at) + '</span>' +
+                '<span class="text-xs font-semibold text-violet-600 dark:text-violet-400">Read →</span>' +
+                '</div></a>'
+              );
+            }).join("");
+          })
+          .catch(function () {
+            document.getElementById("news-strip").innerHTML = '<p class="col-span-full text-sm text-red-600 dark:text-red-400">Could not load news.</p>';
+          });
+      })();
+    </script>
+  </body>
+</html>

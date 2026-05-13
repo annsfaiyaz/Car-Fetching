@@ -1,12 +1,13 @@
-"""Call NVIDIA NIM to turn natural language into a PakWheels search URL."""
+"""Turn natural language into a PakWheels search URL (multi-provider LLM)."""
 
 from __future__ import annotations
 
 import re
 from pathlib import Path
 
-from services import nim_client
+from services.feedback_repo import feedback_digest_for_query
 from services.listings_repo import norm_search_url
+from services.llm_router import chat_completion
 
 _DOCS_DIR = Path(__file__).resolve().parents[2] / "docs"
 
@@ -18,13 +19,26 @@ def _read_kb_doc(filename: str) -> str:
     return path.read_text(encoding="utf-8")
 
 
+def _read_optional_user_patterns(filename: str) -> str:
+    """Optional repo-local overrides: ``docs/pakwheels_patterns_user.md`` etc."""
+    path = _DOCS_DIR / filename
+    if not path.is_file():
+        return ""
+    raw = path.read_text(encoding="utf-8").strip()
+    return raw
+
+
 def build_pakwheels_expert_system_prompt() -> str:
-    """
-    Role + knowledge from ``docs/pakwheels_patterns.md`` and ``docs/extraction_logic.md``.
-    Loaded at request time so edits apply without server restart.
-    """
     patterns = _read_kb_doc("pakwheels_patterns.md")
     extraction = _read_kb_doc("extraction_logic.md")
+    user_extra = _read_optional_user_patterns("pakwheels_patterns_user.md")
+    optional_block = ""
+    if user_extra.strip():
+        optional_block = (
+            "\n\n### Optional overrides (docs/pakwheels_patterns_user.md)\n\n"
+            + user_extra.strip()
+            + "\n"
+        )
 
     return f"""You are a **PakWheels Search Expert**. Translate car-buying requests into **one valid** PakWheels **used-cars** search URL.
 
@@ -35,7 +49,7 @@ Do **not** invent URL path segments or query parameters that are not documented 
 ### pakwheels_patterns.md
 
 {patterns}
-
+{optional_block}
 ### extraction_logic.md
 
 {extraction}
@@ -51,6 +65,7 @@ Constraint: **Single URL only.**"""
 
 
 _URL_RE = re.compile(r"https?://[^\s\]`\"'<>)]+", re.IGNORECASE)
+
 _PATH_RE = re.compile(r"(/used-cars/search[^\s\]`\"'<>)]+)", re.IGNORECASE)
 
 
@@ -63,7 +78,6 @@ def _strip_from_response(text: str) -> str:
 
 
 def extract_pakwheels_search_url(text: str) -> str | None:
-    """Pull first plausible PakWheels used-cars search URL from model output."""
     cleaned = _strip_from_response(text)
     for m in _URL_RE.finditer(cleaned):
         u = m.group(0).rstrip(".,);")
@@ -84,27 +98,28 @@ async def suggest_pakwheels_search_url(
     model_override: str | None,
 ) -> tuple[str, str, str]:
     """
-    Returns (normalized_url, raw_assistant_text, model_used).
-    Raises httpx.HTTPError on transport/API errors, ValueError if no URL could be parsed.
+    Returns (normalized_url, raw_assistant_text, model_used_tag).
     """
-    model = nim_client.get_model(model_override)
-
     system = build_pakwheels_expert_system_prompt()
     extra = (ai_prompt or "").strip()
     if extra:
         system = system + "\n\n## Additional user instructions\n\n" + extra
+
+    feedback_digest = await feedback_digest_for_query(user_query)
+    if feedback_digest:
+        system += "\n\n## Past negative relevance (avoid repeating bad URL shapes)\n\n" + feedback_digest
 
     user_msg = (
         "Build the PakWheels used-cars search URL that best matches this intent:\n\n"
         + user_query.strip()
     )
 
-    content = await nim_client.chat(
-        messages=[
+    content, model_used, provider = await chat_completion(
+        [
             {"role": "system", "content": system},
             {"role": "user", "content": user_msg},
         ],
-        model=model,
+        model_override=model_override,
     )
 
     raw_url = extract_pakwheels_search_url(content)
@@ -119,4 +134,5 @@ async def suggest_pakwheels_search_url(
     if "pakwheels.com" not in low or "/used-cars" not in low:
         raise ValueError("Parsed URL does not look like a PakWheels used-cars URL")
 
-    return normalized, content, model
+    tag = f"{model_used}@{provider}"
+    return normalized, content, tag
