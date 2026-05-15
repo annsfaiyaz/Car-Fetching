@@ -216,7 +216,7 @@ async def seed_default_settings() -> None:
         ("llm.fallback_order", ["nvidia", "openai", "anthropic", "local"]),
         ("llm.default_model", os.environ.get("NIM_MODEL", "z-ai/glm-5.1")),
         ("scrape.max_pages", 3),
-        ("scrape.max_listings", 25),
+        ("scrape.max_listings", 50),
         ("scrape.max_age_hours", 48),
         ("search.cache_min_listings", 3),
         ("local.base_url", os.environ.get("OLLAMA_BASE_URL", "http://127.0.0.1:11434/v1")),

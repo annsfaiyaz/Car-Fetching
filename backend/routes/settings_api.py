@@ -39,7 +39,7 @@ class BackgroundJobBody(BaseModel):
     use_ai: bool = False
     ai_nl_query: str | None = None
     enabled: bool = True
-    max_listings: int = 25
+    max_listings: int = 50
 
 
 @router.get("")

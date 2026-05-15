@@ -19,7 +19,7 @@
   let currentResultsTab = localStorage.getItem("wheelwise_results_tab") || "existing";
   let currentAiSessionId = null;
 
-  const STREAM_MAX_DEFAULT = 25;
+  const STREAM_MAX_DEFAULT = 50;
 
   function $(id) {
     return document.getElementById(id);
@@ -135,12 +135,46 @@
   }
 
   function setScrapeOverlayProgress(message, progress) {
-    const detail = $("scrape-overlay-detail");
-    const fill = $("scrape-progress-fill");
-    if (detail != null && message != null) detail.textContent = message;
+    const text = $("scrape-banner-text");
+    const fill = $("scrape-banner-fill");
+    if (text != null && message != null) text.textContent = message;
     if (fill != null && typeof progress === "number" && !Number.isNaN(progress)) {
       fill.style.width = Math.min(100, Math.max(0, progress * 100)) + "%";
     }
+  }
+
+  // Append a single streamed card to the top of the grid immediately.
+  // Cards added here are replaced by the final sorted render() on "done".
+  function appendStreamCard(item) {
+    const grid = $("grid");
+    const empty = $("empty");
+    if (!grid) return;
+    // Hide empty state as soon as first card arrives
+    if (empty) empty.classList.add("hidden");
+    const html = `
+      <article class="flex flex-col gap-2 rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-zinc-800/80 dark:bg-zinc-900 animate-[fadeIn_0.3s_ease]" data-stream-card>
+        ${listingCardImageHtml(item)}
+        <h2 class="line-clamp-2 text-base font-semibold leading-snug text-slate-900 dark:text-zinc-100">${escapeHtml(item.title || "Untitled")}</h2>
+        <div class="text-lg font-bold text-amber-600 dark:text-amber-400">${formatPrice(item.price)}</div>
+        <div class="flex flex-wrap gap-1.5">
+          ${(item.source || "").toLowerCase().includes("olx")
+            ? `<span class="rounded-md bg-blue-500/15 px-2 py-0.5 text-[0.72rem] font-semibold text-blue-700 dark:text-blue-300">OLX</span>`
+            : `<span class="rounded-md bg-amber-500/15 px-2 py-0.5 text-[0.72rem] font-semibold text-amber-800 dark:text-amber-300">PakWheels</span>`}
+          ${item.city ? `<span class="rounded-md bg-sky-500/15 px-2 py-0.5 text-[0.72rem] text-sky-700 dark:text-sky-300">📍 ${escapeHtml(item.city)}</span>` : ""}
+          ${item.model_year != null ? `<span class="rounded-md bg-violet-500/15 px-2 py-0.5 text-[0.72rem] text-violet-700 dark:text-violet-300">🗓 ${escapeHtml(String(item.model_year))}</span>` : ""}
+          ${item.transmission ? `<span class="rounded-md bg-emerald-500/15 px-2 py-0.5 text-[0.72rem] text-emerald-700 dark:text-emerald-300">⚙ ${escapeHtml(item.transmission)}</span>` : ""}
+          ${item.mileage != null ? `<span class="rounded-md bg-zinc-100 px-2 py-0.5 text-[0.72rem] text-zinc-600 dark:bg-zinc-700/50 dark:text-zinc-300">🛣 ${escapeHtml(String(item.mileage).replace(/\B(?=(\d{3})+(?!\d))/g, ","))} km</span>` : ""}
+        </div>
+        <div class="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-3 text-xs text-slate-500 dark:border-zinc-800 dark:text-zinc-500">
+          <span>${escapeHtml(formatPostedTime(item))}</span>
+          <a class="font-semibold text-amber-600 hover:underline dark:text-amber-400" href="${escapeAttr(listingDetailHref(item))}" ${listingDetailExternal(item) ? 'target="_blank" rel="noopener noreferrer"' : ""}>View details</a>
+        </div>
+      </article>`;
+    grid.insertAdjacentHTML("beforeend", html);
+    // Update the count display live
+    const countEl = $("count-display");
+    const streamed = grid.querySelectorAll("[data-stream-card]").length;
+    if (countEl) countEl.textContent = streamed + " listing" + (streamed !== 1 ? "s" : "") + " (loading…)";
   }
 
   function runStreamingScrape(syncOrigin, aiSessionId) {
@@ -170,7 +204,7 @@
         if (olxUrl) payload.olx_url = olxUrl;
         if (aiSessionId != null) payload.ai_session_id = aiSessionId;
         ws.send(JSON.stringify(payload));
-        setScrapeOverlayProgress("Connecting…", 0);
+        setScrapeOverlayProgress("Connecting to PakWheels & OLX…", 0);
       };
 
       ws.onmessage = (ev) => {
@@ -181,16 +215,20 @@
           return;
         }
         if (msg.type === "started") {
-          const t = msg.target || STREAM_MAX_DEFAULT;
-          setScrapeOverlayProgress(
-            `Fetching up to ${t} listings (each opens a detail page in the scraper)…`,
-            0
-          );
+          setScrapeOverlayProgress("Fetching listings…", 0);
         }
         if (msg.type === "listing") {
           const idx = msg.index || 0;
           const tgt = msg.target || STREAM_MAX_DEFAULT;
-          setScrapeOverlayProgress(`Saved ${idx} / ${tgt}`, msg.progress);
+          // Update banner progress
+          const countEl = $("scrape-banner-count");
+          if (countEl) countEl.textContent = `${idx} / ${tgt}`;
+          setScrapeOverlayProgress(
+            idx === 1 ? "First listing found!" : `Fetching listings…`,
+            msg.progress
+          );
+          // Stream card into grid immediately
+          if (msg.item) appendStreamCard(msg.item);
         }
         if (msg.type === "done") {
           applyResyncResponse(msg);
@@ -216,16 +254,16 @@
   }
 
   function setScraping(active) {
-    const el = $("scrape-overlay");
-    el.classList.toggle("hidden", !active);
-    el.setAttribute("aria-hidden", active ? "false" : "true");
-    document.body.style.overflow = active ? "hidden" : "";
+    const banner = $("scrape-banner");
     const qIn = $("nl-query");
+    if (banner) banner.classList.toggle("hidden", !active);
     if (qIn) qIn.disabled = active;
     if (!active) {
       setScrapeOverlayProgress("", 0);
-      const fill = $("scrape-progress-fill");
+      const fill = $("scrape-banner-fill");
       if (fill) fill.style.width = "0%";
+      const countEl = $("scrape-banner-count");
+      if (countEl) countEl.textContent = "";
     }
   }
 

@@ -373,7 +373,7 @@ async def _resolve_stream_cap(cfg: dict) -> int:
             return max(1, min(int(raw), 500))
         except (TypeError, ValueError):
             pass
-    dbv = await settings_repo.get_setting("scrape.max_listings", 25)
+    dbv = await settings_repo.get_setting("scrape.max_listings", 50)
     try:
         return max(1, min(int(dbv), 500))
     except (TypeError, ValueError):
@@ -544,6 +544,7 @@ async def scrape_stream_ws(websocket: WebSocket):
                         "index": idx,
                         "target": cap,
                         "progress": prog,
+                        "item": listing_dict_json_safe(row_dict),
                     },
                 )
         finally:
