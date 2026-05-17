@@ -1,0 +1,19 @@
+# Local run or VPS: pull the image built by GitHub Actions, or build from source.
+#
+#   docker compose pull && docker compose up -d    # after CI pushed to GHCR
+#   docker compose up -d --build                   # build locally instead
+#
+# Env: copy backend/.env.example → backend/.env (not committed).
+
+services:
+  app:
+    image: ghcr.io/annsfaiyaz/car-fetching:latest
+    build: .
+    container_name: wheelwise-pk
+    ports:
+      - "${PORT:-8000}:8000"
+    env_file:
+      - backend/.env
+    volumes:
+      - ./backend/data:/app/backend/data
+    restart: unless-stopped

@@ -314,6 +314,12 @@ def scrape_olx(
         raise ValueError("url is required")
     if "olx.com.pk" not in base_url.lower():
         raise ValueError("URL must be on olx.com.pk")
+    try:
+        from url_canonical import canonicalize_olx_search_url
+
+        base_url = canonicalize_olx_search_url(base_url)
+    except ImportError:
+        pass
 
     page_limit = _resolve_max_pages(max_pages)
     listing_limit = _resolve_max_listings(max_listings)
@@ -333,7 +339,8 @@ def scrape_olx(
     )
 
     with sync_playwright() as pw:
-        browser = pw.chromium.launch(headless=True)
+        launch_args = ["--no-sandbox", "--disable-setuid-sandbox"]
+        browser = pw.chromium.launch(headless=True, args=launch_args)
         try:
             for page_num in range(1, page_limit + 1):
                 page_url = _with_page_param(base_url, page_num)

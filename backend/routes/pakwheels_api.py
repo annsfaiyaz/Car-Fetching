@@ -82,6 +82,16 @@ def scrape_hints(url: str, scraped_count: int, max_age_hours: int) -> list[str]:
             "Your URL contains pr_less_400000 (price under ~₨400,000). "
             "For “under 40 lakhs” / ₨4,000,000 use pr_less_4000000 — add one more 0 before the slash."
         )
+    if "/used-cars/search/" not in u and "pakwheels.com" in u:
+        hints.append(
+            "PakWheels URL looks like a legacy path (not /used-cars/search/-/…). "
+            "Re-run search so AI rebuilds the URL, or paste a URL from docs/pakwheels_patterns.md."
+        )
+    if "g2003" in u and "olx.com.pk" in u:
+        hints.append(
+            "OLX URL uses an invalid regional id (_g2003…). "
+            "Use city tokens from docs/olx_patterns.md (e.g. gujranwala_g4060662)."
+        )
     if scraped_count == 0:
         hints.append(
             f"Scraper collected 0 listings newer than {max_age_hours}h for this search. "
