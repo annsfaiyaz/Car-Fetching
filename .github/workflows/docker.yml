@@ -1,0 +1,131 @@
+# Build and publish the app image when code lands on main.
+#
+# === Local machine (now) ===
+#   1. Merge to main → image pushed to ghcr.io/annsfaiyaz/car-fetching
+#   2. docker login ghcr.io  →  ./scripts/deploy.sh
+#
+# === VPS + auto-deploy (later) ===
+#   Repo → Settings → Secrets:
+#     SSH_HOST, SSH_USER, SSH_KEY  (private key PEM)
+#     SSH_PORT (optional, default 22)
+#   Repo → Settings → Variables:
+#     DEPLOY_ENABLED = true
+#     DEPLOY_PATH = /opt/car-fetching   (optional)
+#   On the server once: scripts/vps-bootstrap.sh
+
+name: Docker image
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      image: ${{ steps.meta.outputs.tags }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha,prefix=
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build summary
+        if: always()
+        run: |
+          {
+            echo "### Docker build"
+            if [[ "${{ job.status }}" == "success" ]]; then
+              echo "Build **succeeded**."
+              if [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == "refs/heads/main" ]]; then
+                echo ""
+                echo "Image published: \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest\`"
+              fi
+            else
+              echo "Build **failed** — check the logs above."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  pr-feedback:
+    if: github.event_name == 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+
+    steps:
+      - name: Comment on PR
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          comment-tag: docker-build
+          message: |
+            ### Docker build ${{ needs.build.result == 'success' && 'passed' || 'failed' }}
+
+            ${{ needs.build.result == 'success' && 'The Dockerfile builds successfully. Safe to merge when you are ready.' || 'Fix the Docker build before merging.' }}
+
+            After merge to `main`, CI publishes `ghcr.io/annsfaiyaz/car-fetching:latest`. Deploy locally with `./scripts/deploy.sh`.
+
+  deploy:
+    needs: build
+    if: >-
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      vars.DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy on server via SSH
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          script_stop: true
+          script: |
+            set -euo pipefail
+            DEPLOY_PATH="${{ vars.DEPLOY_PATH }}"
+            if [[ -z "$DEPLOY_PATH" ]]; then
+              DEPLOY_PATH="/opt/car-fetching"
+            fi
+            cd "$DEPLOY_PATH"
+            export IMAGE="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest"
+            ./scripts/deploy.sh

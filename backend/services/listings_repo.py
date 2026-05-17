@@ -27,13 +27,37 @@ def _listing_has_internal_detail(row: PakwheelsListing) -> bool:
 
 
 def norm_search_url(url: str | None) -> str:
-    """Normalize marketplace search URL for storage and filtering."""
+    """Normalize marketplace search URL for storage, filtering, and scraping."""
     if not url:
         return ""
     u = url.strip().split("#")[0].rstrip("/")
     if u and not u.lower().startswith(("http://", "https://")):
         u = "https://" + u
+    low = u.lower()
+    if "pakwheels.com" in low:
+        u = _url_canonical_module().canonicalize_pakwheels_search_url(u)
+    elif "olx.com.pk" in low:
+        u = _url_canonical_module().canonicalize_olx_search_url(u)
     return u
+
+
+_url_canonical: Any = None
+
+
+def _url_canonical_module():
+    global _url_canonical
+    if _url_canonical is not None:
+        return _url_canonical
+    import sys
+    from pathlib import Path
+
+    scraper_dir = Path(__file__).resolve().parents[2] / "scraper"
+    if str(scraper_dir) not in sys.path:
+        sys.path.insert(0, str(scraper_dir))
+    import url_canonical as uc  # noqa: PLC0415
+
+    _url_canonical = uc
+    return uc
 
 
 def _row_to_dict(row: PakwheelsListing) -> dict[str, Any]:

@@ -52,8 +52,9 @@ def build_olx_expert_system_prompt() -> str:
 
 ## Operating instructions
 
-1. **Construct:** Follow **olx_patterns.md** only. Prefer regional routes like `punjab_g2003006/cars_c84` when location is broad; use filters for used cars, make, fuel, transmission, price/year when the user asks.
-2. **Sort:** You may append `sort=relevance_desc` or price sorts documented in patterns.
+1. **Construct:** Follow **olx_patterns.md** only. Use the **exact** city tokens from the location table (e.g. `gujranwala_g4060662`) — never invent `_g2003…` regional ids or plain `/gujranwala/` paths.
+2. **Price:** Use `?filter=price_between_[min]_to_[max]` (comma-separated with `%2C` for multiple filters). Never use bare `?price=`.
+3. **Sort:** Default to `&sort=desc` for newest listings unless the user asks for a documented price sort.
 3. **Output:** Respond with **exactly one line**: the full `https://www.olx.com.pk/...` URL as plain text — no markdown code fences, no quotes, no commentary.
 
 Constraint: **Single URL only.** Must be **olx.com.pk** and include **`cars_c84`** (car category)."""

@@ -351,6 +351,12 @@ def scrape_pakwheels(
     base_url = url.strip()
     if not base_url:
         raise ValueError("url is required (PakWheels used-car search URL)")
+    try:
+        from url_canonical import canonicalize_pakwheels_search_url
+
+        base_url = canonicalize_pakwheels_search_url(base_url)
+    except ImportError:
+        pass
     fetch_url = _ensure_default_sort(base_url)
     hours = _resolve_max_age_hours(max_age_hours)
     page_limit = _resolve_max_pages(max_pages)
@@ -377,11 +383,30 @@ def scrape_pakwheels(
         page_url = _with_page_param(fetch_url, page)
         resp = sess.get(page_url, timeout=45)
         resp.raise_for_status()
+        final_url = getattr(resp, "url", page_url) or page_url
         soup = BeautifulSoup(resp.text, "html.parser")
         cards = soup.select("li.classified-listing")
-        logger.info("PakWheels page %s: status=%s cards=%s", page, resp.status_code, len(cards))
+        logger.info(
+            "PakWheels page %s: status=%s cards=%s final_url=%s",
+            page,
+            resp.status_code,
+            len(cards),
+            final_url,
+        )
         if not cards:
             if page == 1:
+                if final_url.rstrip("/") != page_url.rstrip("/"):
+                    logger.warning(
+                        "PakWheels redirected away from search URL (%s → %s). "
+                        "Use /used-cars/search/-/ct_…/mk_…/ form (see docs/pakwheels_patterns.md).",
+                        page_url,
+                        final_url,
+                    )
+                elif "/used-cars/search/" not in page_url:
+                    logger.warning(
+                        "PakWheels URL is not in /used-cars/search/-/… form; "
+                        "legacy paths often return no listings."
+                    )
                 logger.warning(
                     "PakWheels page 1 had zero li.classified-listing — check URL or HTML layout."
                 )
