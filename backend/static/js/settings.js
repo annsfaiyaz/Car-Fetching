@@ -5,7 +5,7 @@
     return document.getElementById(id);
   }
 
-  document.getElementById("btn-theme-toggle").addEventListener("click", function () {
+  document.getElementById("btn-theme-toggle")?.addEventListener("click", function () {
     document.documentElement.classList.toggle("dark");
     try {
       localStorage.setItem("pakwheels_theme", document.documentElement.classList.contains("dark") ? "dark" : "light");

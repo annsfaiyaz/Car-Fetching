@@ -5,7 +5,8 @@ from __future__ import annotations
 from datetime import datetime
 
 from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, String, Text
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from typing import List, Optional
 
 
 class Base(DeclarativeBase):
@@ -74,6 +75,40 @@ class PakwheelsListing(Base):
     user_hidden: Mapped[bool] = mapped_column(Boolean, default=False)
     detail_html_snippet: Mapped[str | None] = mapped_column(Text, nullable=True)
     detail_fetched_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    user_id: Mapped[int | None] = mapped_column(Integer, ForeignKey("users.id"), nullable=True, index=True)
+
+    user: Mapped[Optional["User"]] = relationship(back_populates="listings")
+
+
+# account_type: what the user signed up for
+ACCOUNT_TYPE_SELLER = "seller"
+ACCOUNT_TYPE_RENTAL = "rental_partner"
+ACCOUNT_TYPE_BUYER = "buyer"
+
+# role: platform permission (admin can access /admin)
+ROLE_USER = "user"
+ROLE_ADMIN = "admin"
+
+
+class User(Base):
+    """Registered users (sellers, rental partners, admins)."""
+
+    __tablename__ = "users"
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    email: Mapped[str] = mapped_column(String(256), unique=True, index=True, nullable=False)
+    username: Mapped[str] = mapped_column(String(100), unique=True, index=True, nullable=False)
+    hashed_password: Mapped[str] = mapped_column(String(256), nullable=False)
+    full_name: Mapped[str | None] = mapped_column(String(256), nullable=True)
+    account_type: Mapped[str] = mapped_column(String(32), default=ACCOUNT_TYPE_BUYER, index=True)
+    role: Mapped[str] = mapped_column(String(16), default=ROLE_USER, index=True)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+    is_verified: Mapped[bool] = mapped_column(Boolean, default=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    last_login_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+
+    listings: Mapped[List["PakwheelsListing"]] = relationship(back_populates="user")
 
 
 class AppMeta(Base):
@@ -162,3 +197,50 @@ class ExternalSnapshot(Base):
     body: Mapped[str] = mapped_column(Text, default="")
     source_url: Mapped[str] = mapped_column(String(2048), default="")
     fetched_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+
+
+class RentalListing(Base):
+    """Car listings posted by rental partners."""
+
+    __tablename__ = "rental_listings"
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    owner_id: Mapped[int | None] = mapped_column(Integer, ForeignKey("users.id"), nullable=True, index=True)
+    title: Mapped[str] = mapped_column(String(512))
+    make: Mapped[str | None] = mapped_column(String(128), nullable=True)
+    model: Mapped[str] = mapped_column(String(128))
+    model_year: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    car_type: Mapped[str] = mapped_column(String(64))  # sedan | suv | hatchback | van | pickup
+    city: Mapped[str] = mapped_column(String(128), index=True)
+    pickup_area: Mapped[str | None] = mapped_column(String(256), nullable=True)
+    price_per_day: Mapped[int] = mapped_column(Integer)
+    driver_included: Mapped[bool] = mapped_column(Boolean, default=False)
+    fuel_policy: Mapped[str] = mapped_column(String(64), default="renter_pays")  # renter_pays | included
+    deposit_amount: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    description: Mapped[str] = mapped_column(Text, default="")
+    image_url: Mapped[str | None] = mapped_column(String(2048), nullable=True)
+    contact_phone: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+
+    bookings: Mapped[List["RentalBooking"]] = relationship(back_populates="listing")
+
+
+class RentalBooking(Base):
+    """Booking requests submitted by renters."""
+
+    __tablename__ = "rental_bookings"
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    listing_id: Mapped[int] = mapped_column(Integer, ForeignKey("rental_listings.id"), index=True)
+    renter_id: Mapped[int | None] = mapped_column(Integer, ForeignKey("users.id"), nullable=True, index=True)
+    renter_name: Mapped[str] = mapped_column(String(256))
+    renter_phone: Mapped[str] = mapped_column(String(32))
+    pickup_date: Mapped[str] = mapped_column(String(16))   # YYYY-MM-DD
+    return_date: Mapped[str] = mapped_column(String(16))   # YYYY-MM-DD
+    message: Mapped[str | None] = mapped_column(Text, nullable=True)
+    status: Mapped[str] = mapped_column(String(32), default="pending")  # pending | confirmed | cancelled
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+
+    listing: Mapped["RentalListing"] = relationship(back_populates="bookings")

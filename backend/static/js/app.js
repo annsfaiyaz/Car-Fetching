@@ -878,7 +878,7 @@
   initPlatformUrl();
   resetChat();
 
-  $("btn-theme-toggle").addEventListener("click", toggleTheme);
+  $("btn-theme-toggle")?.addEventListener("click", toggleTheme);
 
   $("tab-existing")?.addEventListener("click", () => {
     currentResultsTab = "existing";

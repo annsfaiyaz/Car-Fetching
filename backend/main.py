@@ -2,6 +2,7 @@
 
 import logging
 from contextlib import asynccontextmanager
+from datetime import datetime, timezone
 from pathlib import Path
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
@@ -21,16 +22,94 @@ load_dotenv()
 from db import close_db, connect_db
 from jobs.rss_poll import poll_fuel_urls, poll_news_feeds
 from jobs.scrape_jobs import run_background_scrape_jobs
+from routes.admin_api import router as admin_router
+from routes.auth import auth_router
 from routes.health import router as health_router
+from routes.sell_api import router as sell_router
+from routes.user_ads_api import router as user_ads_router
 from routes.listings_api import router as listings_router
 from routes.pakwheels_api import router as pakwheels_router
+from routes.rent_api import router as rent_router
 from routes.search_api import router as search_router
 from routes.settings_api import router as settings_router
-from services import settings_repo
+from services import auth_service, settings_repo
+from db import get_async_session_factory
 
 STATIC_DIR = Path(__file__).resolve().parent / "static"
 
 scheduler = AsyncIOScheduler()
+
+_SEED_RENTALS = [
+    {
+        "title": "Toyota Corolla 2020 — Lahore",
+        "make": "Toyota", "model": "Corolla", "model_year": 2020,
+        "car_type": "sedan", "city": "Lahore", "pickup_area": "DHA Phase 5",
+        "price_per_day": 4500, "driver_included": False, "fuel_policy": "renter_pays",
+        "deposit_amount": 20000,
+        "description": "Well-maintained Corolla in excellent condition. Full AC, recently serviced. Self-drive available.",
+        "contact_phone": "0300-1234567",
+    },
+    {
+        "title": "Honda Civic 2019 — Karachi",
+        "make": "Honda", "model": "Civic", "model_year": 2019,
+        "car_type": "sedan", "city": "Karachi", "pickup_area": "Clifton",
+        "price_per_day": 5500, "driver_included": False, "fuel_policy": "renter_pays",
+        "deposit_amount": 25000,
+        "description": "Top condition Honda Civic, available for self-drive. Pick up from Clifton.",
+        "contact_phone": "0321-9876543",
+    },
+    {
+        "title": "Toyota Fortuner 2021 — Islamabad (With Driver)",
+        "make": "Toyota", "model": "Fortuner", "model_year": 2021,
+        "car_type": "suv", "city": "Islamabad", "pickup_area": "F-7",
+        "price_per_day": 9500, "driver_included": True, "fuel_policy": "renter_pays",
+        "deposit_amount": None,
+        "description": "Luxury SUV with professional driver. Ideal for northern area trips. 7-seater.",
+        "contact_phone": "0333-5551234",
+    },
+    {
+        "title": "Suzuki Bolan Van — Lahore",
+        "make": "Suzuki", "model": "Bolan", "model_year": 2019,
+        "car_type": "van", "city": "Lahore", "pickup_area": "Gulberg",
+        "price_per_day": 3000, "driver_included": True, "fuel_policy": "renter_pays",
+        "deposit_amount": None,
+        "description": "Spacious van for family and goods transport. Driver included. Available 24/7.",
+        "contact_phone": "0311-4445566",
+    },
+    {
+        "title": "Toyota Prado 2022 — Islamabad (With Driver)",
+        "make": "Toyota", "model": "Prado", "model_year": 2022,
+        "car_type": "suv", "city": "Islamabad", "pickup_area": "Blue Area",
+        "price_per_day": 14000, "driver_included": True, "fuel_policy": "included",
+        "deposit_amount": None,
+        "description": "Premium Prado for executive travel. Fuel included. Perfect for corporate clients and northern trips.",
+        "contact_phone": "0312-7778899",
+    },
+    {
+        "title": "Suzuki Alto 2021 — Karachi",
+        "make": "Suzuki", "model": "Alto", "model_year": 2021,
+        "car_type": "hatchback", "city": "Karachi", "pickup_area": "Gulshan-e-Iqbal",
+        "price_per_day": 2200, "driver_included": False, "fuel_policy": "renter_pays",
+        "deposit_amount": 10000,
+        "description": "Economical and fuel-efficient hatchback for city driving. Perfect for daily commute.",
+        "contact_phone": "0345-1122334",
+    },
+]
+
+
+async def _seed_rental_listings() -> None:
+    from database_models import RentalListing
+    from sqlalchemy import func, select
+    factory = get_async_session_factory()
+    async with factory() as session:
+        count = await session.scalar(select(func.count()).select_from(RentalListing))
+        if count:
+            return
+        now = datetime.now(timezone.utc)
+        for data in _SEED_RENTALS:
+            session.add(RentalListing(**data, is_active=True, created_at=now, updated_at=now))
+        await session.commit()
+        logging.getLogger(__name__).info("Seeded %d sample rental listings", len(_SEED_RENTALS))
 
 
 @asynccontextmanager
@@ -38,6 +117,10 @@ async def lifespan(app: FastAPI):
     await connect_db()
     await settings_repo.seed_default_settings()
     await settings_repo.seed_local_models_from_env()
+    factory = get_async_session_factory()
+    async with factory() as session:
+        await auth_service.promote_admin_by_email(session)
+    await _seed_rental_listings()
 
     scheduler.add_job(poll_news_feeds, "interval", hours=1, id="poll_news", replace_existing=True)
     scheduler.add_job(poll_fuel_urls, "interval", hours=6, id="poll_fuel", replace_existing=True)
@@ -57,12 +140,21 @@ app = FastAPI(
 )
 
 app.include_router(health_router)
+app.include_router(auth_router)
+app.include_router(admin_router)
 app.include_router(pakwheels_router)
 app.include_router(settings_router)
 app.include_router(search_router)
 app.include_router(listings_router)
+app.include_router(sell_router)
+app.include_router(user_ads_router)
+app.include_router(rent_router)
+
+UPLOADS_DIR = STATIC_DIR / "uploads" / "cars"
+UPLOADS_DIR.mkdir(parents=True, exist_ok=True)
 
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+app.mount("/uploads", StaticFiles(directory=str(UPLOADS_DIR)), name="uploads")
 
 
 @app.get("/")
@@ -100,6 +192,70 @@ async def settings_page():
     if path.is_file():
         return FileResponse(path)
     raise HTTPException(status_code=404, detail="settings.html missing")
+
+
+@app.get("/login")
+async def login_page():
+    path = STATIC_DIR / "login.html"
+    if path.is_file():
+        return FileResponse(path)
+    raise HTTPException(status_code=404, detail="login.html missing")
+
+
+@app.get("/register")
+async def register_page():
+    path = STATIC_DIR / "register.html"
+    if path.is_file():
+        return FileResponse(path)
+    raise HTTPException(status_code=404, detail="register.html missing")
+
+
+@app.get("/admin")
+async def admin_page():
+    path = STATIC_DIR / "admin.html"
+    if path.is_file():
+        return FileResponse(path)
+    raise HTTPException(status_code=404, detail="admin.html missing")
+
+
+@app.get("/rent")
+async def rent_page():
+    path = STATIC_DIR / "rent.html"
+    if path.is_file():
+        return FileResponse(path)
+    raise HTTPException(status_code=404, detail="rent.html missing")
+
+
+@app.get("/rent-detail")
+async def rent_detail_page():
+    path = STATIC_DIR / "rent-detail.html"
+    if path.is_file():
+        return FileResponse(path)
+    raise HTTPException(status_code=404, detail="rent-detail.html missing")
+
+
+@app.get("/sell")
+async def sell_page():
+    path = STATIC_DIR / "sell.html"
+    if path.is_file():
+        return FileResponse(path)
+    raise HTTPException(status_code=404, detail="sell.html missing")
+
+
+@app.get("/post-ad")
+async def post_ad_page():
+    path = STATIC_DIR / "post-ad.html"
+    if path.is_file():
+        return FileResponse(path)
+    raise HTTPException(status_code=404, detail="post-ad.html missing")
+
+
+@app.get("/my-ads")
+async def my_ads_page():
+    path = STATIC_DIR / "my-ads.html"
+    if path.is_file():
+        return FileResponse(path)
+    raise HTTPException(status_code=404, detail="my-ads.html missing")
 
 
 _ALLOWED_IMG_HOSTS = {"cache1.pakwheels.com", "cache2.pakwheels.com", "cache3.pakwheels.com",

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Car Detail — WheelWise PK</title>
+    <script>
+      (function () {
+        try {
+          var s = localStorage.getItem("pakwheels_theme");
+          if (s === "dark") document.documentElement.classList.add("dark");
+          else if (s === "light") document.documentElement.classList.remove("dark");
+          else if (matchMedia("(prefers-color-scheme: dark)").matches) document.documentElement.classList.add("dark");
+        } catch (e) {}
+      })();
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = { darkMode: "class", theme: { extend: { fontFamily: { sans: ["DM Sans", "system-ui", "sans-serif"] } } } };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/css/site.css" />
+  </head>
+  <body class="min-h-full bg-slate-100 text-slate-900 antialiased dark:bg-zinc-900 dark:text-zinc-100" data-ww-layout>
+
+    <div id="site-nav" data-page="rent"></div>
+
+    <!-- Back -->
+    <div class="mx-auto max-w-5xl px-4 pt-6 lg:px-6">
+      <a href="/rent" class="inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-violet-600 dark:text-zinc-400 dark:hover:text-violet-400">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
+        Back to listings
+      </a>
+    </div>
+
+    <!-- Loading skeleton -->
+    <div id="detail-loading" class="mx-auto max-w-5xl px-4 py-8 lg:px-6">
+      <div class="grid gap-8 lg:grid-cols-5">
+        <div class="lg:col-span-3 space-y-4">
+          <div class="h-72 animate-pulse rounded-2xl bg-slate-200 dark:bg-zinc-800"></div>
+          <div class="h-6 w-3/4 animate-pulse rounded-lg bg-slate-200 dark:bg-zinc-800"></div>
+          <div class="h-4 w-1/2 animate-pulse rounded-lg bg-slate-200 dark:bg-zinc-800"></div>
+        </div>
+        <div class="lg:col-span-2">
+          <div class="h-96 animate-pulse rounded-2xl bg-slate-200 dark:bg-zinc-800"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Not found -->
+    <div id="detail-not-found" class="hidden mx-auto max-w-xl px-4 py-24 text-center lg:px-6">
+      <p class="text-lg font-semibold text-slate-700 dark:text-zinc-200">Listing not found</p>
+      <a href="/rent" class="mt-4 inline-flex text-sm text-violet-600 hover:underline dark:text-violet-400">Browse all rentals</a>
+    </div>
+
+    <!-- Main content (hidden until loaded) -->
+    <main id="detail-main" class="hidden mx-auto max-w-5xl px-4 py-8 pb-20 lg:px-6">
+      <div class="grid gap-8 lg:grid-cols-5">
+
+        <!-- Left: photo + specs -->
+        <div class="lg:col-span-3 space-y-6">
+          <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+            <img id="car-image" src="" alt="Car photo"
+              class="h-72 w-full object-cover"
+              onerror="this.src='/static/images/car-placeholder.svg'; this.classList.add('p-8','object-contain')" />
+          </div>
+
+          <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 space-y-4">
+            <div class="flex flex-wrap items-start gap-3">
+              <h1 id="car-title" class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white"></h1>
+              <span id="badge-driver" class="hidden rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400">Driver included</span>
+              <span id="badge-self" class="hidden rounded-full bg-sky-500/10 px-3 py-1 text-xs font-semibold text-sky-700 dark:text-sky-400">Self-drive</span>
+            </div>
+
+            <div class="flex flex-wrap gap-4 text-sm text-slate-600 dark:text-zinc-400">
+              <span id="car-city" class="flex items-center gap-1">
+                <svg class="h-4 w-4 text-violet-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+              </span>
+              <span id="car-type-badge" class="rounded-full border border-slate-200 bg-slate-50 px-3 py-0.5 capitalize dark:border-zinc-700 dark:bg-zinc-800"></span>
+              <span id="car-year" class="font-medium"></span>
+            </div>
+
+            <p id="car-description" class="text-sm leading-relaxed text-slate-600 dark:text-zinc-400"></p>
+
+            <div class="grid grid-cols-2 gap-3 pt-2 sm:grid-cols-3">
+              <div class="rounded-xl bg-slate-50 px-4 py-3 dark:bg-zinc-800">
+                <p class="text-xs text-slate-400 dark:text-zinc-500">Fuel policy</p>
+                <p id="car-fuel" class="mt-0.5 text-sm font-semibold capitalize text-slate-800 dark:text-zinc-100"></p>
+              </div>
+              <div id="deposit-box" class="hidden rounded-xl bg-slate-50 px-4 py-3 dark:bg-zinc-800">
+                <p class="text-xs text-slate-400 dark:text-zinc-500">Security deposit</p>
+                <p id="car-deposit" class="mt-0.5 text-sm font-semibold text-slate-800 dark:text-zinc-100"></p>
+              </div>
+              <div class="rounded-xl bg-slate-50 px-4 py-3 dark:bg-zinc-800">
+                <p class="text-xs text-slate-400 dark:text-zinc-500">Pickup area</p>
+                <p id="car-pickup" class="mt-0.5 text-sm font-semibold text-slate-800 dark:text-zinc-100"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: booking form -->
+        <div class="lg:col-span-2">
+          <div class="sticky top-6 space-y-4">
+
+            <!-- Price card -->
+            <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+              <div class="flex items-baseline gap-1">
+                <span id="price-display" class="text-3xl font-bold text-violet-600 dark:text-violet-400"></span>
+                <span class="text-sm text-slate-500 dark:text-zinc-400">/ day</span>
+              </div>
+              <p id="total-display" class="mt-1 text-sm text-slate-500 dark:text-zinc-400"></p>
+            </div>
+
+            <!-- Booking form -->
+            <form id="booking-form" class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm space-y-4 dark:border-zinc-800 dark:bg-zinc-900">
+              <h2 class="text-base font-semibold text-slate-900 dark:text-white">Request booking</h2>
+
+              <div>
+                <label class="block text-xs font-medium text-slate-600 dark:text-zinc-400 mb-1">Your name</label>
+                <input id="renter-name" type="text" required placeholder="Ali Khan"
+                  class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm dark:border-zinc-700 dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-violet-500/30" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-slate-600 dark:text-zinc-400 mb-1">Phone number</label>
+                <input id="renter-phone" type="tel" required placeholder="0300-0000000"
+                  class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm dark:border-zinc-700 dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-violet-500/30" />
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-medium text-slate-600 dark:text-zinc-400 mb-1">Pickup date</label>
+                  <input id="pickup-date" type="date" required
+                    class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm dark:border-zinc-700 dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-violet-500/30" />
+                </div>
+                <div>
+                  <label class="block text-xs font-medium text-slate-600 dark:text-zinc-400 mb-1">Return date</label>
+                  <input id="return-date" type="date" required
+                    class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm dark:border-zinc-700 dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-violet-500/30" />
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-slate-600 dark:text-zinc-400 mb-1">Message <span class="text-slate-400">(optional)</span></label>
+                <textarea id="booking-message" rows="2" placeholder="Any special requirements..."
+                  class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm dark:border-zinc-700 dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-violet-500/30"></textarea>
+              </div>
+
+              <div id="booking-error" class="hidden rounded-xl border border-red-400/40 bg-red-500/10 px-3 py-2 text-xs text-red-700 dark:text-red-300"></div>
+              <div id="booking-success" class="hidden rounded-xl border border-emerald-400/40 bg-emerald-500/10 px-3 py-3 text-xs text-emerald-700 dark:text-emerald-300"></div>
+
+              <button type="submit" id="btn-book"
+                class="w-full rounded-xl bg-gradient-to-br from-violet-500 to-violet-700 px-5 py-3 text-sm font-semibold text-white shadow-md hover:from-violet-400 hover:to-violet-600 active:scale-[0.99]">
+                Request booking
+              </button>
+            </form>
+
+            <!-- WhatsApp -->
+            <a id="whatsapp-btn" href="#" target="_blank" rel="noopener"
+              class="hidden w-full items-center justify-center gap-2 rounded-2xl border border-emerald-400/50 bg-emerald-500/10 px-5 py-3 text-sm font-semibold text-emerald-700 hover:bg-emerald-500/20 dark:text-emerald-400">
+              <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              Chat on WhatsApp
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/theme.js"></script>
+    <script src="/static/js/nav.js"></script>
+    <script src="/static/js/rent-detail.js"></script>
+  </body>
+</html>
