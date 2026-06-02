@@ -115,10 +115,16 @@
 
     if (user && getAccessToken()) {
       const name = user.username || user.email || "Account";
+      const isRental = user.account_type === "rental_partner";
+      const dashHref  = isRental ? "/rent-dashboard" : "/my-ads";
+      const dashTitle = isRental ? "My Rentals" : "My ads";
+      const dashIcon  = isRental
+        ? '<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8 17h8M6 11l1-4h10l1 4M7 11v2a2 2 0 002 2h6a2 2 0 002-2v-2"/><circle cx="8" cy="17" r="1.5" fill="currentColor" stroke="none"/><circle cx="16" cy="17" r="1.5" fill="currentColor" stroke="none"/></svg>'
+        : '<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>';
       el.innerHTML =
         '<div class="hidden items-center gap-1 sm:flex">' +
-        '<a href="/my-ads" title="My ads" class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200/80 bg-white text-slate-600 shadow-sm hover:bg-violet-50 hover:text-violet-700 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:bg-violet-950 dark:hover:text-violet-300">' +
-        '<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg></a>' +
+        '<a href="' + dashHref + '" title="' + dashTitle + '" class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200/80 bg-white text-slate-600 shadow-sm hover:bg-violet-50 hover:text-violet-700 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:bg-violet-950 dark:hover:text-violet-300">' +
+        dashIcon + "</a>" +
         '<div class="flex items-center gap-2 rounded-xl border border-slate-200/80 bg-slate-50/80 py-1 pl-1 pr-2 dark:border-zinc-700 dark:bg-zinc-800/80">' +
         '<span class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-violet-700 text-xs font-bold text-white">' +
         userInitial(user) +
@@ -127,8 +133,8 @@
         name +
         "</span></div>" +
         '<button type="button" id="btn-logout" class="rounded-lg px-2 py-1.5 text-xs font-medium text-slate-500 hover:bg-slate-200 hover:text-slate-800 dark:hover:bg-zinc-700 dark:hover:text-zinc-200">Logout</button></div>' +
-        '<a href="/my-ads" class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200/80 bg-white text-slate-600 sm:hidden dark:border-zinc-700 dark:bg-zinc-800" aria-label="My ads">' +
-        '<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/></svg></a>';
+        '<a href="' + dashHref + '" class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200/80 bg-white text-slate-600 sm:hidden dark:border-zinc-700 dark:bg-zinc-800" aria-label="' + dashTitle + '">' +
+        dashIcon + "</a>";
       const btn = document.getElementById("btn-logout");
       if (btn) {
         btn.addEventListener("click", function () {
@@ -145,8 +151,7 @@
         '" class="rounded-xl border border-slate-200/80 bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700 sm:px-4 sm:text-sm">Login</a>';
     } else {
       el.innerHTML =
-        '<a href="/login" class="rounded-xl border border-slate-200/80 bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700 sm:px-4 sm:text-sm">Login</a>' +
-        '<a href="/register" class="rounded-xl bg-gradient-to-br from-violet-500 to-violet-700 px-3.5 py-2 text-xs font-semibold text-white shadow-sm hover:from-violet-400 sm:px-4 sm:text-sm">Sign up</a>';
+        '<a href="/login" class="rounded-xl border border-slate-200/80 bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700 sm:px-4 sm:text-sm">Login</a>';
     }
   }
 
@@ -156,7 +161,7 @@
       return;
     }
     if (user.account_type === "rental_partner") {
-      window.location.href = "/rent";
+      window.location.href = "/rent-dashboard";
       return;
     }
     window.location.href = "/";

@@ -25,7 +25,13 @@
   }
 
   // ── Panel navigation ────────────────────────────────────────────────────────
-  const PANEL_TITLES = { dashboard: "Dashboard", users: "Users", listings: "Listings" };
+  const PANEL_TITLES = {
+    dashboard: "Dashboard",
+    users: "Users",
+    listings: "Listings",
+    "rent-listings": "Rental Listings",
+    "rent-bookings": "Rental Bookings",
+  };
 
   function activatePanel(name) {
     document.querySelectorAll(".panel").forEach(function (el) {
@@ -208,13 +214,78 @@
   }
 
   // ── Load functions ───────────────────────────────────────────────────────────
+  function bookingStatusBadge(status) {
+    const map = {
+      pending:   "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
+      confirmed: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300",
+      cancelled: "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400",
+    };
+    const cls = map[status] || "bg-slate-100 text-slate-500";
+    return '<span class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold ' + cls + '">' + esc(status) + "</span>";
+  }
+
+  // ── Rental Listings table ────────────────────────────────────────────────────
+  function renderRentListings(data) {
+    const tbody = document.getElementById("rent-listings-tbody");
+    if (!tbody) return;
+    const items = data.items || [];
+    setBadge("sidebar-rent-listings-count", items.length);
+    tbody.innerHTML = "";
+    items.forEach(function (l) {
+      const tr = document.createElement("tr");
+      tr.className = "border-b border-slate-100 transition hover:bg-slate-50/60 dark:border-zinc-800 dark:hover:bg-zinc-800/40 last:border-0";
+      tr.innerHTML =
+        '<td class="px-4 py-3 text-xs text-slate-400 dark:text-zinc-500">' + l.id + "</td>" +
+        '<td class="px-4 py-3 max-w-[180px] truncate font-medium text-slate-800 dark:text-zinc-100" title="' + esc(l.title || "") + '">' + esc(l.title || "—") + "</td>" +
+        '<td class="px-4 py-3 text-xs text-slate-600 dark:text-zinc-300">' + esc((l.make || "") + " " + (l.model || "") + (l.model_year ? " " + l.model_year : "")) + "</td>" +
+        '<td class="px-4 py-3 text-xs text-slate-600 dark:text-zinc-300">' + esc(l.city || "—") + "</td>" +
+        '<td class="px-4 py-3 text-xs font-semibold text-sky-600 dark:text-sky-400">PKR ' + (l.price_per_day != null ? Number(l.price_per_day).toLocaleString() : "—") + "</td>" +
+        '<td class="px-4 py-3 text-xs">' + (l.driver_included ? '<span class="text-emerald-600 dark:text-emerald-400">Yes</span>' : '<span class="text-slate-400">No</span>') + "</td>" +
+        '<td class="px-4 py-3">' + activeBadge(l.is_active) + "</td>" +
+        '<td class="px-4 py-3 text-xs text-slate-600 dark:text-zinc-300">' + esc(l.owner_username || l.owner_email || "—") + "</td>" +
+        '<td class="px-4 py-3 text-xs text-slate-500 dark:text-zinc-400">' + esc(l.contact_phone || "—") + "</td>";
+      tbody.appendChild(tr);
+    });
+  }
+
+  // ── Rental Bookings table ────────────────────────────────────────────────────
+  function renderRentBookings(data) {
+    const tbody = document.getElementById("rent-bookings-tbody");
+    if (!tbody) return;
+    const items = data.items || [];
+    setBadge("sidebar-rent-bookings-count", items.length);
+    tbody.innerHTML = "";
+    items.forEach(function (b) {
+      const tr = document.createElement("tr");
+      tr.className = "border-b border-slate-100 transition hover:bg-slate-50/60 dark:border-zinc-800 dark:hover:bg-zinc-800/40 last:border-0";
+      const date = b.created_at ? new Date(b.created_at).toLocaleDateString("en-PK") : "—";
+      tr.innerHTML =
+        '<td class="px-4 py-3 text-xs text-slate-400 dark:text-zinc-500">' + b.id + "</td>" +
+        '<td class="px-4 py-3 max-w-[150px] truncate text-xs font-medium text-slate-800 dark:text-zinc-100" title="' + esc(b.listing_title || "") + '">' + esc(b.listing_title || "—") + "</td>" +
+        '<td class="px-4 py-3 text-xs text-slate-500 dark:text-zinc-400">' + esc(b.listing_city || "—") + "</td>" +
+        '<td class="px-4 py-3 text-xs text-slate-600 dark:text-zinc-300">' + esc(b.owner_username || b.owner_email || "—") + "</td>" +
+        '<td class="px-4 py-3 text-xs font-medium text-slate-800 dark:text-zinc-100">' + esc(b.renter_name || "—") + "</td>" +
+        '<td class="px-4 py-3 text-xs text-slate-600 dark:text-zinc-300">' + esc(b.renter_phone || "—") + "</td>" +
+        '<td class="px-4 py-3 text-xs text-slate-500 dark:text-zinc-400">' + esc(b.pickup_date || "—") + "</td>" +
+        '<td class="px-4 py-3 text-xs text-slate-500 dark:text-zinc-400">' + esc(b.return_date || "—") + "</td>" +
+        '<td class="px-4 py-3">' + bookingStatusBadge(b.status) + "</td>" +
+        '<td class="px-4 py-3 text-xs text-slate-400 dark:text-zinc-500">' + date + "</td>";
+      tbody.appendChild(tr);
+    });
+  }
+
   function loadStats() {
     return api("/api/admin/stats")
       .then(function (r) { return r.json(); })
       .then(function (s) {
-        document.getElementById("stat-users").textContent    = s.users;
-        document.getElementById("stat-listings").textContent = s.listings;
-        document.getElementById("stat-wheelwise").textContent = s.wheelwise_listings;
+        document.getElementById("stat-users").textContent       = s.users;
+        document.getElementById("stat-listings").textContent    = s.listings;
+        document.getElementById("stat-wheelwise").textContent   = s.wheelwise_listings;
+        document.getElementById("stat-rent-listings").textContent = s.rental_listings;
+        document.getElementById("stat-rent-bookings").textContent = s.rental_bookings;
+        const pendingLabel = document.getElementById("stat-pending-label");
+        if (pendingLabel && s.pending_bookings > 0)
+          pendingLabel.textContent = s.pending_bookings + " pending";
       });
   }
 
@@ -236,11 +307,33 @@
       });
   }
 
+  function loadRentListings() {
+    return api("/api/admin/rent/listings?limit=200")
+      .then(function (r) { return r.json(); })
+      .then(function (data) { renderRentListings(data); });
+  }
+
+  function loadRentBookings() {
+    const filter = document.getElementById("booking-status-filter");
+    const status = filter ? filter.value : "";
+    const url = "/api/admin/rent/bookings?limit=200" + (status ? "&status=" + encodeURIComponent(status) : "");
+    return api(url)
+      .then(function (r) { return r.json(); })
+      .then(function (data) { renderRentBookings(data); });
+  }
+
   // ── Refresh buttons ──────────────────────────────────────────────────────────
-  const refreshUsers    = document.getElementById("btn-refresh-users");
-  const refreshListings = document.getElementById("btn-refresh-listings");
-  if (refreshUsers)    refreshUsers.addEventListener("click", loadUsers);
-  if (refreshListings) refreshListings.addEventListener("click", loadListings);
+  const refreshUsers        = document.getElementById("btn-refresh-users");
+  const refreshListings     = document.getElementById("btn-refresh-listings");
+  const refreshRentListings = document.getElementById("btn-refresh-rent-listings");
+  const refreshRentBookings = document.getElementById("btn-refresh-rent-bookings");
+  const bookingFilter       = document.getElementById("booking-status-filter");
+
+  if (refreshUsers)        refreshUsers.addEventListener("click", loadUsers);
+  if (refreshListings)     refreshListings.addEventListener("click", loadListings);
+  if (refreshRentListings) refreshRentListings.addEventListener("click", loadRentListings);
+  if (refreshRentBookings) refreshRentBookings.addEventListener("click", loadRentBookings);
+  if (bookingFilter)       bookingFilter.addEventListener("change", loadRentBookings);
 
   // ── Boot ─────────────────────────────────────────────────────────────────────
   WheelWiseAuth.requireAdmin().then(function (user) {
@@ -258,5 +351,7 @@
     loadStats();
     loadUsers();
     loadListings();
+    loadRentListings();
+    loadRentBookings();
   });
 })();

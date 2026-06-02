@@ -115,14 +115,126 @@
 
   window.applyFilters = loadListings;
 
+  // ── AI Natural Language Search ─────────────────────────────────────────────
+
+  function applyNLFilters(filters) {
+    var cityEl  = document.getElementById("filter-city");
+    var typeEl  = document.getElementById("filter-type");
+    var priceEl = document.getElementById("filter-price");
+
+    if (filters.city && cityEl) {
+      // Try to match to an existing option, else set as text value
+      var matched = false;
+      for (var i = 0; i < cityEl.options.length; i++) {
+        if (cityEl.options[i].value.toLowerCase() === (filters.city || "").toLowerCase()) {
+          cityEl.value = cityEl.options[i].value;
+          matched = true;
+          break;
+        }
+      }
+      if (!matched) cityEl.value = "";
+    }
+    if (filters.car_type && typeEl) typeEl.value = filters.car_type;
+    if (filters.max_price && priceEl) priceEl.value = filters.max_price;
+    if (filters.driver_included !== null && filters.driver_included !== undefined) {
+      setDriver(filters.driver_included);
+    }
+  }
+
+  function initNLSearch() {
+    var input   = document.getElementById("nl-search-input");
+    var btn     = document.getElementById("nl-search-btn");
+    var label   = document.getElementById("nl-search-label");
+    var resultP = document.getElementById("nl-search-result");
+    var clearBtn = document.getElementById("nl-search-clear");
+
+    if (!input || !btn) return;
+
+    async function runSearch() {
+      var q = input.value.trim();
+      if (!q) return;
+      btn.disabled = true;
+      label.textContent = "Searching…";
+      resultP.classList.add("hidden");
+      try {
+        var r = await fetch("/api/rent/nl-search", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query: q }),
+        });
+        var data = await r.json();
+        if (!r.ok) throw new Error(data.detail || "Search failed");
+
+        applyNLFilters(data);
+        loadListings();
+
+        var parts = [];
+        if (data.city)            parts.push("City: " + data.city);
+        if (data.car_type)        parts.push("Type: " + data.car_type);
+        if (data.max_price)       parts.push("Max: PKR " + Number(data.max_price).toLocaleString() + "/day");
+        if (data.driver_included !== null && data.driver_included !== undefined)
+          parts.push("Driver: " + (data.driver_included ? "included" : "self-drive"));
+        if (parts.length) {
+          resultP.textContent = "AI applied: " + parts.join(" · ");
+          resultP.classList.remove("hidden");
+          clearBtn.classList.remove("hidden");
+        }
+      } catch (e) {
+        resultP.textContent = "Could not parse query. Try adjusting the filters manually.";
+        resultP.classList.remove("hidden");
+      } finally {
+        btn.disabled = false;
+        label.textContent = "Search with AI";
+      }
+    }
+
+    btn.addEventListener("click", runSearch);
+    input.addEventListener("keydown", function (e) { if (e.key === "Enter") runSearch(); });
+
+    clearBtn.addEventListener("click", function () {
+      input.value = "";
+      resultP.classList.add("hidden");
+      clearBtn.classList.add("hidden");
+      document.getElementById("filter-city").value = "";
+      document.getElementById("filter-type").value = "";
+      document.getElementById("filter-price").value = "";
+      setDriver(null);
+      loadListings();
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
-    setDriver(null);
+    // Apply URL params from homepage quick-search
+    var params = new URLSearchParams(window.location.search);
+    if (params.get("city")) {
+      var cityEl = document.getElementById("filter-city");
+      if (cityEl) cityEl.value = params.get("city");
+    }
+    if (params.get("car_type")) {
+      var typeEl = document.getElementById("filter-type");
+      if (typeEl) typeEl.value = params.get("car_type");
+    }
+    if (params.get("driver_included") === "true")  setDriver(true);
+    if (params.get("driver_included") === "false") setDriver(false);
+    if (!params.get("driver_included")) setDriver(null);
+
     loadListings();
+    initNLSearch();
 
     // Allow pressing Enter in inputs to search
     ["filter-city", "filter-type", "filter-price"].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener("keydown", function (e) { if (e.key === "Enter") loadListings(); });
     });
+
+    // Smart partner CTA: send existing rental partners straight to their dashboard
+    var cta = document.getElementById("partner-cta");
+    if (cta && window.WheelWiseAuth) {
+      var user = WheelWiseAuth.getUser ? WheelWiseAuth.getUser() : null;
+      if (user && user.account_type === "rental_partner") {
+        cta.href = "/rent-dashboard";
+        cta.textContent = "Go to my dashboard";
+      }
+    }
   });
 })();

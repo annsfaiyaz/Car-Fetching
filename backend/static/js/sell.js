@@ -122,18 +122,18 @@
   });
 
   function updateSellGuestUi() {
-    const banner = document.getElementById("sell-login-banner");
+    const gate = document.getElementById("sell-auth-gate");
+    const form = document.getElementById("sell-form");
     const link = document.getElementById("sell-login-link");
-    if (!banner) return;
     const loggedIn = window.WheelWiseAuth && WheelWiseAuth.getAccessToken();
     if (loggedIn) {
-      banner.classList.add("hidden");
+      if (gate) gate.classList.add("hidden");
+      if (form) form.classList.remove("hidden");
       return;
     }
-    banner.classList.remove("hidden");
-    if (link) {
-      link.href = "/login?next=" + encodeURIComponent("/sell");
-    }
+    if (gate) gate.classList.remove("hidden");
+    if (form) form.classList.add("hidden");
+    if (link) link.href = "/login?next=" + encodeURIComponent("/sell");
   }
 
   document.addEventListener("DOMContentLoaded", function () {

@@ -39,78 +39,6 @@ STATIC_DIR = Path(__file__).resolve().parent / "static"
 
 scheduler = AsyncIOScheduler()
 
-_SEED_RENTALS = [
-    {
-        "title": "Toyota Corolla 2020 — Lahore",
-        "make": "Toyota", "model": "Corolla", "model_year": 2020,
-        "car_type": "sedan", "city": "Lahore", "pickup_area": "DHA Phase 5",
-        "price_per_day": 4500, "driver_included": False, "fuel_policy": "renter_pays",
-        "deposit_amount": 20000,
-        "description": "Well-maintained Corolla in excellent condition. Full AC, recently serviced. Self-drive available.",
-        "contact_phone": "0300-1234567",
-    },
-    {
-        "title": "Honda Civic 2019 — Karachi",
-        "make": "Honda", "model": "Civic", "model_year": 2019,
-        "car_type": "sedan", "city": "Karachi", "pickup_area": "Clifton",
-        "price_per_day": 5500, "driver_included": False, "fuel_policy": "renter_pays",
-        "deposit_amount": 25000,
-        "description": "Top condition Honda Civic, available for self-drive. Pick up from Clifton.",
-        "contact_phone": "0321-9876543",
-    },
-    {
-        "title": "Toyota Fortuner 2021 — Islamabad (With Driver)",
-        "make": "Toyota", "model": "Fortuner", "model_year": 2021,
-        "car_type": "suv", "city": "Islamabad", "pickup_area": "F-7",
-        "price_per_day": 9500, "driver_included": True, "fuel_policy": "renter_pays",
-        "deposit_amount": None,
-        "description": "Luxury SUV with professional driver. Ideal for northern area trips. 7-seater.",
-        "contact_phone": "0333-5551234",
-    },
-    {
-        "title": "Suzuki Bolan Van — Lahore",
-        "make": "Suzuki", "model": "Bolan", "model_year": 2019,
-        "car_type": "van", "city": "Lahore", "pickup_area": "Gulberg",
-        "price_per_day": 3000, "driver_included": True, "fuel_policy": "renter_pays",
-        "deposit_amount": None,
-        "description": "Spacious van for family and goods transport. Driver included. Available 24/7.",
-        "contact_phone": "0311-4445566",
-    },
-    {
-        "title": "Toyota Prado 2022 — Islamabad (With Driver)",
-        "make": "Toyota", "model": "Prado", "model_year": 2022,
-        "car_type": "suv", "city": "Islamabad", "pickup_area": "Blue Area",
-        "price_per_day": 14000, "driver_included": True, "fuel_policy": "included",
-        "deposit_amount": None,
-        "description": "Premium Prado for executive travel. Fuel included. Perfect for corporate clients and northern trips.",
-        "contact_phone": "0312-7778899",
-    },
-    {
-        "title": "Suzuki Alto 2021 — Karachi",
-        "make": "Suzuki", "model": "Alto", "model_year": 2021,
-        "car_type": "hatchback", "city": "Karachi", "pickup_area": "Gulshan-e-Iqbal",
-        "price_per_day": 2200, "driver_included": False, "fuel_policy": "renter_pays",
-        "deposit_amount": 10000,
-        "description": "Economical and fuel-efficient hatchback for city driving. Perfect for daily commute.",
-        "contact_phone": "0345-1122334",
-    },
-]
-
-
-async def _seed_rental_listings() -> None:
-    from database_models import RentalListing
-    from sqlalchemy import func, select
-    factory = get_async_session_factory()
-    async with factory() as session:
-        count = await session.scalar(select(func.count()).select_from(RentalListing))
-        if count:
-            return
-        now = datetime.now(timezone.utc)
-        for data in _SEED_RENTALS:
-            session.add(RentalListing(**data, is_active=True, created_at=now, updated_at=now))
-        await session.commit()
-        logging.getLogger(__name__).info("Seeded %d sample rental listings", len(_SEED_RENTALS))
-
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -120,7 +48,6 @@ async def lifespan(app: FastAPI):
     factory = get_async_session_factory()
     async with factory() as session:
         await auth_service.promote_admin_by_email(session)
-    await _seed_rental_listings()
 
     scheduler.add_job(poll_news_feeds, "interval", hours=1, id="poll_news", replace_existing=True)
     scheduler.add_job(poll_fuel_urls, "interval", hours=6, id="poll_fuel", replace_existing=True)
@@ -232,6 +159,14 @@ async def rent_detail_page():
     if path.is_file():
         return FileResponse(path)
     raise HTTPException(status_code=404, detail="rent-detail.html missing")
+
+
+@app.get("/rent-dashboard")
+async def rent_dashboard_page():
+    path = STATIC_DIR / "rent-dashboard.html"
+    if path.is_file():
+        return FileResponse(path)
+    raise HTTPException(status_code=404, detail="rent-dashboard.html missing")
 
 
 @app.get("/sell")

@@ -9,7 +9,7 @@ from pydantic import BaseModel, Field
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from database_models import PakwheelsListing, ROLE_ADMIN, ROLE_USER, User
+from database_models import PakwheelsListing, RentalBooking, RentalListing, ROLE_ADMIN, ROLE_USER, User
 from routes.auth.deps import get_current_admin, get_db_session
 from services import auth_service
 
@@ -32,10 +32,18 @@ async def admin_stats(
     wheelwise_count = await session.scalar(
         select(func.count()).select_from(PakwheelsListing).where(PakwheelsListing.source == "wheelwise")
     )
+    rent_listings_count = await session.scalar(select(func.count()).select_from(RentalListing))
+    rent_bookings_count = await session.scalar(select(func.count()).select_from(RentalBooking))
+    pending_bookings    = await session.scalar(
+        select(func.count()).select_from(RentalBooking).where(RentalBooking.status == "pending")
+    )
     return {
         "users": users_count or 0,
         "listings": listings_count or 0,
         "wheelwise_listings": wheelwise_count or 0,
+        "rental_listings": rent_listings_count or 0,
+        "rental_bookings": rent_bookings_count or 0,
+        "pending_bookings": pending_bookings or 0,
     }
 
 
@@ -110,5 +118,82 @@ async def list_listings(
             "created_at": r.created_at.isoformat() if r.created_at else None,
         }
         for r in rows
+    ]
+    return {"total": total or 0, "items": items}
+
+
+@router.get("/rent/listings")
+async def admin_rent_listings(
+    _admin: User = Depends(get_current_admin),
+    session: AsyncSession = Depends(get_db_session),
+    limit: int = Query(100, ge=1, le=500),
+    offset: int = Query(0, ge=0),
+):
+    total = await session.scalar(select(func.count()).select_from(RentalListing))
+    result = await session.execute(
+        select(RentalListing, User.username, User.email)
+        .outerjoin(User, RentalListing.owner_id == User.id)
+        .order_by(RentalListing.id.desc())
+        .limit(limit).offset(offset)
+    )
+    rows = result.all()
+    items = [
+        {
+            "id": r.id,
+            "title": r.title,
+            "make": r.make,
+            "model": r.model,
+            "model_year": r.model_year,
+            "car_type": r.car_type,
+            "city": r.city,
+            "price_per_day": r.price_per_day,
+            "driver_included": r.driver_included,
+            "is_active": r.is_active,
+            "contact_phone": r.contact_phone,
+            "owner_id": r.owner_id,
+            "owner_username": username,
+            "owner_email": email,
+            "created_at": r.created_at.isoformat() if r.created_at else None,
+        }
+        for r, username, email in rows
+    ]
+    return {"total": total or 0, "items": items}
+
+
+@router.get("/rent/bookings")
+async def admin_rent_bookings(
+    _admin: User = Depends(get_current_admin),
+    session: AsyncSession = Depends(get_db_session),
+    limit: int = Query(100, ge=1, le=500),
+    offset: int = Query(0, ge=0),
+    status: str | None = Query(None),
+):
+    q = select(RentalBooking, RentalListing.title, RentalListing.city, User.username, User.email)
+    q = q.join(RentalListing, RentalBooking.listing_id == RentalListing.id)
+    q = q.outerjoin(User, RentalListing.owner_id == User.id)
+    count_q = select(func.count()).select_from(RentalBooking)
+    if status:
+        q = q.where(RentalBooking.status == status)
+        count_q = count_q.where(RentalBooking.status == status)
+    total = await session.scalar(count_q)
+    result = await session.execute(q.order_by(RentalBooking.id.desc()).limit(limit).offset(offset))
+    rows = result.all()
+    items = [
+        {
+            "id": b.id,
+            "listing_id": b.listing_id,
+            "listing_title": listing_title,
+            "listing_city": listing_city,
+            "owner_username": owner_username,
+            "owner_email": owner_email,
+            "renter_name": b.renter_name,
+            "renter_phone": b.renter_phone,
+            "pickup_date": b.pickup_date,
+            "return_date": b.return_date,
+            "message": b.message,
+            "status": b.status,
+            "created_at": b.created_at.isoformat() if b.created_at else None,
+        }
+        for b, listing_title, listing_city, owner_username, owner_email in rows
     ]
     return {"total": total or 0, "items": items}
