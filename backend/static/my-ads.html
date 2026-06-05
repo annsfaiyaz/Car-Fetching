@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>My Ads — WheelWise PK</title>
+    <script>
+      (function () {
+        try {
+          var s = localStorage.getItem("pakwheels_theme");
+          if (s === "dark") document.documentElement.classList.add("dark");
+          else if (s === "light") document.documentElement.classList.remove("dark");
+          else if (matchMedia("(prefers-color-scheme: dark)").matches) document.documentElement.classList.add("dark");
+        } catch (e) {}
+      })();
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = { darkMode: "class", theme: { extend: { fontFamily: { sans: ["DM Sans", "system-ui", "sans-serif"] } } } };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/css/site.css" />
+  </head>
+  <body class="min-h-full bg-slate-100 text-slate-900 antialiased dark:bg-zinc-900 dark:text-zinc-100" data-ww-layout>
+
+    <div id="site-nav" data-page="my-ads"></div>
+
+    <section class="ww-page-hero px-4 pb-4 pt-6 text-center sm:pt-8">
+      <p class="mb-3 inline-flex items-center gap-2 rounded-full border border-violet-300/40 bg-violet-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-violet-700 dark:border-violet-500/30 dark:text-violet-300">
+        Your listings
+      </p>
+      <h1 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">My ads</h1>
+      <p class="mx-auto mt-3 max-w-lg text-base text-slate-600 dark:text-zinc-400">
+        Manage car advertisements you published on WheelWise PK.
+      </p>
+      <a href="/sell" class="mt-6 inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-violet-500 to-violet-700 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-violet-500/25 hover:from-violet-400">
+        + Post another car
+      </a>
+    </section>
+
+    <main class="mx-auto max-w-7xl px-4 pb-16 lg:px-6">
+      <div id="ads-loading" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="h-64 animate-pulse rounded-xl bg-slate-200 dark:bg-zinc-800"></div>
+        <div class="h-64 animate-pulse rounded-xl bg-slate-200 dark:bg-zinc-800"></div>
+      </div>
+      <div id="ads-list" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+      <div id="ads-empty" class="hidden rounded-2xl border border-dashed border-slate-300 bg-white/50 p-12 text-center dark:border-zinc-700 dark:bg-zinc-900/50">
+        <p class="text-lg font-semibold text-slate-800 dark:text-zinc-100">No ads yet</p>
+        <p class="mt-2 text-sm text-slate-600 dark:text-zinc-400">Upload photos and let AI fill in your listing details.</p>
+        <a href="/sell" class="mt-6 inline-flex rounded-xl bg-gradient-to-br from-violet-500 to-violet-700 px-6 py-3 text-sm font-semibold text-white hover:from-violet-400">Sell your car</a>
+      </div>
+    </main>
+
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/theme.js"></script>
+    <script src="/static/js/nav.js"></script>
+    <script src="/static/js/my-ads.js"></script>
+  </body>
+</html>

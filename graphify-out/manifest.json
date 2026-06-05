@@ -1,27 +1,27 @@
 {
   "/home/ans/WEB-SCRAPING/car-fetching/scraper/url_canonical.py": {
-    "mtime": 1779036388.9130049,
+    "mtime": 1780146177.0655253,
     "hash": "6eb110d3218c69a1f847ab0851f3da36"
   },
   "/home/ans/WEB-SCRAPING/car-fetching/scraper/pakwheels.py": {
-    "mtime": 1779036388.914005,
+    "mtime": 1780146177.0645254,
     "hash": "45e905572c98d1df7ac2ea798a5f50be"
   },
   "/home/ans/WEB-SCRAPING/car-fetching/scraper/olx.py": {
-    "mtime": 1779036388.907005,
+    "mtime": 1780146177.0645254,
     "hash": "dbea1a187b36851b925d3804f8490005"
   },
   "/home/ans/WEB-SCRAPING/car-fetching/backend/db.py": {
-    "mtime": 1778852680.864718,
-    "hash": "13d3c44e93d74bb7a20763293ec30a3a"
+    "mtime": 1780146205.5145237,
+    "hash": "cfc6a86a3397ea56dda890a75751c3f5"
   },
   "/home/ans/WEB-SCRAPING/car-fetching/backend/database_models.py": {
-    "mtime": 1778852680.864718,
-    "hash": "36ce82a84ede0b818be55825668618a3"
+    "mtime": 1780146204.7565238,
+    "hash": "75b3a0b4a41f9cf773afbaf1ab24789a"
   },
   "/home/ans/WEB-SCRAPING/car-fetching/backend/main.py": {
-    "mtime": 1778852680.865718,
-    "hash": "82903f713d945df6b2eeae905bff155a"
+    "mtime": 1780146623.3804631,
+    "hash": "a5c25b681103fc494d6305ee990cf643"
   },
   "/home/ans/WEB-SCRAPING/car-fetching/backend/scripts/clear_all_listings.py": {
     "mtime": 1778163707.4958122,
@@ -47,9 +47,21 @@
     "mtime": 1778852680.864718,
     "hash": "cc63f740d8d209e2b6cadebfd277caee"
   },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/services/auth_service.py": {
+    "mtime": 1780146218.482523,
+    "hash": "bdb3d6c61875c6e79e260b9ac8a42852"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/services/user_ads_repo.py": {
+    "mtime": 1780146582.8514712,
+    "hash": "0a6278f723e72d3f1b0be7a993b4ce9b"
+  },
   "/home/ans/WEB-SCRAPING/car-fetching/backend/services/llm_router.py": {
     "mtime": 1778852680.8687177,
     "hash": "d763ef6f187ed9f3952b265e0e7ce88f"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/services/vision_analysis.py": {
+    "mtime": 1780146568.454474,
+    "hash": "2908c3ecdba01688642e46cd28effb01"
   },
   "/home/ans/WEB-SCRAPING/car-fetching/backend/services/spam_ai.py": {
     "mtime": 1778852680.8717177,
@@ -58,6 +70,10 @@
   "/home/ans/WEB-SCRAPING/car-fetching/backend/services/enrichment_worker.py": {
     "mtime": 1778852680.8687177,
     "hash": "9c64c9d5c897739bba4dd6b643a7107d"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/services/image_service.py": {
+    "mtime": 1780146568.4514742,
+    "hash": "2add19f3eb08554723b75e0cbf9e94c8"
   },
   "/home/ans/WEB-SCRAPING/car-fetching/backend/services/feedback_repo.py": {
     "mtime": 1778852680.8687177,
@@ -72,11 +88,11 @@
     "hash": "86a15d2c177e92673072bbeeb2cc4b00"
   },
   "/home/ans/WEB-SCRAPING/car-fetching/backend/services/settings_repo.py": {
-    "mtime": 1778852680.8717177,
+    "mtime": 1780146177.0525253,
     "hash": "66a62d4a6d87a0d0d6a85314b733518f"
   },
   "/home/ans/WEB-SCRAPING/car-fetching/backend/services/listings_repo.py": {
-    "mtime": 1779036388.9130049,
+    "mtime": 1780146177.0515254,
     "hash": "b068161b3da4059dbb3dc85b02f5d28d"
   },
   "/home/ans/WEB-SCRAPING/car-fetching/backend/services/search_sessions_repo.py": {
@@ -88,7 +104,7 @@
     "hash": "679d350d99158dec5695f4d0dd733088"
   },
   "/home/ans/WEB-SCRAPING/car-fetching/backend/services/ollama_olx.py": {
-    "mtime": 1779036388.912005,
+    "mtime": 1780146177.0515254,
     "hash": "0e77d620c7d827ac4ba895a6027da604"
   },
   "/home/ans/WEB-SCRAPING/car-fetching/backend/services/nim_client.py": {
@@ -108,7 +124,7 @@
     "hash": "0a950c47ea19fafef9da5a36a2119f98"
   },
   "/home/ans/WEB-SCRAPING/car-fetching/backend/routes/pakwheels_api.py": {
-    "mtime": 1779036388.912005,
+    "mtime": 1780146177.0515254,
     "hash": "479850b1ad7ba68add3464915e07a828"
   },
   "/home/ans/WEB-SCRAPING/car-fetching/backend/routes/search_api.py": {
@@ -123,6 +139,18 @@
     "mtime": 1778852680.8677177,
     "hash": "e7bf70b7bf0302bff3a54d612fe4e764"
   },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/routes/user_ads_api.py": {
+    "mtime": 1780146619.9234638,
+    "hash": "f541c6299a8bf41f3fbec1907739dcb0"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/routes/admin_api.py": {
+    "mtime": 1780146244.6775208,
+    "hash": "6c7ccd51d9adff11e812c7ae6d1257d5"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/routes/sell_api.py": {
+    "mtime": 1780146568.449474,
+    "hash": "41c9553cd153e55b51903ad3eb7aa893"
+  },
   "/home/ans/WEB-SCRAPING/car-fetching/backend/routes/health.py": {
     "mtime": 1778163707.4828122,
     "hash": "b2b9ab4f17cee95f230c726047b65fac"
@@ -131,37 +159,113 @@
     "mtime": 1778098272.0435677,
     "hash": "8c2836a538372ae4dc2be1cc7e783b0f"
   },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/routes/auth/deps.py": {
+    "mtime": 1780146221.3745227,
+    "hash": "3743f0363c893a99504d0255f29d8274"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/routes/auth/router.py": {
+    "mtime": 1780146227.7725222,
+    "hash": "ff56d5a9671a6f9baaddc496a33dad04"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/routes/auth/__init__.py": {
+    "mtime": 1780146237.2125216,
+    "hash": "2d0272a18564c33dca726703c6d90cd4"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/static/js/auth.js": {
+    "mtime": 1780147207.716144,
+    "hash": "f1cbb51da01c41ff8b2043b50df74b6f"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/static/js/post-ad.js": {
+    "mtime": 1780146568.460474,
+    "hash": "81c7c606cb7779cc21d5788b000384e6"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/static/js/nav.js": {
+    "mtime": 1780147203.8985705,
+    "hash": "38b35041c12a2df953e1faa5e81b79f3"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/static/js/my-ads.js": {
+    "mtime": 1780146574.091473,
+    "hash": "6fc2cd2c702d3a913b02f802f931831d"
+  },
   "/home/ans/WEB-SCRAPING/car-fetching/backend/static/js/app.js": {
-    "mtime": 1778852680.8737175,
-    "hash": "0e6adb4e0e602df098f37e71a8b78ee3"
+    "mtime": 1780147208.1992164,
+    "hash": "3e059edfecb5c579d552e94cb6c31fe2"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/static/js/register.js": {
+    "mtime": 1780147225.401752,
+    "hash": "b22e5ba6bc13827675a8c3ec725e4b49"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/static/js/admin.js": {
+    "mtime": 1780146621.0884635,
+    "hash": "bf8f6c0d55c363540726699b0a3bc24b"
   },
   "/home/ans/WEB-SCRAPING/car-fetching/backend/static/js/settings.js": {
-    "mtime": 1778852680.8737175,
-    "hash": "32d6dad2460a622c98581f4dd01234d7"
+    "mtime": 1780147280.1513622,
+    "hash": "f9ecad8f8b68b7bd524fe0d879800884"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/static/js/sell.js": {
+    "mtime": 1780146568.447474,
+    "hash": "8e8a885015a75f57d2813ad5bdb37714"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/static/js/theme.js": {
+    "mtime": 1780147204.108602,
+    "hash": "8b7cdddb40743b881ace6b991e8b5637"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/static/js/login.js": {
+    "mtime": 1780147225.062703,
+    "hash": "20c6815de5a4a768e47cd237d6332c16"
   },
   "/home/ans/WEB-SCRAPING/car-fetching/docker-compose.yml": {
-    "mtime": 1779038601.1261575,
+    "mtime": 1780146177.0545254,
     "hash": "f8d5851467d6046f7b0cd455835dec9f"
   },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/static/sell.html": {
+    "mtime": 1780146568.4454741,
+    "hash": "74daa768c437abc90f5fb6d2e42d9f75"
+  },
   "/home/ans/WEB-SCRAPING/car-fetching/backend/static/about.html": {
-    "mtime": 1778852680.8727176,
-    "hash": "d95c4934d24a1b01cb310f4fe968ef57"
+    "mtime": 1780147256.0230894,
+    "hash": "ecc27fb39255e735a13d81a02989b72b"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/static/admin.html": {
+    "mtime": 1780147290.2917025,
+    "hash": "5e8888d3da53dea72d03b84dcce5c283"
   },
   "/home/ans/WEB-SCRAPING/car-fetching/backend/static/news.html": {
-    "mtime": 1778852680.8737175,
-    "hash": "e5437fe374751e86698293be52aa4a5a"
+    "mtime": 1780147284.496939,
+    "hash": "ea4dd59532caa2266dd015f6207358ef"
   },
   "/home/ans/WEB-SCRAPING/car-fetching/backend/static/home.html": {
-    "mtime": 1778852680.8727176,
-    "hash": "1aaba635228aa36706ecb71474dec0e7"
+    "mtime": 1780147240.2938886,
+    "hash": "c32bc57c73bd7b430b3f9dfaba3f7d5c"
   },
   "/home/ans/WEB-SCRAPING/car-fetching/backend/static/settings.html": {
-    "mtime": 1778852680.8747175,
-    "hash": "ef0cb233d169809068becc099dc4ffd9"
+    "mtime": 1780147279.4092634,
+    "hash": "f34dae24ef83ae856ae78bee41d5f9e3"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/static/post-ad.html": {
+    "mtime": 1780146568.4584742,
+    "hash": "06b473e16f74441b27b3ea1bb434e926"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/static/rent.html": {
+    "mtime": 1780147293.6921477,
+    "hash": "a1ecd70c528a843d7f90af9e5e055fcc"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/static/my-ads.html": {
+    "mtime": 1780146574.088473,
+    "hash": "81f632870856260d578b5936ff02a9c3"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/static/login.html": {
+    "mtime": 1780147215.0942416,
+    "hash": "a26d390bcfd41aafb782184083d2429c"
   },
   "/home/ans/WEB-SCRAPING/car-fetching/backend/static/cars.html": {
     "mtime": 1778852680.8727176,
     "hash": "ae99a20f4188377f39a62111ea7135af"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/static/register.html": {
+    "mtime": 1780147223.8665287,
+    "hash": "3c86dd95568ff5ede33757befe6e5749"
   },
   "/home/ans/WEB-SCRAPING/car-fetching/docs/olx_extraction.md": {
     "mtime": 1778852680.8747175,
@@ -178,6 +282,46 @@
   "/home/ans/WEB-SCRAPING/car-fetching/docs/extraction_logic.md": {
     "mtime": 1778109243.1863415,
     "hash": "83e99f5bd16891efea68fcc6f566058f"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/static/uploads/cars/d02ccedd-42fe-4405-92ad-1796227048f0.webp": {
+    "mtime": 1779474898.0579767,
+    "hash": "270eef3686478dd38c12f7edd0ff00d4"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/static/uploads/cars/79988b85-fa33-4075-a2a7-b4dc6707fee9.webp": {
+    "mtime": 1780138683.835997,
+    "hash": "3f08338823f6533efd158caf9f950f20"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/static/uploads/cars/6e9dfcc2-254b-4c84-9cc5-b379dda791d9.webp": {
+    "mtime": 1779474898.0629768,
+    "hash": "0a52079fe92c971e20e40627020f52b1"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/static/uploads/cars/a1d05b81-4078-452a-a2e2-e2a9a56bef3e.webp": {
+    "mtime": 1779474897.9949756,
+    "hash": "3f08338823f6533efd158caf9f950f20"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/static/uploads/cars/4b09b424-34f1-4867-9db0-ff71d441de01.webp": {
+    "mtime": 1780138683.9089985,
+    "hash": "51eafdaa090651d83dded74f3794e144"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/static/uploads/cars/7ded7b8c-6eee-4614-b894-5fd62226b15b.webp": {
+    "mtime": 1780138683.9089985,
+    "hash": "270eef3686478dd38c12f7edd0ff00d4"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/static/uploads/cars/43371733-533c-43b7-b4d4-ac06421ffdc4.webp": {
+    "mtime": 1780138683.9129984,
+    "hash": "0a52079fe92c971e20e40627020f52b1"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/static/uploads/cars/da3feb55-37cf-4c84-8729-2ed160274516.webp": {
+    "mtime": 1779474898.0599768,
+    "hash": "d3663791e1b5749dc627c7756c79eaee"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/static/uploads/cars/7994d850-79b0-445c-8c47-f1c7c729762d.webp": {
+    "mtime": 1780138683.9099984,
+    "hash": "d3663791e1b5749dc627c7756c79eaee"
+  },
+  "/home/ans/WEB-SCRAPING/car-fetching/backend/static/uploads/cars/2fb64601-b149-466f-be72-fb33ef5e38a3.webp": {
+    "mtime": 1779474898.0589767,
+    "hash": "51eafdaa090651d83dded74f3794e144"
   },
   "/home/ans/WEB-SCRAPING/car-fetching/backend/static/images/car-placeholder.svg": {
     "mtime": 1778852680.8737175,

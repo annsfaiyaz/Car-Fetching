@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sell Your Car — WheelWise PK</title>
+    <script>
+      (function () {
+        try {
+          var s = localStorage.getItem("pakwheels_theme");
+          if (s === "dark") document.documentElement.classList.add("dark");
+          else if (s === "light") document.documentElement.classList.remove("dark");
+          else if (matchMedia("(prefers-color-scheme: dark)").matches) document.documentElement.classList.add("dark");
+        } catch (e) {}
+      })();
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = { darkMode: "class", theme: { extend: { fontFamily: { sans: ["DM Sans", "system-ui", "sans-serif"] } } } };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/css/site.css" />
+  </head>
+  <body class="min-h-full bg-slate-100 text-slate-900 antialiased dark:bg-zinc-900 dark:text-zinc-100" data-ww-layout>
+
+    <div id="site-nav" data-page="sell"></div>
+
+    <section class="ww-page-hero px-4 pb-2 pt-6 text-center sm:pt-10">
+      <p class="mb-3 inline-flex items-center gap-2 rounded-full border border-violet-300/40 bg-violet-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-violet-700 dark:border-violet-500/30 dark:text-violet-300">
+        AI-powered listing
+      </p>
+      <h1 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">Sell your car</h1>
+      <p class="mx-auto mt-3 max-w-xl text-base leading-relaxed text-slate-600 dark:text-zinc-400">
+        Upload photos from different angles. AI detects make, model, year, and condition — then you review and confirm before anything is published.
+      </p>
+    </section>
+
+    <main class="mx-auto max-w-2xl px-4 pb-16 lg:px-6">
+
+      <!-- Auth gate — shown to guests instead of the form -->
+      <div id="sell-auth-gate" class="hidden mb-8 overflow-hidden rounded-2xl border border-violet-200/60 bg-white shadow-sm dark:border-violet-800/30 dark:bg-zinc-900">
+        <div class="bg-gradient-to-br from-violet-500/10 to-violet-700/5 px-6 py-8 text-center dark:from-violet-800/20 dark:to-violet-900/10">
+          <span class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-violet-500/15 text-violet-600 dark:text-violet-400">
+            <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M8 17h8M6 11l1-4h10l1 4M7 11v2a2 2 0 002 2h6a2 2 0 002-2v-2"/><circle cx="8" cy="17" r="1.5" fill="currentColor" stroke="none"/><circle cx="16" cy="17" r="1.5" fill="currentColor" stroke="none"/></svg>
+          </span>
+          <h2 class="text-xl font-bold text-slate-900 dark:text-white">Sign in to sell your car</h2>
+          <p class="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
+            Create a free account to upload photos, let AI fill in listing details, and publish to thousands of buyers.
+          </p>
+          <div class="mt-6 flex flex-wrap justify-center gap-3">
+            <a id="sell-login-link" href="/login?next=%2Fsell"
+              class="rounded-xl bg-gradient-to-br from-violet-500 to-violet-700 px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:from-violet-400">
+              Login
+            </a>
+            <a href="/register?next=/sell"
+              class="rounded-xl border border-slate-300 bg-white px-6 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700">
+              Create account
+            </a>
+          </div>
+        </div>
+        <div class="grid grid-cols-3 divide-x divide-slate-100 border-t border-slate-100 dark:divide-zinc-800 dark:border-zinc-800">
+          <div class="px-4 py-3 text-center">
+            <p class="text-sm font-bold text-violet-600 dark:text-violet-400">AI-powered</p>
+            <p class="text-xs text-slate-500 dark:text-zinc-500">Auto-fills details from photos</p>
+          </div>
+          <div class="px-4 py-3 text-center">
+            <p class="text-sm font-bold text-violet-600 dark:text-violet-400">Free</p>
+            <p class="text-xs text-slate-500 dark:text-zinc-500">No listing fees</p>
+          </div>
+          <div class="px-4 py-3 text-center">
+            <p class="text-sm font-bold text-violet-600 dark:text-violet-400">Fast</p>
+            <p class="text-xs text-slate-500 dark:text-zinc-500">Live in minutes</p>
+          </div>
+        </div>
+      </div>
+
+      <form id="sell-form" class="hidden animate-fade-in space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 sm:p-8">
+        <div>
+          <label class="block text-sm font-medium text-slate-700 dark:text-zinc-300">Car photos <span class="text-slate-400">(up to 6)</span></label>
+          <label class="mt-3 flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-300 bg-slate-50/80 px-6 py-10 transition hover:border-violet-400 hover:bg-violet-50/30 dark:border-zinc-700 dark:bg-zinc-800/50 dark:hover:border-violet-500 dark:hover:bg-violet-950/20">
+            <svg class="mb-3 h-10 w-10 text-violet-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+            <span class="text-sm font-semibold text-slate-700 dark:text-zinc-200">Click to upload images</span>
+            <span class="mt-1 text-xs text-slate-500 dark:text-zinc-500">JPG, PNG or WebP</span>
+            <input type="file" id="car-images" accept="image/jpeg,image/png,image/webp" multiple class="sr-only" />
+          </label>
+          <div id="image-preview" class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3"></div>
+        </div>
+        <div>
+          <label for="user-hint" class="block text-sm font-medium text-slate-700 dark:text-zinc-300">Additional details <span class="text-slate-400">(optional)</span></label>
+          <textarea id="user-hint" rows="3" placeholder="e.g. Honda City 2018, white, 80k km, Lahore" class="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm shadow-sm focus:border-violet-400 focus:outline-none focus:ring-2 focus:ring-violet-500/20 dark:border-zinc-700 dark:bg-zinc-800"></textarea>
+        </div>
+        <button type="submit" id="btn-analyze" class="w-full rounded-xl bg-gradient-to-br from-violet-500 to-violet-700 px-6 py-3.5 text-sm font-semibold text-white shadow-md shadow-violet-500/25 transition hover:from-violet-400 hover:to-violet-600 active:scale-[0.99]">
+          Analyze with AI
+        </button>
+      </form>
+      <div id="sell-status" class="hidden mt-4" role="status"></div>
+      <p class="mt-8 text-center text-sm text-slate-500 dark:text-zinc-500">
+        After AI analysis you will review the details, then publish when ready. Manage listings under <a href="/my-ads" class="font-semibold text-violet-600 hover:underline dark:text-violet-400">My ads</a>.
+      </p>
+    </main>
+
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/theme.js"></script>
+    <script src="/static/js/nav.js"></script>
+    <script src="/static/js/sell.js"></script>
+  </body>
+</html>

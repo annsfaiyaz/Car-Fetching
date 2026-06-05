@@ -1,0 +1,60 @@
+html { font-family: DM Sans, system-ui, sans-serif; }
+
+.dark ::-webkit-scrollbar { width: 6px; background: #27272a; }
+.dark ::-webkit-scrollbar-thumb { background: #52525b; border-radius: 3px; }
+
+.search-glow {
+  box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.3), 0 0 24px rgba(139, 92, 246, 0.12);
+}
+.dark .search-glow {
+  box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.4), 0 0 32px rgba(139, 92, 246, 0.18);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in { animation: fadeIn 0.35s ease forwards; }
+
+.ww-page-hero { position: relative; overflow: hidden; }
+.ww-page-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 0%, rgba(139, 92, 246, 0.12), transparent),
+    radial-gradient(ellipse 40% 30% at 20% 20%, rgba(245, 158, 11, 0.06), transparent);
+}
+.dark .ww-page-hero::before {
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 0%, rgba(139, 92, 246, 0.18), transparent),
+    radial-gradient(ellipse 40% 30% at 20% 20%, rgba(245, 158, 11, 0.08), transparent);
+}
+
+.ww-pill-active {
+  background: #fff;
+  font-weight: 600;
+  color: #5b21b6;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+}
+.dark .ww-pill-active {
+  background: #3f3f46;
+  color: #ddd6fe;
+}
+
+.ww-pill-link {
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: #475569;
+  transition: color 0.15s;
+}
+.ww-pill-link:hover { color: #0f172a; }
+.dark .ww-pill-link { color: #a1a1aa; }
+.dark .ww-pill-link:hover { color: #f4f4f5; }

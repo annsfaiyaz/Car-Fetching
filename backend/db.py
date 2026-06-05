@@ -55,6 +55,12 @@ async def connect_db() -> None:
             raise
 
     legacy_alters = [
+        "ALTER TABLE users ADD COLUMN full_name VARCHAR(256)",
+        "ALTER TABLE users ADD COLUMN account_type VARCHAR(32) DEFAULT 'buyer'",
+        "ALTER TABLE users ADD COLUMN role VARCHAR(16) DEFAULT 'user'",
+        "ALTER TABLE users ADD COLUMN is_active BOOLEAN DEFAULT 1",
+        "ALTER TABLE users ADD COLUMN is_verified BOOLEAN DEFAULT 0",
+        "ALTER TABLE users ADD COLUMN last_login_at TIMESTAMP",
         "ALTER TABLE pakwheels_listings ADD COLUMN search_origin VARCHAR(16)",
         "ALTER TABLE pakwheels_listings ADD COLUMN image_url VARCHAR(2048)",
         "ALTER TABLE pakwheels_listings ADD COLUMN spam_score FLOAT",
@@ -67,6 +73,7 @@ async def connect_db() -> None:
         "ALTER TABLE pakwheels_listings ADD COLUMN user_hidden BOOLEAN DEFAULT 0",
         "ALTER TABLE pakwheels_listings ADD COLUMN detail_html_snippet TEXT",
         "ALTER TABLE pakwheels_listings ADD COLUMN detail_fetched_at TIMESTAMP",
+        "ALTER TABLE pakwheels_listings ADD COLUMN user_id INTEGER",
     ]
     for sql in legacy_alters:
         await _try_alter(sql)
