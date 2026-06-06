@@ -34,16 +34,32 @@ async def admin_stats(
     )
     rent_listings_count = await session.scalar(select(func.count()).select_from(RentalListing))
     rent_bookings_count = await session.scalar(select(func.count()).select_from(RentalBooking))
-    pending_bookings    = await session.scalar(
+    pending_bookings = await session.scalar(
         select(func.count()).select_from(RentalBooking).where(RentalBooking.status == "pending")
     )
+    recent_users_result = await session.execute(
+        select(User).order_by(User.id.desc()).limit(5)
+    )
+    recent_listings_result = await session.execute(
+        select(PakwheelsListing).order_by(PakwheelsListing.id.desc()).limit(5)
+    )
+    recent_users = [
+        {"id": u.id, "username": u.username, "email": u.email, "account_type": u.account_type, "role": u.role}
+        for u in recent_users_result.scalars().all()
+    ]
+    recent_listings = [
+        {"id": l.id, "title": l.title, "source": l.source, "price": l.price}
+        for l in recent_listings_result.scalars().all()
+    ]
     return {
         "users": users_count or 0,
         "listings": listings_count or 0,
-        "wheelwise_listings": wheelwise_count or 0,
-        "rental_listings": rent_listings_count or 0,
-        "rental_bookings": rent_bookings_count or 0,
+        "wheelwise_ads": wheelwise_count or 0,
+        "rent_listings": rent_listings_count or 0,
+        "rent_bookings": rent_bookings_count or 0,
         "pending_bookings": pending_bookings or 0,
+        "recent_users": recent_users,
+        "recent_listings": recent_listings,
     }
 
 
