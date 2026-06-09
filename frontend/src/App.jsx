@@ -15,6 +15,10 @@ import MyAds from "./pages/MyAds";
 import Admin from "./pages/Admin";
 import Settings from "./pages/Settings";
 import RentDashboard from "./pages/RentDashboard";
+import Showrooms from "./pages/Showrooms";
+import ShowroomDetail from "./pages/ShowroomDetail";
+import ShowroomDashboard from "./pages/ShowroomDashboard";
+import ShowroomSetup from "./pages/ShowroomSetup";
 
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -46,6 +50,10 @@ export default function App() {
                 <Route path="/my-ads" element={<MyAds />} />
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/rent-dashboard" element={<RentDashboard />} />
+                <Route path="/showrooms" element={<Showrooms />} />
+                <Route path="/showrooms/:id" element={<ShowroomDetail />} />
+                <Route path="/showroom-dashboard" element={<ShowroomDashboard />} />
+                <Route path="/showroom-setup" element={<ShowroomSetup />} />
               </Routes>
             </>
           }

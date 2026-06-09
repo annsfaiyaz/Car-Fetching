@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { formatPrice } from "../utils/format";
+import AnimatedTextCycle from "../components/AnimatedTextCycle";
 
 const CITIES = ["Karachi", "Lahore", "Islamabad", "Rawalpindi", "Faisalabad", "Peshawar", "Multan", "Quetta"];
 const TYPES = ["sedan", "suv", "hatchback", "van", "pickup"];
@@ -85,7 +86,7 @@ export default function Rent() {
   const selectCls = "rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm dark:border-zinc-700 dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-violet-500/30";
 
   return (
-    <>
+    <div className="ww-page-hero min-h-[calc(100vh-4.25rem)]">
       {/* Hero */}
       <section className="relative overflow-hidden px-4 py-14 text-center sm:py-16">
         <div className="pointer-events-none absolute inset-0 -z-10">
@@ -94,7 +95,16 @@ export default function Rent() {
         <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-violet-300/40 bg-violet-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-violet-700 dark:border-violet-500/30 dark:text-violet-300">
           Rental cars across Pakistan
         </p>
-        <h1 className="mx-auto max-w-xl text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">Rent a car</h1>
+        <h1 className="mx-auto max-w-xl text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
+          Rent a{" "}
+          <span className="relative inline-flex text-violet-600 dark:text-violet-400">
+            <AnimatedTextCycle
+              words={["car", "sedan", "SUV", "hatchback", "van"]}
+              interval={2800}
+              className="text-4xl sm:text-5xl tracking-tight"
+            />
+          </span>
+        </h1>
         <p className="mx-auto mt-4 max-w-lg text-base leading-relaxed text-slate-600 dark:text-zinc-400">
           Browse verified rental cars in Karachi, Lahore, Islamabad and more. Self-drive or with driver — book in minutes.
         </p>
@@ -239,6 +249,6 @@ export default function Rent() {
           </Link>
         </div>
       </main>
-    </>
+    </div>
   );
 }

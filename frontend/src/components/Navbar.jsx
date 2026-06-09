@@ -2,11 +2,13 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useTheme } from "../contexts/ThemeContext";
+import { hasType } from "../utils/format";
 
 const NAV_LINKS = [
   { id: "home", href: "/", label: "Home" },
   { id: "sell", href: "/sell", label: "Sell Your Car" },
   { id: "rent", href: "/rent", label: "Rent a Car" },
+  { id: "showrooms", href: "/showrooms", label: "Showrooms" },
   { id: "about", href: "/about", label: "About" },
 ];
 
@@ -59,9 +61,9 @@ export default function Navbar() {
     return location.pathname.startsWith(l.href);
   })?.id;
 
-  const isRental = user?.account_type === "rental_partner";
-  const dashHref = isRental ? "/rent-dashboard" : "/my-ads";
-  const dashTitle = isRental ? "My Rentals" : "My ads";
+  const isRental   = hasType(user, "rental_partner");
+  const isShowroom = hasType(user, "showroom");
+  const isSeller   = hasType(user, "seller");
 
   function userInitial(u) {
     const name = (u && (u.username || u.full_name || u.email)) || "?";
@@ -120,14 +122,27 @@ export default function Navbar() {
             <span className="flex items-center gap-1">
               {user && token ? (
                 <div className="hidden items-center gap-1 sm:flex">
-                  {/* Dashboard icon */}
-                  <Link
-                    to={dashHref}
-                    title={dashTitle}
-                    className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200/80 bg-white text-slate-600 shadow-sm hover:bg-violet-50 hover:text-violet-700 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:bg-violet-950 dark:hover:text-violet-300"
-                  >
-                    {isRental ? <RentalIcon /> : <MyAdsIcon />}
-                  </Link>
+                  {/* Dashboard icons — one per account type */}
+                  {isShowroom && (
+                    <Link to="/showroom-dashboard" title="My Showroom"
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200/80 bg-white text-slate-600 shadow-sm hover:bg-violet-50 hover:text-violet-700 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:bg-violet-950 dark:hover:text-violet-300">
+                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72L4.318 3.44A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72m-13.5 8.65h3.75a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H6.75a.75.75 0 00-.75.75v3.75c0 .415.336.75.75.75z"/>
+                      </svg>
+                    </Link>
+                  )}
+                  {isRental && (
+                    <Link to="/rent-dashboard" title="My Rentals"
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200/80 bg-white text-slate-600 shadow-sm hover:bg-violet-50 hover:text-violet-700 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:bg-violet-950 dark:hover:text-violet-300">
+                      <RentalIcon />
+                    </Link>
+                  )}
+                  {(isSeller || (!isShowroom && !isRental)) && (
+                    <Link to="/my-ads" title="My Ads"
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200/80 bg-white text-slate-600 shadow-sm hover:bg-violet-50 hover:text-violet-700 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:bg-violet-950 dark:hover:text-violet-300">
+                      <MyAdsIcon />
+                    </Link>
+                  )}
                   {/* User chip */}
                   <div className="flex items-center gap-2 rounded-xl border border-slate-200/80 bg-slate-50/80 py-1 pl-1 pr-2 dark:border-zinc-700 dark:bg-zinc-800/80">
                     <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-violet-700 text-xs font-bold text-white">

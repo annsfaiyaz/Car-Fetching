@@ -30,6 +30,7 @@ from routes.user_ads_api import router as user_ads_router
 from routes.listings_api import router as listings_router
 from routes.pakwheels_api import router as pakwheels_router
 from routes.rent_api import router as rent_router
+from routes.showroom_api import router as showroom_router
 from routes.search_api import router as search_router
 from routes.settings_api import router as settings_router
 from services import auth_service, settings_repo
@@ -76,6 +77,7 @@ app.include_router(listings_router)
 app.include_router(sell_router)
 app.include_router(user_ads_router)
 app.include_router(rent_router)
+app.include_router(showroom_router)
 
 UPLOADS_DIR = STATIC_DIR / "uploads" / "cars"
 UPLOADS_DIR.mkdir(parents=True, exist_ok=True)

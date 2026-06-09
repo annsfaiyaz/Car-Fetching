@@ -55,6 +55,7 @@ export default function Settings() {
   const inputCls = "mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-900 focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500/25 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100";
 
   return (
+    <div className="ww-page-hero min-h-[calc(100vh-4.25rem)]">
     <main className="mx-auto max-w-lg px-4 py-10 lg:px-6">
       <p className="mb-2 inline-flex items-center gap-2 rounded-full border border-violet-300/40 bg-violet-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-violet-700 dark:border-violet-500/30 dark:text-violet-300">
         Configuration
@@ -110,5 +111,6 @@ export default function Settings() {
         <code className="rounded bg-slate-200 px-1 dark:bg-zinc-800">APP_SECRET_KEY</code> is set.
       </p>
     </main>
+    </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import AnimatedTextCycle from "../components/AnimatedTextCycle";
 
 const FIELDS = [
   { id: "title", label: "Title", span: 2, required: true },
@@ -96,13 +97,20 @@ export default function PostAd() {
   const inputCls = "mt-1 w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm shadow-sm focus:border-violet-400 focus:outline-none focus:ring-2 focus:ring-violet-500/20 dark:border-zinc-700 dark:bg-zinc-800";
 
   return (
-    <>
-      <section className="ww-page-hero px-4 pb-2 pt-6 text-center sm:pt-10">
+    <div className="ww-page-hero min-h-[calc(100vh-4.25rem)]">
+      <section className="px-4 pb-2 pt-6 text-center sm:pt-10">
         <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-emerald-300/40 bg-emerald-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-emerald-800 dark:border-emerald-500/30 dark:text-emerald-300">
           {isEdit ? "Edit listing" : "Review & publish"}
         </p>
         <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
-          {isEdit ? "Edit your listing" : "Confirm your listing"}
+          {isEdit ? "Edit your " : "Confirm your "}{" "}
+          <span className="relative inline-flex text-violet-600 dark:text-violet-400">
+            <AnimatedTextCycle
+              words={["listing", "details", "ad", "car info"]}
+              interval={2800}
+              className="text-3xl sm:text-4xl tracking-tight"
+            />
+          </span>
         </h1>
         <p className="mx-auto mt-3 max-w-xl text-base text-slate-600 dark:text-zinc-400">
           {isEdit ? "Update the details and save." : "Check what AI detected, add price and city, edit anything, then publish when you are ready."}
@@ -160,6 +168,6 @@ export default function PostAd() {
           <Link to="/my-ads" className="font-semibold text-slate-600 hover:underline dark:text-zinc-400">My ads</Link>
         </p>
       </main>
-    </>
+    </div>
   );
 }

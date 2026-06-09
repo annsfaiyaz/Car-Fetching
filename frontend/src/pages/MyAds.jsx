@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { formatPrice, formatPostedTime } from "../utils/format";
+import AnimatedTextCycle from "../components/AnimatedTextCycle";
 
 export default function MyAds() {
   const { token, authHeaders, fetchMe } = useAuth();
@@ -30,12 +31,21 @@ export default function MyAds() {
   }
 
   return (
-    <>
-      <section className="ww-page-hero px-4 pb-4 pt-6 text-center sm:pt-8">
+    <div className="ww-page-hero min-h-[calc(100vh-4.25rem)]">
+      <section className="px-4 pb-4 pt-6 text-center sm:pt-8">
         <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-violet-300/40 bg-violet-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-violet-700 dark:border-violet-500/30 dark:text-violet-300">
           Your listings
         </p>
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">My ads</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
+          My{" "}
+          <span className="relative inline-flex text-violet-600 dark:text-violet-400">
+            <AnimatedTextCycle
+              words={["ads", "listings", "cars", "posts"]}
+              interval={2800}
+              className="text-3xl sm:text-4xl tracking-tight"
+            />
+          </span>
+        </h1>
         <p className="mx-auto mt-3 max-w-lg text-base text-slate-600 dark:text-zinc-400">
           Manage car advertisements you published on WheelWise PK.
         </p>
@@ -88,6 +98,6 @@ export default function MyAds() {
           </div>
         )}
       </main>
-    </>
+    </div>
   );
 }

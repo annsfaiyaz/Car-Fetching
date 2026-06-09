@@ -1,3 +1,8 @@
+/** Check if user has a given account type (supports comma-separated multi-type) */
+export function hasType(user, type) {
+  return (user?.account_type || "").split(",").map((t) => t.trim()).includes(type);
+}
+
 export function formatPrice(n) {
   if (n == null || n === "") return "—";
   return "PKR " + Number(n).toLocaleString("en-PK", { maximumFractionDigits: 0 });

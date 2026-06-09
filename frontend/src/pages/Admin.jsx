@@ -7,6 +7,7 @@ const NAV_ITEMS = [
   { panel: "dashboard", label: "Dashboard", section: "Menu" },
   { panel: "users", label: "Users", section: "Menu" },
   { panel: "listings", label: "Listings", section: "Menu" },
+  { panel: "showrooms", label: "Showrooms", section: "Menu" },
   { panel: "rent-listings", label: "Rental Listings", section: "Rentals" },
   { panel: "rent-bookings", label: "Bookings", section: "Rentals" },
 ];
@@ -25,6 +26,7 @@ export default function Admin() {
   const [rentListings, setRentListings] = useState([]);
   const [rentBookings, setRentBookings] = useState([]);
   const [bookingFilter, setBookingFilter] = useState("");
+  const [showrooms, setShowrooms] = useState([]);
 
   useEffect(() => {
     fetchMe().then((u) => {
@@ -62,6 +64,22 @@ export default function Admin() {
     if (r.ok) { const d = await r.json(); setRentListings(d.items || []); }
   }
 
+  async function loadShowrooms() {
+    const r = await fetch("/api/admin/showrooms", { headers: authHeaders() });
+    if (r.ok) { const d = await r.json(); setShowrooms(d.items || []); }
+  }
+
+  async function toggleVerify(id) {
+    const r = await fetch(`/api/admin/showrooms/${id}/verify`, { method: "PUT", headers: authHeaders() });
+    if (r.ok) { const d = await r.json(); setShowrooms((prev) => prev.map((s) => s.id === id ? { ...s, is_verified: d.is_verified } : s)); }
+  }
+
+  async function deleteShowroom(id) {
+    if (!window.confirm("Delete this showroom? This cannot be undone.")) return;
+    const r = await fetch(`/api/admin/showrooms/${id}`, { method: "DELETE", headers: authHeaders() });
+    if (r.ok) setShowrooms((prev) => prev.filter((s) => s.id !== id));
+  }
+
   async function loadRentBookings(filter) {
     const f = filter !== undefined ? filter : bookingFilter;
     const q = f ? "?status=" + f : "";
@@ -76,6 +94,7 @@ export default function Admin() {
     if (p === "listings" && !listings.length) loadListings();
     if (p === "rent-listings" && !rentListings.length) loadRentListings();
     if (p === "rent-bookings") loadRentBookings();
+    if (p === "showrooms" && !showrooms.length) loadShowrooms();
   }
 
   function logout() { clearSession(); navigate("/"); }
@@ -86,11 +105,12 @@ export default function Admin() {
   }
 
   const statCards = [
-    { label: "Total Users", key: "users", color: "violet" },
-    { label: "Total Listings", key: "listings", color: "amber" },
-    { label: "WheelWise Ads", key: "wheelwise_ads", color: "emerald" },
-    { label: "Rental Cars", key: "rent_listings", color: "sky" },
-    { label: "Bookings", key: "rent_bookings", color: "amber" },
+    { label: "Total Users", key: "users" },
+    { label: "Total Listings", key: "listings" },
+    { label: "WheelWise Ads", key: "wheelwise_ads" },
+    { label: "Showrooms", key: "showrooms" },
+    { label: "Rental Cars", key: "rent_listings" },
+    { label: "Bookings", key: "rent_bookings" },
   ];
 
   const thClass = "px-5 py-2.5 text-xs font-semibold text-slate-500 dark:text-zinc-400";
@@ -177,7 +197,7 @@ export default function Admin() {
                 <h2 className="text-xl font-bold text-slate-900 dark:text-white">Overview</h2>
                 <p className="mt-0.5 text-sm text-slate-500 dark:text-zinc-400">Welcome, {user?.username || "admin"}.</p>
               </div>
-              <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-5">
+              <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-6">
                 {statCards.map((s) => (
                   <div key={s.key} className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
                     <p className="text-sm font-medium text-slate-500 dark:text-zinc-400">{s.label}</p>
@@ -288,6 +308,66 @@ export default function Admin() {
                       </tr>
                     ))}
                     {listings.length === 0 && <tr><td colSpan={5} className={tdClass}>No data</td></tr>}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          )}
+
+          {/* Showrooms */}
+          {activePanel === "showrooms" && (
+            <section>
+              <div className="mb-6 flex items-center justify-between">
+                <div>
+                  <h2 className="text-xl font-bold">Showrooms</h2>
+                  <p className="mt-0.5 text-sm text-slate-500 dark:text-zinc-400">Manage showroom profiles and verification</p>
+                </div>
+                <button onClick={loadShowrooms} className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700">Refresh</button>
+              </div>
+              <div className="rounded-2xl border border-slate-200 bg-white dark:border-zinc-800 dark:bg-zinc-900 overflow-x-auto">
+                <table className="w-full min-w-[800px] text-left text-sm">
+                  <thead className="border-b border-slate-200 bg-slate-50 dark:border-zinc-800 dark:bg-zinc-800/60">
+                    <tr>{["ID","Business Name","City","Owner","Phone","Verified","Active","Created","Actions"].map(h=><th key={h} className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-zinc-400">{h}</th>)}</tr>
+                  </thead>
+                  <tbody>
+                    {showrooms.map((s) => (
+                      <tr key={s.id} className="border-t border-slate-100 dark:border-zinc-800">
+                        <td className={tdClass}>{s.id}</td>
+                        <td className={tdClass + " font-medium"}>{s.business_name}</td>
+                        <td className={tdClass}>{s.city}</td>
+                        <td className={tdClass}>
+                          <div className="flex flex-col">
+                            <span>{s.owner_username || "—"}</span>
+                            <span className="text-xs text-slate-400 dark:text-zinc-500">{s.owner_email}</span>
+                          </div>
+                        </td>
+                        <td className={tdClass}>{s.contact_phone || "—"}</td>
+                        <td className={tdClass}>
+                          <span className={`rounded-full px-2 py-0.5 text-[0.65rem] font-bold ${s.is_verified ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400" : "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"}`}>
+                            {s.is_verified ? "Verified" : "Pending"}
+                          </span>
+                        </td>
+                        <td className={tdClass}>{s.is_active ? "Yes" : "No"}</td>
+                        <td className={tdClass}>{s.created_at ? new Date(s.created_at).toLocaleDateString() : "—"}</td>
+                        <td className={tdClass}>
+                          <div className="flex items-center gap-2">
+                            <button onClick={() => toggleVerify(s.id)}
+                              className={`rounded-lg px-2.5 py-1 text-xs font-semibold ${s.is_verified ? "bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-zinc-700 dark:text-zinc-300" : "bg-emerald-50 text-emerald-700 hover:bg-emerald-100 dark:bg-emerald-950/30 dark:text-emerald-400"}`}>
+                              {s.is_verified ? "Unverify" : "Verify"}
+                            </button>
+                            <a href={`/showrooms/${s.id}`} target="_blank" rel="noopener noreferrer"
+                              className="rounded-lg bg-violet-50 px-2.5 py-1 text-xs font-semibold text-violet-700 hover:bg-violet-100 dark:bg-violet-950/30 dark:text-violet-300">
+                              View
+                            </a>
+                            <button onClick={() => deleteShowroom(s.id)}
+                              className="rounded-lg bg-red-50 px-2.5 py-1 text-xs font-semibold text-red-600 hover:bg-red-100 dark:bg-red-950/30 dark:text-red-400">
+                              Delete
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                    {showrooms.length === 0 && <tr><td colSpan={9} className={tdClass}>No showrooms found</td></tr>}
                   </tbody>
                 </table>
               </div>

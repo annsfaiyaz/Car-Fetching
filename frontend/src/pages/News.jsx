@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { timeAgo } from "../utils/format";
+import AnimatedTextCycle from "../components/AnimatedTextCycle";
 
 export default function News() {
   const [items, setItems] = useState(null);
@@ -14,12 +15,21 @@ export default function News() {
   }, []);
 
   return (
+    <div className="ww-page-hero min-h-[calc(100vh-4.25rem)]">
     <main className="mx-auto max-w-5xl px-4 py-10 lg:px-6">
       <div className="mb-8">
         <p className="mb-2 inline-flex items-center gap-2 rounded-full border border-violet-300/40 bg-violet-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-violet-700 dark:border-violet-500/30 dark:text-violet-300">
           Auto &amp; Mobility
         </p>
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Latest News</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+          <span className="relative inline-flex text-violet-600 dark:text-violet-400">
+            <AnimatedTextCycle
+              words={["Latest News", "Industry Updates", "Market Trends", "Fresh Headlines"]}
+              interval={2800}
+              className="text-3xl tracking-tight"
+            />
+          </span>
+        </h1>
         <p className="mt-2 text-slate-600 dark:text-zinc-400">
           Headlines from RSS feeds you configure under{" "}
           <Link to="/settings" className="font-semibold text-violet-600 underline dark:text-violet-400">Settings</Link>.
@@ -60,5 +70,6 @@ export default function News() {
         )}
       </div>
     </main>
+    </div>
   );
 }

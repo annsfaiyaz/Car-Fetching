@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { formatPrice } from "../utils/format";
+import AnimatedTextCycle from "../components/AnimatedTextCycle";
 
 const CAR_TYPES = ["sedan", "suv", "hatchback", "van", "pickup"];
 const FUEL_POLICIES = [["renter_pays", "Renter pays fuel"], ["included", "Fuel included"]];
@@ -147,10 +148,19 @@ export default function RentDashboard() {
   }
 
   return (
-    <>
-      <section className="ww-page-hero px-4 pb-4 pt-6 text-center sm:pt-8">
+    <div className="ww-page-hero min-h-[calc(100vh-4.25rem)]">
+      <section className="px-4 pb-4 pt-6 text-center sm:pt-8">
         <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-sky-300/40 bg-sky-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-sky-700 dark:border-sky-500/30 dark:text-sky-300">Rental Partner</p>
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">My Rental Dashboard</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
+          My Rental{" "}
+          <span className="relative inline-flex text-violet-600 dark:text-violet-400">
+            <AnimatedTextCycle
+              words={["Dashboard", "Listings", "Bookings", "Earnings"]}
+              interval={2800}
+              className="text-3xl sm:text-4xl tracking-tight"
+            />
+          </span>
+        </h1>
         <p className="mx-auto mt-3 max-w-lg text-base text-slate-600 dark:text-zinc-400">Manage your rental listings and respond to booking requests.</p>
       </section>
 
@@ -316,6 +326,6 @@ export default function RentDashboard() {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }

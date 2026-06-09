@@ -12,6 +12,105 @@ function ls(key, val) {
   try { if (val !== undefined) localStorage.setItem(key, val); else return localStorage.getItem(key) || ""; } catch { return ""; }
 }
 
+function ShowroomCard({ s }) {
+  return (
+    <Link to={`/showrooms/${s.id}`}
+      className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900">
+      {/* Header band */}
+      <div className="flex h-24 items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 dark:from-zinc-800 dark:to-zinc-900">
+        {s.logo_url ? (
+          <img src={s.logo_url} alt={s.business_name}
+            className="h-16 w-16 rounded-xl border border-slate-200 object-contain dark:border-zinc-700"
+            onError={(e) => { e.target.style.display = "none"; }} />
+        ) : (
+          <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-violet-700 text-2xl font-bold text-white">
+            {s.business_name?.[0] || "S"}
+          </div>
+        )}
+      </div>
+      {/* Info */}
+      <div className="flex flex-1 flex-col gap-1 p-4">
+        <div className="flex items-center gap-1.5">
+          <p className="truncate text-sm font-semibold text-slate-900 group-hover:text-violet-700 dark:text-white dark:group-hover:text-violet-300">
+            {s.business_name}
+          </p>
+          {s.is_verified && (
+            <span className="shrink-0 rounded-full bg-emerald-100 px-1.5 py-0.5 text-[0.6rem] font-bold text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">✓</span>
+          )}
+        </div>
+        <div className="flex items-center gap-1 text-xs text-slate-500 dark:text-zinc-400">
+          <svg className="h-3 w-3 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/>
+          </svg>
+          {s.city}
+        </div>
+        <p className="mt-auto pt-2 text-xs font-semibold text-violet-600 dark:text-violet-400">
+          {s.total_listings} car{s.total_listings !== 1 ? "s" : ""} listed →
+        </p>
+      </div>
+    </Link>
+  );
+}
+
+function FeaturedShowrooms() {
+  const [showrooms, setShowrooms] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/showroom/all?limit=8")
+      .then((r) => r.ok ? r.json() : { items: [] })
+      .then((d) => setShowrooms((d.items || []).slice(0, 8)))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (!loading && showrooms.length === 0) return null;
+
+  return (
+    <section className="mx-auto max-w-7xl px-4 py-8 lg:px-6">
+      {/* Header */}
+      <div className="mb-5 flex items-end justify-between gap-3">
+        <div>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400">Trusted Dealers</p>
+          <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Featured Showrooms</h2>
+          <p className="mt-0.5 text-sm text-slate-500 dark:text-zinc-400">Browse verified car dealers across Pakistan</p>
+        </div>
+        <Link to="/showrooms"
+          className="shrink-0 rounded-xl border border-violet-200/60 bg-violet-500/10 px-4 py-2 text-sm font-semibold text-violet-700 hover:bg-violet-500/15 dark:border-violet-800/40 dark:text-violet-300">
+          View all →
+        </Link>
+      </div>
+
+      {/* Grid */}
+      {loading ? (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="h-44 animate-pulse rounded-2xl bg-slate-100 dark:bg-zinc-800" />
+          ))}
+        </div>
+      ) : (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {showrooms.map((s) => <ShowroomCard key={s.id} s={s} />)}
+        </div>
+      )}
+
+      {/* Partner CTA */}
+      {!loading && (
+        <div className="mt-5 flex flex-col items-center justify-between gap-3 rounded-2xl border border-dashed border-violet-300/50 bg-violet-500/5 px-6 py-5 dark:border-violet-700/30 dark:bg-violet-500/10 sm:flex-row">
+          <div>
+            <p className="text-sm font-semibold text-slate-900 dark:text-white">Own a car showroom?</p>
+            <p className="mt-0.5 text-xs text-slate-500 dark:text-zinc-400">Join WheelWise PK — list your inventory and get a verified dealer profile.</p>
+          </div>
+          <Link to="/register?type=showroom"
+            className="shrink-0 rounded-xl bg-gradient-to-br from-violet-500 to-violet-700 px-5 py-2 text-sm font-semibold text-white hover:from-violet-400 active:scale-95">
+            List Your Showroom →
+          </Link>
+        </div>
+      )}
+    </section>
+  );
+}
+
 function ListingCard({ car }) {
   const href = listingDetailHref(car);
   const external = listingDetailExternal(car);
@@ -263,11 +362,13 @@ export default function Home() {
   const intentCardCls = (mode) =>
     `intent-card group relative flex flex-col items-start overflow-hidden rounded-2xl border-2 bg-white px-6 py-7 text-left shadow-sm ring-0 transition-all dark:bg-zinc-900 ` +
     (intent === mode
-      ? mode === "buy" ? "border-violet-400/70 shadow-violet-500/10" : "border-sky-400/70 shadow-sky-500/10"
+      ? mode === "buy" ? "border-violet-400/70 shadow-violet-500/10"
+        : mode === "rent" ? "border-sky-400/70 shadow-sky-500/10"
+        : "border-amber-400/70 shadow-amber-500/10"
       : "border-transparent hover:border-violet-400/60 hover:shadow-md dark:hover:border-violet-500/50");
 
   return (
-    <>
+    <div className="ww-page-hero min-h-[calc(100vh-4.25rem)]">
       {/* Section 1: Intent cards + search */}
       <section className="relative overflow-hidden px-4 pb-6 pt-12 sm:pt-16">
         <div className="pointer-events-none absolute inset-0 -z-10">
@@ -296,7 +397,7 @@ export default function Home() {
         </div>
 
         {/* Intent cards */}
-        <div className="mx-auto grid max-w-3xl gap-4 sm:grid-cols-2">
+        <div className="mx-auto grid max-w-5xl gap-4 sm:grid-cols-3">
           <button type="button" onClick={() => setIntent("buy")} className={intentCardCls("buy")} aria-pressed={intent === "buy"}>
             <span className={`absolute inset-x-0 top-0 h-0.5 origin-left rounded-full bg-gradient-to-r from-violet-500 to-violet-300 transition-transform duration-300 ${intent === "buy" ? "scale-x-100" : "scale-x-0"}`}></span>
             <span className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-violet-500/10 text-violet-600 dark:bg-violet-500/15 dark:text-violet-400">
@@ -322,10 +423,25 @@ export default function Home() {
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
             </span>
           </button>
+
+          <button type="button" onClick={() => setIntent("showroom")} className={intentCardCls("showroom")} aria-pressed={intent === "showroom"}>
+            <span className={`absolute inset-x-0 top-0 h-0.5 origin-left rounded-full bg-gradient-to-r from-amber-500 to-amber-300 transition-transform duration-300 ${intent === "showroom" ? "scale-x-100" : "scale-x-0"}`}></span>
+            <span className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600 dark:bg-amber-500/15 dark:text-amber-400">
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.75">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72L4.318 3.44A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72m-13.5 8.65h3.75a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H6.75a.75.75 0 00-.75.75v3.75c0 .415.336.75.75.75z"/>
+              </svg>
+            </span>
+            <p className="text-base font-bold text-slate-900 dark:text-white">Browse Showrooms</p>
+            <p className="mt-1 text-sm leading-relaxed text-slate-500 dark:text-zinc-400">Verified dealers with full inventory. Browse, compare, and contact directly.</p>
+            <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-amber-600 dark:text-amber-400">
+              View showrooms
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+            </span>
+          </button>
         </div>
 
         {/* Search zone */}
-        <div className="mx-auto mt-4 max-w-3xl">
+        <div className="mx-auto mt-4 max-w-5xl">
           {/* Buy zone */}
           {intent === "buy" && (
             <div className="overflow-hidden rounded-2xl border border-violet-200/60 bg-white/80 backdrop-blur dark:border-violet-800/30 dark:bg-zinc-900/80">
@@ -415,6 +531,39 @@ export default function Home() {
               </div>
             </div>
           )}
+
+          {/* Showroom zone */}
+          {intent === "showroom" && (
+            <div className="overflow-hidden rounded-2xl border border-amber-200/60 bg-white/80 backdrop-blur dark:border-amber-800/30 dark:bg-zinc-900/80">
+              <div className="px-5 py-5">
+                <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-amber-600 dark:text-amber-400">Browse verified dealers</p>
+                <div className="grid gap-3 sm:grid-cols-3">
+                  <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 dark:border-zinc-700 dark:bg-zinc-800">
+                    <p className="text-[0.7rem] font-semibold uppercase tracking-widest text-slate-400 dark:text-zinc-500">Full inventory</p>
+                    <p className="mt-0.5 text-sm font-semibold text-slate-800 dark:text-zinc-100">Browse all cars from a single dealer</p>
+                  </div>
+                  <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 dark:border-zinc-700 dark:bg-zinc-800">
+                    <p className="text-[0.7rem] font-semibold uppercase tracking-widest text-slate-400 dark:text-zinc-500">Verified badges</p>
+                    <p className="mt-0.5 text-sm font-semibold text-slate-800 dark:text-zinc-100">Trusted showrooms reviewed by our team</p>
+                  </div>
+                  <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 dark:border-zinc-700 dark:bg-zinc-800">
+                    <p className="text-[0.7rem] font-semibold uppercase tracking-widest text-slate-400 dark:text-zinc-500">Direct contact</p>
+                    <p className="mt-0.5 text-sm font-semibold text-slate-800 dark:text-zinc-100">Call or visit the showroom directly</p>
+                  </div>
+                </div>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <Link to="/showrooms"
+                    className="rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 px-5 py-2.5 text-sm font-semibold text-white hover:from-amber-400 active:scale-95">
+                    Browse All Showrooms →
+                  </Link>
+                  <Link to="/register?type=showroom"
+                    className="rounded-xl border border-amber-200/60 bg-amber-500/10 px-5 py-2.5 text-sm font-semibold text-amber-700 hover:bg-amber-500/15 dark:border-amber-700/40 dark:text-amber-300">
+                    List Your Showroom
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
@@ -425,8 +574,8 @@ export default function Home() {
         {toastSuccess && <div className="mb-4 rounded-xl border border-emerald-400/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-800 dark:text-emerald-200">{toastSuccess}</div>}
       </div>
 
-      {/* Listings section */}
-      <section className="mx-auto max-w-7xl px-4 pb-16 lg:px-6">
+      {/* Listings section — only visible after a search */}
+      {(items.length > 0 || scraping) && <section className="mx-auto max-w-7xl px-4 pb-16 lg:px-6">
         <div className="mb-6 flex items-center justify-between">
           <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Car Listings</h2>
         </div>
@@ -467,14 +616,9 @@ export default function Home() {
         )}
 
         {/* Grid */}
-        {items.length > 0 ? (
+        {items.length > 0 && (
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {pageSlice.map((car) => <ListingCard key={car.id || car.url} car={car} />)}
-          </div>
-        ) : !scraping && (
-          <div className="rounded-xl border border-dashed border-slate-300 p-10 text-center text-slate-600 dark:border-zinc-700 dark:text-zinc-400">
-            <h3 className="mb-3 text-xl font-bold text-slate-800 dark:text-zinc-100">Your search starts here</h3>
-            <p>Describe the car you want above and press <strong>Enter</strong>. We search PakWheels &amp; OLX, cache the results, and show them instantly on your next visit.</p>
           </div>
         )}
 
@@ -492,7 +636,7 @@ export default function Home() {
             </div>
           </nav>
         )}
-      </section>
+      </section>}
 
       {/* Chat widget */}
       <div className="fixed bottom-4 right-4 z-[10001] flex flex-col items-end gap-3 sm:bottom-6 sm:right-6">
@@ -533,6 +677,6 @@ export default function Home() {
           Chat
         </button>
       </div>
-    </>
+    </div>
   );
 }

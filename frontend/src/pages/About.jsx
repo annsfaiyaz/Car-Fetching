@@ -1,13 +1,22 @@
 import { Link } from "react-router-dom";
+import AnimatedTextCycle from "../components/AnimatedTextCycle";
 
 export default function About() {
   return (
+    <div className="ww-page-hero min-h-[calc(100vh-4.25rem)]">
     <main className="mx-auto max-w-3xl px-4 py-10 lg:px-6">
       <p className="mb-2 inline-flex items-center gap-2 rounded-full border border-violet-300/40 bg-violet-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-violet-700 dark:border-violet-500/30 dark:text-violet-300">
         WheelWise PK
       </p>
       <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
-        How we help you find a car you will actually want to drive
+        How we help you find a{" "}
+        <span className="relative inline-flex text-violet-600 dark:text-violet-400">
+          <AnimatedTextCycle
+            words={["car you'll love", "perfect match", "great deal", "daily driver"]}
+            interval={2800}
+            className="text-3xl sm:text-4xl tracking-tight"
+          />
+        </span>
       </h1>
       <p className="mt-4 text-lg leading-relaxed text-slate-600 dark:text-zinc-400">
         Buying a used car should feel exciting, not exhausting. WheelWise brings listings from trusted public marketplaces into one calm workspace — so you spend less time jumping between tabs and more time deciding what fits your life and budget.
@@ -58,5 +67,6 @@ export default function About() {
         </section>
       </div>
     </main>
+    </div>
   );
 }

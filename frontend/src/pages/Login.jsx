@@ -34,8 +34,10 @@ export default function Login() {
         return;
       }
       const user = data.user;
+      const types = (user?.account_type || "").split(",").map((t) => t.trim());
       if (user?.role === "admin") navigate("/admin");
-      else if (user?.account_type === "rental_partner") navigate("/rent-dashboard");
+      else if (types.includes("showroom")) navigate("/showroom-dashboard");
+      else if (types.includes("rental_partner")) navigate("/rent-dashboard");
       else navigate("/");
     } finally {
       setLoading(false);
@@ -43,7 +45,7 @@ export default function Login() {
   }
 
   return (
-    <main className="flex min-h-[calc(100vh-4.25rem)] items-center justify-center px-4 py-12">
+    <main className="ww-page-hero flex min-h-[calc(100vh-4.25rem)] items-center justify-center px-4 py-12">
       <div className="ww-page-hero w-full max-w-md animate-fade-in">
         <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-lg dark:border-zinc-800 dark:bg-zinc-900">
           <p className="mb-2 text-center text-xs font-semibold uppercase tracking-widest text-violet-600 dark:text-violet-400">Welcome back</p>

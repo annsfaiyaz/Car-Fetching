@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import AnimatedTextCycle from "../components/AnimatedTextCycle";
 
 export default function Sell() {
   const { token, authHeaders, fetchMe } = useAuth();
@@ -52,12 +53,21 @@ export default function Sell() {
   if (!user && token) return null;
 
   return (
-    <>
-      <section className="ww-page-hero px-4 pb-2 pt-6 text-center sm:pt-10">
+    <div className="ww-page-hero min-h-[calc(100vh-4.25rem)]">
+      <section className="px-4 pb-2 pt-6 text-center sm:pt-10">
         <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-violet-300/40 bg-violet-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-violet-700 dark:border-violet-500/30 dark:text-violet-300">
           AI-powered listing
         </p>
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">Sell your car</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
+          Sell your{" "}
+          <span className="relative inline-flex text-violet-600 dark:text-violet-400">
+            <AnimatedTextCycle
+              words={["car", "sedan", "SUV", "hatchback", "pickup"]}
+              interval={2800}
+              className="text-3xl sm:text-5xl tracking-tight"
+            />
+          </span>
+        </h1>
         <p className="mx-auto mt-3 max-w-xl text-base leading-relaxed text-slate-600 dark:text-zinc-400">
           Upload photos from different angles. AI detects make, model, year, and condition — then you review and confirm before anything is published.
         </p>
@@ -150,6 +160,6 @@ export default function Sell() {
           <Link to="/my-ads" className="font-semibold text-violet-600 hover:underline dark:text-violet-400">My ads</Link>.
         </p>
       </main>
-    </>
+    </div>
   );
 }
