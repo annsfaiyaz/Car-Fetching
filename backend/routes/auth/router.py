@@ -31,10 +31,12 @@ class LoginBody(BaseModel):
 
 @router.post("/register")
 async def register(body: RegisterBody, session: AsyncSession = Depends(get_db_session)):
-    if body.account_type not in auth_service.SIGNUP_ACCOUNT_TYPES:
+    types = [t.strip() for t in body.account_type.split(",") if t.strip()]
+    invalid = [t for t in types if t not in auth_service.SIGNUP_ACCOUNT_TYPES]
+    if not types or invalid:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"account_type must be one of: {', '.join(sorted(auth_service.SIGNUP_ACCOUNT_TYPES))}",
+            detail=f"account_type must be one or more of: {', '.join(sorted(auth_service.SIGNUP_ACCOUNT_TYPES))}",
         )
     if err := auth_service.validate_username(body.username):
         raise HTTPException(status_code=400, detail=err)

@@ -9,7 +9,7 @@ from pydantic import BaseModel, Field
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from database_models import PakwheelsListing, RentalBooking, RentalListing, ROLE_ADMIN, ROLE_USER, User
+from database_models import PakwheelsListing, RentalBooking, RentalListing, ROLE_ADMIN, ROLE_USER, ShowroomProfile, User
 from routes.auth.deps import get_current_admin, get_db_session
 from services import auth_service
 
@@ -33,17 +33,35 @@ async def admin_stats(
         select(func.count()).select_from(PakwheelsListing).where(PakwheelsListing.source == "wheelwise")
     )
     rent_listings_count = await session.scalar(select(func.count()).select_from(RentalListing))
+    showrooms_count = await session.scalar(select(func.count()).select_from(ShowroomProfile))
     rent_bookings_count = await session.scalar(select(func.count()).select_from(RentalBooking))
-    pending_bookings    = await session.scalar(
+    pending_bookings = await session.scalar(
         select(func.count()).select_from(RentalBooking).where(RentalBooking.status == "pending")
     )
+    recent_users_result = await session.execute(
+        select(User).order_by(User.id.desc()).limit(5)
+    )
+    recent_listings_result = await session.execute(
+        select(PakwheelsListing).order_by(PakwheelsListing.id.desc()).limit(5)
+    )
+    recent_users = [
+        {"id": u.id, "username": u.username, "email": u.email, "account_type": u.account_type, "role": u.role}
+        for u in recent_users_result.scalars().all()
+    ]
+    recent_listings = [
+        {"id": l.id, "title": l.title, "source": l.source, "price": l.price}
+        for l in recent_listings_result.scalars().all()
+    ]
     return {
         "users": users_count or 0,
         "listings": listings_count or 0,
-        "wheelwise_listings": wheelwise_count or 0,
-        "rental_listings": rent_listings_count or 0,
-        "rental_bookings": rent_bookings_count or 0,
+        "wheelwise_ads": wheelwise_count or 0,
+        "rent_listings": rent_listings_count or 0,
+        "rent_bookings": rent_bookings_count or 0,
+        "showrooms": showrooms_count or 0,
         "pending_bookings": pending_bookings or 0,
+        "recent_users": recent_users,
+        "recent_listings": recent_listings,
     }
 
 
@@ -197,3 +215,65 @@ async def admin_rent_bookings(
         for b, listing_title, listing_city, owner_username, owner_email in rows
     ]
     return {"total": total or 0, "items": items}
+
+
+@router.get("/showrooms")
+async def admin_list_showrooms(
+    _admin: User = Depends(get_current_admin),
+    session: AsyncSession = Depends(get_db_session),
+    limit: int = Query(100, ge=1, le=500),
+    offset: int = Query(0, ge=0),
+):
+    total = await session.scalar(select(func.count()).select_from(ShowroomProfile))
+    result = await session.execute(
+        select(ShowroomProfile, User.username, User.email)
+        .outerjoin(User, ShowroomProfile.user_id == User.id)
+        .order_by(ShowroomProfile.id.desc())
+        .limit(limit).offset(offset)
+    )
+    rows = result.all()
+    items = [
+        {
+            "id": s.id,
+            "user_id": s.user_id,
+            "owner_username": username,
+            "owner_email": email,
+            "business_name": s.business_name,
+            "city": s.city,
+            "description": s.description,
+            "logo_url": s.logo_url,
+            "contact_phone": s.contact_phone,
+            "is_verified": s.is_verified,
+            "is_active": s.is_active,
+            "created_at": s.created_at.isoformat() if s.created_at else None,
+        }
+        for s, username, email in rows
+    ]
+    return {"total": total or 0, "items": items}
+
+
+@router.put("/showrooms/{showroom_id}/verify")
+async def admin_verify_showroom(
+    showroom_id: int,
+    _admin: User = Depends(get_current_admin),
+    session: AsyncSession = Depends(get_db_session),
+):
+    profile = await session.get(ShowroomProfile, showroom_id)
+    if not profile:
+        raise HTTPException(status_code=404, detail="Showroom not found")
+    profile.is_verified = not profile.is_verified
+    await session.commit()
+    return {"id": profile.id, "is_verified": profile.is_verified}
+
+
+@router.delete("/showrooms/{showroom_id}", status_code=204)
+async def admin_delete_showroom(
+    showroom_id: int,
+    _admin: User = Depends(get_current_admin),
+    session: AsyncSession = Depends(get_db_session),
+):
+    profile = await session.get(ShowroomProfile, showroom_id)
+    if not profile:
+        raise HTTPException(status_code=404, detail="Showroom not found")
+    await session.delete(profile)
+    await session.commit()

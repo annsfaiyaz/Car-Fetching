@@ -83,6 +83,7 @@ class PakwheelsListing(Base):
 # account_type: what the user signed up for
 ACCOUNT_TYPE_SELLER = "seller"
 ACCOUNT_TYPE_RENTAL = "rental_partner"
+ACCOUNT_TYPE_SHOWROOM = "showroom"
 ACCOUNT_TYPE_BUYER = "buyer"
 
 # role: platform permission (admin can access /admin)
@@ -109,6 +110,7 @@ class User(Base):
     last_login_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
 
     listings: Mapped[List["PakwheelsListing"]] = relationship(back_populates="user")
+    showroom_profile: Mapped[Optional["ShowroomProfile"]] = relationship(back_populates="user", uselist=False)
 
 
 class AppMeta(Base):
@@ -244,3 +246,23 @@ class RentalBooking(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
 
     listing: Mapped["RentalListing"] = relationship(back_populates="bookings")
+
+
+class ShowroomProfile(Base):
+    """Car showroom profile linked to a showroom-type user account."""
+
+    __tablename__ = "showroom_profiles"
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), unique=True, index=True)
+    business_name: Mapped[str] = mapped_column(String(256))
+    city: Mapped[str] = mapped_column(String(128), index=True)
+    description: Mapped[str] = mapped_column(Text, default="")
+    logo_url: Mapped[str | None] = mapped_column(String(2048), nullable=True)
+    contact_phone: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    is_verified: Mapped[bool] = mapped_column(Boolean, default=False)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+
+    user: Mapped["User"] = relationship(back_populates="showroom_profile")
