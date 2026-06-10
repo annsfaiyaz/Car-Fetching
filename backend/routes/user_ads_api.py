@@ -4,12 +4,15 @@ from __future__ import annotations
 
 from typing import Any
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, status
 from pydantic import BaseModel, Field
 
 from database_models import User
 from routes.auth.deps import get_current_user
 from services import user_ads_repo
+from services.image_service import ImageService
+
+_image_service = ImageService(upload_dir="static/uploads/cars", max_size_mb=10)
 
 router = APIRouter(prefix="/api/user-ads", tags=["user-ads"])
 
@@ -74,6 +77,24 @@ def _body_to_listing_data(body: UserAdBody) -> dict[str, Any]:
         "description": description,
         "image_url": body.image_url,
     }
+
+
+@router.post("/upload-image")
+async def upload_image(
+    file: UploadFile = File(...),
+    user: User = Depends(get_current_user),
+):
+    """Upload a single car image and return its URL."""
+    allowed = {".jpg", ".jpeg", ".png", ".webp"}
+    import os
+    ext = os.path.splitext(file.filename or "")[1].lower()
+    if ext not in allowed:
+        raise HTTPException(status_code=400, detail=f"Allowed formats: {', '.join(allowed)}")
+    try:
+        _, url_path = _image_service.save_image(file)
+        return {"url": url_path}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.get("")

@@ -74,6 +74,10 @@ async def connect_db() -> None:
         "ALTER TABLE pakwheels_listings ADD COLUMN detail_html_snippet TEXT",
         "ALTER TABLE pakwheels_listings ADD COLUMN detail_fetched_at TIMESTAMP",
         "ALTER TABLE pakwheels_listings ADD COLUMN user_id INTEGER",
+        "ALTER TABLE showroom_profiles ADD COLUMN contact_phone VARCHAR(32)",
+        "ALTER TABLE showroom_profiles ADD COLUMN description TEXT",
+        "ALTER TABLE showroom_profiles ADD COLUMN logo_url VARCHAR(2048)",
+        "ALTER TABLE showroom_profiles ADD COLUMN is_active BOOLEAN DEFAULT 1",
     ]
     for sql in legacy_alters:
         await _try_alter(sql)

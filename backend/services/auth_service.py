@@ -15,6 +15,7 @@ from database_models import (
     ACCOUNT_TYPE_BUYER,
     ACCOUNT_TYPE_RENTAL,
     ACCOUNT_TYPE_SELLER,
+    ACCOUNT_TYPE_SHOWROOM,
     ROLE_ADMIN,
     ROLE_USER,
     User,
@@ -25,7 +26,7 @@ JWT_ALGORITHM = "HS256"
 JWT_EXPIRE_HOURS = int(os.environ.get("JWT_EXPIRE_HOURS", "168"))
 ADMIN_EMAIL = (os.environ.get("ADMIN_EMAIL") or "").strip().lower()
 
-SIGNUP_ACCOUNT_TYPES = {ACCOUNT_TYPE_SELLER, ACCOUNT_TYPE_RENTAL}
+SIGNUP_ACCOUNT_TYPES = {ACCOUNT_TYPE_SELLER, ACCOUNT_TYPE_RENTAL, ACCOUNT_TYPE_SHOWROOM, ACCOUNT_TYPE_BUYER}
 
 
 def _utcnow() -> datetime:
@@ -90,9 +91,13 @@ def resolve_role_for_email(email: str) -> str:
 
 
 def normalize_account_type(account_type: str | None) -> str:
-    if account_type in SIGNUP_ACCOUNT_TYPES:
-        return account_type
-    return ACCOUNT_TYPE_BUYER
+    if not account_type:
+        return ACCOUNT_TYPE_BUYER
+    # support comma-separated multi-type e.g. "seller,showroom"
+    types = [t.strip() for t in account_type.split(",") if t.strip() in SIGNUP_ACCOUNT_TYPES]
+    if not types:
+        return ACCOUNT_TYPE_BUYER
+    return ",".join(types)
 
 
 async def get_user_by_email(session: AsyncSession, email: str) -> User | None:
